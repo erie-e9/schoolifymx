@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-body text-text-main bg-white antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-primary text-text-main font-heading font-700 px-8 py-4 rounded-2xl shadow-yellow hover:shadow-yellow-lg transition-all duration-300 hover:scale-105 active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 border-2 border-secondary text-secondary font-heading font-600 px-8 py-4 rounded-2xl transition-all duration-300 hover:bg-secondary hover:text-white hover:scale-105 active:scale-95;
+  }
+
+  .card {
+    @apply bg-white rounded-3xl shadow-card border border-gray-100 hover:shadow-card-hover transition-all duration-300;
+  }
+
+  .section-title {
+    @apply font-heading text-4xl md:text-5xl text-text-main leading-tight;
+  }
+
+  .section-subtitle {
+    @apply text-text-muted text-lg font-body leading-relaxed;
+  }
+
+  .tag {
+    @apply inline-flex items-center gap-1.5 text-sm font-medium bg-surface text-secondary px-4 py-1.5 rounded-full;
+  }
+}
+
+/* Remove default Vite styles */
+#root {
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFE600;
+  border-radius: 10px;
+}
+
+/* Infinite scroll animation for logo carousel */
+.logos-track {
+  display: flex;
+  animation: scroll 30s linear infinite;
+}
+
+.logos-track:hover {
+  animation-play-state: paused;
+}
+
+/* Glowing yellow effect */
+.glow-yellow {
+  box-shadow: 0 0 20px rgba(255, 230, 0, 0.6), 0 0 40px rgba(255, 230, 0, 0.3);
+}
