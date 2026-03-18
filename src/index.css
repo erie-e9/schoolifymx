@@ -10,7 +10,11 @@
   }
 
   body {
-    @apply font-body text-text-main bg-white antialiased;
+    @apply font-body text-text-main bg-white antialiased transition-colors duration-300;
+  }
+
+  body.dark {
+    @apply bg-dark-bg text-dark-text;
   }
 
   h1,

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { formatNumbers } from '../utils/numbers';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,17 +39,17 @@ const StatCounter: React.FC<{ stat: StatData; active: boolean }> = ({ stat, acti
   }, [active, stat.value]);
 
   return (
-    <div className="text-center group p-6 rounded-2xl hover:bg-white/60 transition-all duration-300">
+    <div className="text-center group p-6 rounded-2xl hover:bg-white/60 dark:hover:bg-white/5 transition-all duration-300">
       <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
         {stat.emoji}
       </div>
-      <div className="font-heading font-800 text-5xl md:text-6xl text-text-main mb-2">
-        <span className="text-secondary">{stat.prefix}</span>
-        <span>{count}</span>
-        <span className="text-accent">{stat.suffix}</span>
+      <div className="font-heading font-800 text-5xl md:text-6xl text-text-main dark:text-dark-text mb-2">
+        <span className="text-secondary dark:text-primary">{stat.prefix}</span>
+        <span>{formatNumbers(count)}</span>
+        <span className="text-accent dark:text-primary">{stat.suffix}</span>
       </div>
-      <p className="font-heading font-700 text-lg text-text-main mb-1">{stat.label}</p>
-      <p className="text-text-muted text-sm leading-snug max-w-[160px] mx-auto">{stat.description}</p>
+      <p className="font-heading font-700 text-lg text-text-main dark:text-dark-text mb-1">{stat.label}</p>
+      <p className="text-text-muted dark:text-dark-muted text-sm leading-snug max-w-[160px] mx-auto">{stat.description}</p>
     </div>
   );
 };
@@ -78,17 +79,17 @@ const Stats: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-20 md:py-28 bg-white" ref={sectionRef}>
+    <section className="py-20 md:py-28 bg-white dark:bg-dark-bg transition-colors duration-300" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16" ref={titleRef}>
           <span className="tag mb-4">Resultados reales</span>
-          <h2 className="section-title mb-4">
+          <h2 className="section-title mb-4 dark:text-dark-text">
             Números que{' '}
-            <span className="text-primary" style={{ WebkitTextStroke: '1px #111827' }}>hablan</span>{' '}
+            <span className="text-primary dark:text-primary" style={{ WebkitTextStroke: '1px #111827' }}>hablan</span>{' '}
             por sí solos.
           </h2>
-          <p className="section-subtitle">
-            Más de dos años transformando la experiencia escolar de cientos de familias.
+          <p className="section-subtitle dark:text-dark-muted">
+            Más de 2 años transformando la experiencia escolar de cientos de familias.
           </p>
         </div>
 
@@ -96,10 +97,10 @@ const Stats: React.FC = () => {
           {stats.map((stat, i) => (
             <div
               key={i}
-              className="relative overflow-hidden rounded-3xl bg-surface border border-primary/20 hover:border-primary/60 hover:-translate-y-1 transition-all duration-300"
+              className="relative overflow-hidden rounded-3xl bg-surface dark:bg-dark-surface border border-primary/20 dark:border-primary/10 hover:border-primary/60 dark:hover:border-primary/30 hover:-translate-y-1 transition-all duration-300"
             >
               {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-16 h-16 bg-primary/10 rounded-bl-3xl" />
+              <div className="absolute top-0 right-0 w-16 h-16 bg-primary/10 dark:bg-primary/5 rounded-bl-3xl" />
               <StatCounter stat={stat} active={countersActive} />
             </div>
           ))}

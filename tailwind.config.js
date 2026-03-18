@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -13,6 +14,15 @@ export default {
         surface: '#FFF9CC',
         'text-main': '#111827',
         'text-muted': '#6B7280',
+        'text-secondary': '#4dc438ff',
+        // Dark Mode Colors
+        dark: {
+          bg: '#0F172A', // Deep blue-gray
+          surface: '#1E293B',
+          text: '#F8FAFC',
+          muted: '#94A3B8',
+          accent: '#FFD700', // Brighter yellow for dark mode contrast
+        }
       },
       fontFamily: {
         heading: ['Poppins', 'sans-serif'],

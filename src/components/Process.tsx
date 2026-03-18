@@ -24,14 +24,14 @@ const steps = [
     icon: PackageCheck,
     number: '03',
     title: 'Preparamos todo',
-    description: 'Surtimos uniformes, útiles y papelería con los mejores proveedores.',
+    description: 'Surtimos uniformes, útiles y material didáctico con los mejores proveedores.',
     color: 'bg-accent',
   },
   {
     icon: Truck,
     number: '04',
     title: 'Entregamos listo',
-    description: 'Recibe todo en la puerta de tu casa. Sin filas, sin estrés.',
+    description: 'Recibe todo en la ubicación acordada. Sin filas, sin estrés.',
     color: 'bg-secondary',
   },
 ];
@@ -65,43 +65,43 @@ const Process: React.FC = () => {
   }, []);
 
   return (
-    <section id="process" className="py-20 md:py-28 bg-surface" ref={sectionRef}>
+    <section id="process" className="py-20 md:py-28 bg-surface dark:bg-dark-bg/90 transition-colors duration-300" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16" ref={titleRef}>
           <span className="tag mb-4">Cómo funciona</span>
-          <h2 className="section-title mb-4">
+          <h2 className="section-title mb-4 dark:text-dark-text">
             Simple y rápido.{' '}
-            <span className="text-secondary">Así es Schoolify.</span>
+            <span className="text-secondary dark:text-primary">Así es Schoolify.</span>
           </h2>
-          <p className="section-subtitle">
+          <p className="section-subtitle dark:text-dark-muted">
             De la solicitud a la entrega en pocos pasos. Sin complicaciones, sin sorpresas.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 relative" ref={stepsRef}>
           {/* Connecting line (desktop) */}
-          <div className="hidden xl:block absolute top-10 left-[12.5%] right-[12.5%] h-0.5 bg-gradient-to-r from-primary via-accent to-secondary opacity-30" />
+          <div className="hidden xl:block absolute top-10 left-[12.5%] right-[12.5%] h-0.5 bg-gradient-to-r from-primary via-accent to-secondary dark:via-primary dark:to-accent opacity-30 dark:opacity-10" />
 
           {steps.map((step, i) => {
             const Icon = step.icon;
             return (
               <div
                 key={i}
-                className="step-card card p-7 flex flex-col items-start gap-4 hover:-translate-y-2 border border-gray-100 cursor-default group"
+                className="step-card card p-7 flex flex-col items-start gap-4 hover:-translate-y-2 border border-gray-100 dark:border-gray-800 bg-white dark:bg-dark-surface cursor-default group"
               >
                 {/* Number + icon */}
                 <div className="flex items-center gap-3 w-full">
                   <div className={`w-12 h-12 rounded-xl ${step.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className={`w-6 h-6 ${step.color === 'bg-primary' ? 'text-text-main' : 'text-white'}`} />
+                    <Icon className={`w-6 h-6 ${step.color === 'bg-primary' ? 'text-text-main font-bold' : 'text-white'}`} />
                   </div>
-                  <span className="font-heading font-800 text-5xl text-gray-100 leading-none ml-auto group-hover:text-primary/30 transition-colors">
+                  <span className="font-heading font-800 text-5xl text-gray-100 dark:text-gray-800/30 leading-none ml-auto group-hover:text-primary/30 transition-colors">
                     {step.number}
                   </span>
                 </div>
 
                 <div>
-                  <h3 className="font-heading font-700 text-lg text-text-main mb-2">{step.title}</h3>
-                  <p className="text-text-muted text-sm leading-relaxed">{step.description}</p>
+                  <h3 className="font-heading font-700 text-lg text-text-main dark:text-dark-text mb-2">{step.title}</h3>
+                  <p className="text-text-muted dark:text-dark-muted text-sm leading-relaxed">{step.description}</p>
                 </div>
               </div>
             );
