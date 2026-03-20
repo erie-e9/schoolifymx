@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon } from 'lucide-react';
-import LogoSVG from '../assets/logo.svg?react';
+import { Menu, X, Sun, Moon, MessageCircle } from 'lucide-react';
 import Schoolify from '../assets/Schoolify.svg?react';
+import WhatsApp from '../assets/whatsapp.svg?react';
+import { getWhatsappLink } from '../types';
 
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -15,6 +16,9 @@ const Navbar: React.FC = () => {
     if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
       setIsDark(true);
       document.body.classList.add('dark');
+    } else {
+      setIsDark(false);
+      document.body.classList.remove('dark');
     }
 
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -36,37 +40,36 @@ const Navbar: React.FC = () => {
 
   const links = [
     { label: 'Servicios', href: '#features' },
-    { label: 'Proceso', href: '#process' },
+    { label: '¿Cómo funciona?', href: '#process' },
+    { label: 'Galería', href: '#galery' },
+    { label: 'Beneficios', href: '#stats' },
     { label: 'Preguntas', href: '#faq' },
   ];
 
-  const waLink = 'https://wa.me/521XXXXXXXXXX?text=Hola%2C%20me%20interesa%20Schoolify.mx';
+  const waLink = getWhatsappLink(import.meta.env.VITE_WHATSAPP_MESSAGE_SCHOOL || 'Hola, me gustaría saber más sobre Schoolify.mx');
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-        ? 'bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm shadow-md'
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${scrolled
+        ? 'bg-white/95 dark:bg-dark-bg/95 border-b border-gray-100 dark:border-gray-800/50 backdrop-blur-md shadow-sm'
         : 'bg-transparent'
         }`}
     >
       <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2.5 group">
-          {/* <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center shadow-yellow group-hover:scale-110 transition-transform">
-            <LogoSVG className="h-10 w-auto group-hover:scale-110 transition-transform duration-300" />
-          </div> */}
-
-          <span className="font-heading font-800 text-xl text-text-main">
-            <Schoolify className="h-10 w-20 group-hover:scale-110 transition-transform duration-300" />
+          <span className="font-heading font-900 text-xl text-text-main dark:text-dark-text">
+            <Schoolify className="h-9 w-auto md:h-11 group-hover:scale-105 transition-transform duration-300" />
           </span>
         </a>
 
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
           <ul className="flex items-center gap-8">
             {links.map(l => (
               <li key={l.label}>
                 <a
                   href={l.href}
-                  className="font-body font-500 text-text-muted dark:text-dark-muted hover:text-text-main dark:hover:text-dark-text transition-colors duration-200"
+                  className="font-body font-600 text-text-muted dark:text-dark-muted hover:text-secondary dark:hover:text-primary transition-all duration-200 text-sm tracking-tight"
                 >
                   {l.label}
                 </a>
@@ -78,7 +81,7 @@ const Navbar: React.FC = () => {
 
           <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-xl bg-gray-100 dark:bg-dark-surface text-gray-600 dark:text-dark-text hover:bg-primary/20 transition-all duration-300"
+            className="p-2.5 rounded-xl bg-gray-100 dark:bg-dark-surface text-gray-600 dark:text-dark-text hover:bg-primary/20 dark:hover:bg-primary/10 transition-all duration-300"
             aria-label="Toggle dark mode"
           >
             {isDark ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5" />}
@@ -90,47 +93,60 @@ const Navbar: React.FC = () => {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-primary text-text-main font-heading font-700 text-sm px-5 py-2.5 rounded-xl shadow-yellow hover:shadow-yellow-lg hover:scale-105 transition-all duration-200"
           >
-            Escríbenos
+            <WhatsApp className="w-5 h-5 text-black" />
+            Contacto para escuelas
           </a>
         </div>
 
-        <div className="flex md:hidden items-center gap-2">
+        {/* Mobile menu toggle */}
+        <div className="flex md:hidden items-center gap-3">
           <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-xl bg-gray-100 dark:bg-dark-surface text-gray-600 dark:text-dark-text"
+            className="p-2.5 rounded-xl bg-gray-100 dark:bg-dark-surface text-gray-600 dark:text-dark-text"
           >
             {isDark ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5" />}
           </button>
 
           <button
-            className="p-2 rounded-xl hover:bg-surface dark:hover:bg-dark-surface transition-colors"
+            className="p-2.5 rounded-xl bg-gray-100 dark:bg-dark-surface text-gray-600 dark:text-dark-text"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="w-6 h-6 dark:text-dark-text" /> : <Menu className="w-6 h-6 dark:text-dark-text" />}
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </nav>
 
+      {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-white dark:bg-dark-bg border-t border-gray-100 dark:border-gray-800 px-6 py-4 flex flex-col gap-4 shadow-xl">
-          {links.map(l => (
+        <div className="md:hidden fixed inset-0 top-[72px] bg-white dark:bg-dark-bg px-6 py-8 flex flex-col gap-6 shadow-2xl animate-fade-in-down h-[calc(100vh-72px)] overflow-y-auto z-[99]">
+          <div className="flex flex-col gap-2">
+            {links.map(l => (
+              <a
+                key={l.label}
+                href={l.href}
+                className="font-heading font-700 text-2xl text-text-main dark:text-dark-text hover:text-secondary dark:hover:text-primary py-3 border-b border-gray-50 dark:border-gray-800/50 transition-colors"
+                onClick={() => setMobileOpen(false)}
+              >
+                {l.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="mt-auto pb-10 flex flex-col gap-4">
             <a
-              key={l.label}
-              href={l.href}
-              className="font-body font-500 text-text-muted dark:text-dark-muted hover:text-text-main dark:hover:text-dark-text py-2 transition-colors"
-              onClick={() => setMobileOpen(false)}
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-secondary dark:bg-primary text-white dark:text-dark-bg font-heading font-800 text-lg px-6 py-5 rounded-2xl text-center shadow-lg active:scale-95 transition-all w-full flex items-center justify-center gap-3"
             >
-              {l.label}
+              <MessageCircle className="w-6 h-6" />
+              Contactar por WhatsApp
             </a>
-          ))}
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-primary text-text-main font-heading font-700 text-sm px-5 py-3 rounded-xl text-center shadow-yellow"
-          >
-            Contactar por WhatsApp
-          </a>
+            <p className="text-center text-text-muted dark:text-dark-muted font-body text-sm px-4">
+              Atención inmediata de Lunes a Sábado de 9:00 AM a 7:00 PM
+            </p>
+          </div>
         </div>
       )}
     </header>

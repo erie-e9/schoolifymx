@@ -14,7 +14,7 @@ export default {
         surface: '#FFF9CC',
         'text-main': '#111827',
         'text-muted': '#6B7280',
-        'text-secondary': '#4dc438ff',
+        success: '#4dc438ff',
         // Dark Mode Colors
         dark: {
           bg: '#0F172A', // Deep blue-gray
@@ -22,6 +22,7 @@ export default {
           text: '#F8FAFC',
           muted: '#94A3B8',
           accent: '#FFD700', // Brighter yellow for dark mode contrast
+          success: '#4dc438ff',
         }
       },
       fontFamily: {

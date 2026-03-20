@@ -1,46 +1,171 @@
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { gsap } from 'gsap';
+import { SERVICES_CONTENT, getWhatsappLink } from '../types';
+import type { ServiceType } from '../types';
+import WhatsApp from '../assets/whatsapp.svg?react';
 
-const waLink = 'https://wa.me/521XXXXXXXXXX?text=Hola%2C%20me%20interesa%20Schoolify.mx';
+interface CtaMidProps {
+  activeService: ServiceType;
+}
 
-const CtaMid: React.FC = () => {
+const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const leftContentRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+
+  const content = SERVICES_CONTENT[activeService];
+  const carouselItems = content.ctaCarousel;
+  const currentItem = carouselItems[currentIndex];
+  const waLink = getWhatsappLink(content.whatsappMessage);
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
+  };
+
+  // Auto-slide effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 12000);
+    return () => clearInterval(timer);
+  }, [currentIndex, carouselItems.length]);
+
+  // Reset index when service changes
+  useEffect(() => {
+    setCurrentIndex(0);
+    if (carouselRef.current) {
+      gsap.set(carouselRef.current, { xPercent: 0 });
+    }
+  }, [activeService]);
+
+  // Carousel Animation
+  useEffect(() => {
+    if (carouselRef.current) {
+      gsap.to(carouselRef.current, {
+        xPercent: -100 * currentIndex,
+        duration: 0.8,
+        ease: 'expo.out',
+      });
+    }
+  }, [currentIndex]);
+
+  // Left Content Text Animation
+  useEffect(() => {
+    const tl = gsap.timeline();
+    tl.to([titleRef.current, descRef.current], {
+      opacity: 0,
+      y: 10,
+      duration: 0.3,
+      ease: 'power2.in',
+    })
+      .set([titleRef.current, descRef.current], { y: -10 })
+      .to([titleRef.current, descRef.current], {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: 'power2.out',
+      });
+  }, [currentIndex]);
+
   return (
-    <section className="py-16 md:py-20 bg-primary dark:bg-dark-surface relative overflow-hidden transition-colors duration-300">
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 dark:bg-primary/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-2xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-48 h-48 bg-accent/20 dark:bg-accent/10 rounded-full translate-x-1/2 translate-y-1/2 blur-2xl pointer-events-none" />
+    <section id="galery" className="py-20 md:py-32 bg-surface dark:bg-dark-bg transition-colors duration-300 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="bg-white dark:bg-dark-surface rounded-[2.5rem] shadow-xl dark:shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800">
+          <div className="flex flex-col lg:flex-row min-h-[600px]">
+            {/* Left Column: Info synced with image */}
+            <div className="lg:w-1/2 p-10 md:p-16 flex flex-col justify-center relative bg-gradient-to-br from-white to-gray-50 dark:from-dark-surface dark:to-dark-bg/20" ref={leftContentRef}>
+              <div className="absolute top-0 left-0 w-32 h-32 bg-primary/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-2xl" />
 
-      <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-        <p className="font-heading font-800 text-3xl md:text-5xl text-text-main dark:text-dark-text leading-tight mb-4">
-          Nosotros lo hacemos por ti.
-        </p>
-        <p className="font-heading font-800 text-3xl md:text-5xl text-text-main dark:text-dark-text leading-tight mb-4">
-          Ahorra un{' '}
-          <span className="text-secondary dark:text-primary">15% en tu lista completa</span> y recíbela gratis en tu escuela.
-        </p>
-        <p className="text-text-main/70 dark:text-dark-muted text-lg mb-8 font-body max-w-xl mx-auto">
-          Nos encargamos de todo: surtido, etiquetado y entrega. Únete a las más de 1,000 familias que ya disfrutan de un regreso a clases sin estrés.
-        </p>
+              <div className="mb-6">
+                {currentItem.type && <span className="tag mb-4">{currentItem.type}</span>}
+                <h2
+                  ref={titleRef}
+                  className="font-heading font-900 text-4xl md:text-5xl text-text-main dark:text-dark-text leading-[1.1]"
+                >
+                  {currentItem.title}
+                  <span className="text-secondary dark:text-primary">.</span>
+                </h2>
+              </div>
 
-        <div className="flex flex-wrap gap-4 justify-center">
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 bg-secondary dark:bg-primary text-white dark:text-dark-bg font-heading font-700 text-lg px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl hover:bg-secondary/90 dark:hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all duration-300"
-          >
-            Escríbenos por WhatsApp
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </a>
-        </div>
+              <p
+                ref={descRef}
+                className="text-text-muted dark:text-dark-muted text-lg mb-8 font-body leading-relaxed max-w-md"
+              >
+                {currentItem.description}
+              </p>
 
-        {/* Trust mini badges */}
-        <div className="flex flex-wrap justify-center gap-4 mt-8">
-          {['🛡️ Sin compromiso', '⚡ Respuesta en minutos', '📦 Entrega garantizada'].map((badge, i) => (
-            <span key={i} className="inline-flex items-center gap-1.5 bg-text-main/10 dark:bg-white/5 text-text-main dark:text-dark-text font-body font-500 text-sm px-4 py-2 rounded-full">
-              {badge}
-            </span>
-          ))}
+              <div className="flex flex-wrap gap-4 mt-auto">
+                <a
+                  href={waLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center justify-center gap-2.5 bg-primary text-text-main font-heading font-700 text-base px-8 py-4 rounded-2xl shadow-yellow hover:shadow-yellow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+
+                >
+                  <WhatsApp className="w-5 h-5 text-black" /> Escríbenos ahora
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column: Carousel (Clean version) */}
+            <div className="lg:w-1/2 bg-gray-50 dark:bg-dark-bg/50 relative group min-h-[400px]">
+              <div className="h-full overflow-hidden">
+                <div className="flex h-full will-change-transform" ref={carouselRef}>
+                  {carouselItems.map((item, i) => (
+                    <div key={i} className="carousel-slide min-w-full h-full relative" style={{ width: `${100 / carouselItems.length}%` }}>
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent text-white">
+                        <h4 className="font-heading font-800 text-2xl mb-2">{item.title}</h4>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Carousel Controls */}
+              <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 pointer-events-none">
+                <button
+                  onClick={prevSlide}
+                  className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/40 transition-all pointer-events-auto shadow-lg"
+                  aria-label="Previous slide"
+                >
+                  <ArrowLeft className="w-6 h-6" />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/40 transition-all pointer-events-auto shadow-lg"
+                  aria-label="Next slide"
+                >
+                  <ArrowRight className="w-6 h-6" />
+                </button>
+              </div>
+
+              {/* Indicators */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+                {carouselItems.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentIndex(i)}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentIndex === i ? 'bg-primary w-8' : 'bg-white/40'
+                      }`}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

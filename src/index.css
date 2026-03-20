@@ -40,15 +40,27 @@
   }
 
   .section-title {
-    @apply font-heading text-4xl md:text-5xl text-text-main leading-tight;
+    @apply font-heading text-4xl md:text-5xl text-text-main leading-tight transition-colors duration-300;
+  }
+
+  body.dark .section-title {
+    @apply text-dark-text;
   }
 
   .section-subtitle {
-    @apply text-text-muted text-lg font-body leading-relaxed;
+    @apply text-text-muted text-lg font-body leading-relaxed transition-colors duration-300;
+  }
+
+  body.dark .section-subtitle {
+    @apply text-dark-muted;
   }
 
   .tag {
-    @apply inline-flex items-center gap-1.5 text-sm font-medium bg-surface text-secondary px-4 py-1.5 rounded-full;
+    @apply inline-flex items-center gap-1.5 text-sm font-bold bg-surface text-secondary px-4 py-1.5 rounded-full transition-colors duration-300;
+  }
+
+  body.dark .tag {
+    @apply bg-dark-surface text-primary border border-primary/20;
   }
 }
 

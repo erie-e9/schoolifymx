@@ -1,18 +1,28 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { Check, ChevronRight } from 'lucide-react';
+import { CheckCircle2, ChevronRight } from 'lucide-react';
+import { SERVICES_CONTENT, getWhatsappLink } from '../types';
+import type { ServiceType } from '../types';
+import { UniformsCard, SuppliesComparator, DidacticMaterialTimeline } from './ServiceDisplays';
+import WhatsApp from '../assets/whatsapp.svg?react';
 
-const waLink = 'https://wa.me/521XXXXXXXXXX?text=Hola%2C%20me%20interesa%20Schoolify.mx';
+interface HeroProps {
+  activeService: ServiceType;
+  setActiveService: (service: ServiceType) => void;
+}
 
-const Hero: React.FC = () => {
+const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
+  const [displayedService, setDisplayedService] = React.useState(activeService);
+  const content = SERVICES_CONTENT[displayedService];
   const heroRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subRef = useRef<HTMLParagraphElement>(null);
   const bulletsRef = useRef<HTMLUListElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
+  const displayRef = useRef<HTMLDivElement>(null);
+  const tagRef = useRef<HTMLSpanElement>(null);
 
+  // Initial animation
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.3 });
 
@@ -35,155 +45,181 @@ const Hero: React.FC = () => {
         { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
         '-=0.3'
       )
-      .fromTo(imageRef.current,
-        { opacity: 0, scale: 0.92, x: 40 },
+      .fromTo(displayRef.current,
+        { opacity: 0, scale: 0.95, x: 40 },
         { opacity: 1, scale: 1, x: 0, duration: 1.0, ease: 'power2.out' },
         '-=0.8'
-      )
-      .fromTo(badgeRef.current,
-        { opacity: 0, y: 20, scale: 0.8 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.7)' },
-        '-=0.4'
       );
 
     return () => { tl.kill(); };
   }, []);
 
-  const bullets = [
-    'Ahorra tiempo y dinero en cada ciclo escolar',
-    'Pregunta por nuestro plan de pagos',
-    'Entrega directa y confiable en tu escuela o domicilio',
+  // Service change animation fix: Fade out -> Sync State -> Fade in
+  useEffect(() => {
+    if (activeService === displayedService) return;
+
+    const targets = [headlineRef.current, subRef.current, bulletsRef.current, displayRef.current, tagRef.current];
+
+    gsap.to(targets, {
+      opacity: 0,
+      y: 10,
+      duration: 0.3,
+      ease: 'power2.in',
+      onComplete: () => {
+        setDisplayedService(activeService);
+      }
+    });
+  }, [activeService]);
+
+  // Handle fade-in after step sync
+  useEffect(() => {
+    const targets = [headlineRef.current, subRef.current, bulletsRef.current, displayRef.current, tagRef.current];
+    gsap.fromTo(targets,
+      { opacity: 0, y: -10 },
+      { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out' }
+    );
+  }, [displayedService]);
+
+  const scrollToProcess = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const element = document.getElementById('process');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const whatsappLink = getWhatsappLink(content.whatsappMessage);
+
+  const services: { id: ServiceType; label: string; icon: string; comingSoon?: boolean }[] = [
+    { id: 'uniforms', label: SERVICES_CONTENT['uniforms'].tag, icon: '👕' },
+    { id: 'supplies', label: SERVICES_CONTENT['supplies'].tag, icon: '✏️' },
+    { id: 'didactic', label: SERVICES_CONTENT['didactic'].tag, icon: '📚', comingSoon: true },
   ];
 
   return (
     <section
       ref={heroRef}
-      id="hero"
-      className="relative min-h-screen flex items-center bg-white dark:bg-dark-bg overflow-hidden pt-20 transition-colors duration-300"
+      id="features"
+      className="relative min-h-[90vh] lg:min-h-screen flex items-center bg-white dark:bg-dark-bg overflow-hidden pt-32 pb-20 lg:pt-28 lg:pb-16 transition-colors duration-300"
     >
       {/* Background decorative blobs */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 dark:bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/5 dark:bg-primary/3 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary/10 dark:bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-primary/5 dark:bg-primary/3 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 py-15 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
         {/* LEFT — Content */}
-        <div className="flex flex-col gap-8">
-          {/* Tag */}
-          <span className="inline-flex items-center gap-2 self-start bg-primary/20 dark:bg-primary/10 text-secondary dark:text-primary text-sm font-heading font-600 px-4 py-2 rounded-full border border-primary/40 dark:border-primary/20">
-            🏫 Soluciones Escolares
-          </span>
+        <div className="flex flex-col gap-4">
+          <h2 className="mb-1 dark:text-dark-text text-1xl md:text-1xl">
+            Soluciones Escolares
+          </h2>
+          {/* Service Selector */}
+          <div className="flex flex-wrap gap-3 p-1.5 bg-surface dark:bg-dark-surface rounded-2xl border border-gray-100 dark:border-gray-800 self-start mb-2">
+            {services.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => setActiveService(s.id)}
+                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-xl font-heading font-700 text-sm transition-all duration-300 ${activeService === s.id
+                  ? 'bg-primary text-text-main shadow-yellow scale-105'
+                  : 'text-text-muted dark:text-dark-muted hover:bg-gray-100 dark:hover:bg-dark-bg'
+                  }`}
+              >
+                <span>{s.icon}</span>
+                {s.label}
+                {s.comingSoon && (
+                  <span className="absolute -top-4 -right-1 bg-secondary dark:bg-secondary text-white text-[10px] px-1.5 py-0.5 rounded-lg font-800 tracking-tighter">
+                    Próximamente
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
 
           {/* Headline */}
           <h1
             ref={headlineRef}
-            className="font-heading font-800 text-5xl md:text-6xl xl:text-6xl text-text-main dark:text-dark-text leading-[1.08] tracking-tight"
-          >
-            Todo lo escolar,{' '}
-            <span className="relative">
-              <span className="relative z-10">sin complicaciones.</span>
-            </span>
+            className="font-heading font-800 text-4xl md:text-5xl xl:text-5xl text-text-main dark:text-dark-text leading-[1.08] tracking-tight"
+          >{content.headline}
+            {/* {content.headline.split(',').map((part, i) => (
+              <React.Fragment key={i}>
+                {i > 0 && <br className="hidden sm:block" />}
+                {i > 0 ? part.trim() : part}
+              </React.Fragment>
+            ))} */}
           </h1>
 
           {/* Subheadline */}
           <p
             ref={subRef}
-            className="text-text-muted dark:text-dark-muted text-lg md:text-xl leading-relaxed max-w-xl"
+            className="text-text-muted dark:text-dark-muted text-base md:text-lg lg:text-xl leading-relaxed max-w-xl opacity-90"
           >
-            En <span className="text-secondary dark:text-white font-600">Schoolify.mx</span> nos encargamos de uniformes, útiles y material didáctico para que tú solo te enfoques en lo importante: la educación. ¡Ahorra hasta un 15% en tu lista completa!
+            {content.subheadline}
           </p>
 
           {/* Bullet points */}
-          <ul ref={bulletsRef} className="flex flex-col gap-3">
-            {bullets.map((item, i) => (
-              <li key={i} className="flex items-center gap-3">
-                <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center shadow-yellow">
-                  <Check className="w-3.5 h-3.5 text-text-main font-bold" strokeWidth={3} />
+          <ul ref={bulletsRef} className="flex flex-col gap-3.5">
+            {content.bullets.map((item, i) => (
+              <li key={i} className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center mt-0.5">
+                  <CheckCircle2 className="w-5 h-5 text-success font-bold" />
                 </span>
-                <span className="text-text-main dark:text-dark-text font-body font-500">{item}</span>
+                <span className="text-text-main dark:text-dark-text font-body font-500 text-sm md:text-base">{item}</span>
               </li>
             ))}
           </ul>
 
           {/* CTAs */}
-          <div ref={ctaRef} className="flex flex-wrap gap-4 items-center">
+          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center mt-2">
             <a
-              href={waLink}
+              href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2.5 bg-primary text-text-main font-heading font-700 text-base px-7 py-4 rounded-2xl shadow-yellow hover:shadow-yellow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+              className="group inline-flex items-center justify-center gap-2.5 bg-primary text-text-main font-heading font-700 text-base px-8 py-4 rounded-2xl shadow-yellow hover:shadow-yellow-lg hover:scale-105 active:scale-95 transition-all duration-300"
             >
-              Contactar por WhatsApp
+              <WhatsApp className="w-5 h-5 text-black" />
+              Escríbenos ahora
             </a>
 
             <a
-              href={waLink + '&text=Hola%2C+soy+una+instituci%C3%B3n+educativa'}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 border-2 border-secondary dark:border-primary text-secondary dark:text-primary font-heading font-600 text-base px-7 py-4 rounded-2xl hover:bg-secondary dark:hover:bg-primary dark:hover:text-dark-bg hover:text-white hover:scale-105 active:scale-95 transition-all duration-300"
+              href="#process"
+              onClick={scrollToProcess}
+              className="inline-flex items-center justify-center gap-2 border-2 border-secondary dark:border-primary text-secondary dark:text-primary font-heading font-700 text-base px-8 py-4 rounded-2xl hover:bg-secondary dark:hover:bg-primary dark:hover:text-dark-bg hover:text-white hover:scale-105 active:scale-95 transition-all duration-300"
             >
-              Soy institución educativa
-              <ChevronRight className="w-4 h-4" />
+              Conoce cómo funciona
+              <ChevronRight className="w-5 h-5" />
             </a>
           </div>
 
           {/* Trust indicators */}
-          <div className="flex items-center gap-6 pt-2">
-            <div className="flex -space-x-2">
-              {['🧑‍🏫', '👩‍👧', '👨‍👩‍👦', '👩‍🎓', '🧑‍💼'].map((emoji, i) => (
-                <div key={i} className="w-8 h-8 bg-surface dark:bg-dark-surface rounded-full border-2 border-white dark:border-dark-bg flex items-center justify-center text-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 pt-2">
+            <div className="flex -space-x-2.5">
+              {content.trustEmojis.map((emoji, i) => (
+                <div key={i} className="w-9 h-9 bg-white dark:bg-dark-surface rounded-full border-2 border-primary/20 dark:border-dark-bg flex items-center justify-center text-sm shadow-sm">
                   {emoji}
                 </div>
               ))}
             </div>
-            <p className="text-sm text-text-muted dark:text-dark-muted font-body">
-              <span className="font-700 text-text-main dark:text-dark-text">+1,000 familias</span> ya confían en nosotros
+            <p className="text-sm text-text-muted dark:text-dark-muted font-body leading-tight">
+              <span className="font-800 text-text-main dark:text-dark-text text-base">{content.trustText.split(' ')[0]}</span> {content.trustText.split(' ').slice(1).join(' ')}
             </p>
           </div>
         </div>
 
-        {/* RIGHT — Image */}
-        <div className="relative flex items-center justify-center" ref={imageRef}>
-          <div className="relative w-full max-w-lg">
-            {/* Decorative ring */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/30 to-accent/20 scale-105 blur-sm dark:from-primary/20 dark:to-accent/10" />
+        {/* RIGHT — Dynamic Display */}
+        <div className="relative flex items-center justify-center order-1 lg:order-2 scale-90 sm:scale-100" ref={displayRef}>
+          <div className="relative w-full max-w-[500px] lg:max-w-none">
+            {/* Decorative background for the component */}
+            <div className="absolute inset-x-0 inset-y-0 bg-primary/10 dark:bg-primary/5 rounded-[2.5rem] -rotate-2 scale-105 blur-md" />
+            <div className="absolute inset-x-0 inset-y-0 bg-accent/10 dark:bg-accent/5 rounded-[2.5rem] rotate-1 scale-100 blur-sm" />
 
-            {/* Image */}
-            <div className="relative overflow-hidden rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,0.14)] animate-float">
-              <img
-                src="https://www.unicef.org/honduras/sites/unicef.org.honduras/files/styles/hero_extended/public/WhatsApp%20Image%202023-06-08%20at%204.36.48%20PM_0.jpeg.webp?itok=VETTkvVL"
-                alt="Niños felices en escuela con útiles escolares"
-                className="w-full h-[480px] object-cover"
-                loading="eager"
-              />
-              <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/20 to-transparent" />
-            </div>
-
-            {/* Badge: Pedido Listo */}
-            <div
-              ref={badgeRef}
-              className="absolute -bottom-6 -left-6 bg-white dark:bg-dark-surface rounded-2xl shadow-card-hover px-5 py-4 flex items-center gap-3 border border-gray-100 dark:border-gray-800"
-            >
-              <div className="w-11 h-11 bg-primary rounded-xl flex items-center justify-center shadow-yellow">
-                <span className="text-2xl">📦</span>
-              </div>
-              <div>
-                <p className="font-heading font-700 text-text-main dark:text-dark-text text-sm">¡Pedido listo!</p>
-                <p className="text-xs text-text-muted dark:text-dark-muted">Justo a tiempo</p>
-              </div>
-            </div>
-
-            {/* Badge: Calificación */}
-            <div className="absolute -top-4 -right-4 bg-secondary dark:bg-primary text-white dark:text-dark-bg rounded-2xl shadow-lg px-4 py-3 flex items-center gap-2">
-              <span className="text-xl text-yellow-500">⭐</span>
-              <div>
-                <p className="font-heading font-700 text-sm">4.9 / 5</p>
-                <p className="text-xs text-white/70 dark:text-dark-bg/70">+200 reseñas</p>
-              </div>
+            <div className="relative animate-float z-10">
+              {displayedService === 'uniforms' && <UniformsCard active />}
+              {displayedService === 'supplies' && <SuppliesComparator active />}
+              {displayedService === 'didactic' && <DidacticMaterialTimeline active />}
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 
