@@ -12,6 +12,7 @@ import FinalCTA from './components/FinalCTA';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import CookieConsent from './components/CookieConsent';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,6 +33,7 @@ function App() {
         <FinalCTA activeService={activeService} />
       </main>
       <ScrollToTop />
+      <CookieConsent />
       <Footer />
     </div>
   );
