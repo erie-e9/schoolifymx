@@ -48,13 +48,15 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
   // Carousel Animation
   useEffect(() => {
     if (carouselRef.current) {
+      // Calculate individual slide percentage relative to the container
+      const slidePercentage = 100 / carouselItems.length;
       gsap.to(carouselRef.current, {
-        xPercent: -100 * currentIndex,
+        xPercent: -slidePercentage * currentIndex,
         duration: 0.8,
         ease: 'expo.out',
       });
     }
-  }, [currentIndex]);
+  }, [currentIndex, carouselItems.length]);
 
   // Left Content Text Animation
   useEffect(() => {
@@ -85,12 +87,12 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
               <div className="absolute top-0 left-0 w-32 h-32 bg-primary/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-2xl" />
 
               <div className="mb-6">
-                {currentItem.type && <span className="tag mb-4">{currentItem.type}</span>}
+                {currentItem?.type && <span className="tag mb-4">{currentItem.type}</span>}
                 <h2
                   ref={titleRef}
                   className="font-heading font-900 text-4xl md:text-5xl text-text-main dark:text-dark-text leading-[1.1]"
                 >
-                  {currentItem.title}
+                  {currentItem?.title}
                   <span className="text-secondary dark:text-primary">.</span>
                 </h2>
               </div>
@@ -99,7 +101,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
                 ref={descRef}
                 className="text-text-muted dark:text-dark-muted text-lg mb-8 font-body leading-relaxed max-w-md"
               >
-                {currentItem.description}
+                {currentItem?.description}
               </p>
 
               <div className="flex flex-wrap gap-4 mt-auto">
@@ -116,18 +118,26 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
             </div>
 
             {/* Right Column: Carousel (Clean version) */}
-            <div className="lg:w-1/2 bg-gray-50 dark:bg-dark-bg/50 relative group min-h-[400px]">
+            <div className="lg:w-1/2 bg-gray-50 dark:bg-dark-bg/50 relative group h-[450px] md:h-[500px] lg:h-auto">
               <div className="h-full overflow-hidden">
-                <div className="flex h-full will-change-transform" ref={carouselRef}>
+                <div 
+                    className="flex h-full will-change-transform" 
+                    ref={carouselRef}
+                    style={{ width: `${carouselItems.length * 100}%` }}
+                >
                   {carouselItems.map((item, i) => (
-                    <div key={i} className="carousel-slide min-w-full h-full relative" style={{ width: `${100 / carouselItems.length}%` }}>
+                    <div 
+                        key={i} 
+                        className="carousel-slide h-full relative" 
+                        style={{ width: `${100 / carouselItems.length}%` }}
+                    >
                       <img
                         src={item.image}
                         alt={item.title}
                         className="absolute inset-0 w-full h-full object-cover"
                       />
-                      <div className="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent text-white">
-                        <h4 className="font-heading font-800 text-2xl mb-2">{item.title}</h4>
+                      <div className="absolute inset-x-0 bottom-0 p-8 md:p-10 bg-gradient-to-t from-black/95 via-black/40 to-transparent text-white">
+                        <h4 className="font-heading font-800 text-xl md:text-2xl mb-1 md:mb-2">{item.title}</h4>
                       </div>
                     </div>
                   ))}

@@ -16,7 +16,7 @@ const PROCESS_STEPS: Record<ServiceType, any[]> = {
     {
       icon: WhatsApp,
       number: '01',
-      title: 'Nos contactas',
+      title: 'Nos Contactas',
       description: 'Iniciamos el proceso vía WhatsApp para conocer tus necesidades básicas.',
       color: 'bg-primary',
     },

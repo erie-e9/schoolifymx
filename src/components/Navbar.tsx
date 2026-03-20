@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, MessageCircle } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import Schoolify from '../assets/Schoolify.svg?react';
 import WhatsApp from '../assets/whatsapp.svg?react';
 import { getWhatsappLink } from '../types';
@@ -138,10 +138,10 @@ const Navbar: React.FC = () => {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-secondary dark:bg-primary text-white dark:text-dark-bg font-heading font-800 text-lg px-6 py-5 rounded-2xl text-center shadow-lg active:scale-95 transition-all w-full flex items-center justify-center gap-3"
+              className="bg-primary dark:bg-primary text-secondary font-heading font-800 text-lg px-6 py-5 rounded-2xl text-center shadow-lg active:scale-95 transition-all w-full flex items-center justify-center gap-3"
             >
-              <MessageCircle className="w-6 h-6" />
-              Contactar por WhatsApp
+              <WhatsApp className="w-5 h-5" />
+              Escríbenos ahora
             </a>
             <p className="text-center text-text-muted dark:text-dark-muted font-body text-sm px-4">
               Atención inmediata de Lunes a Sábado de 9:00 AM a 7:00 PM

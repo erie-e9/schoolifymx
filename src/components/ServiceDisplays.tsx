@@ -72,7 +72,7 @@ export const SuppliesComparator: React.FC<{ active?: boolean }> = ({ active }) =
     { label: 'Costo promedio', bad: '$1,200–1,800', good: '$1,020–1,530' },
     { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
     { label: 'Entrega', bad: 'Tú lo transportas', good: 'Nosotros te lo llevamos' },
-    { label: 'Sobrantes', bad: 'Con productos innecesarios', good: '✓ Solo lo necesario' },
+    { label: 'Sobrantes', bad: 'Con restos de productos innecesarios', good: '✓ Sin sobrantes' },
   ];
 
   return (

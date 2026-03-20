@@ -5,7 +5,7 @@ import { getWhatsappLink } from '../types';
 import WhatsApp from '../assets/whatsapp.svg?react';
 
 const Footer: React.FC = () => {
-  const waLink = getWhatsappLink(import.meta.env.VITE_WHATSAPP_MESSAGE_SCHOOL || 'Hola, soy una institución educativa y me gustaría conocer más sobre Schoolify.mx');
+  const waLink = getWhatsappLink(import.meta.env.VITE_WHATSAPP_MESSAGE || 'Hola, soy una institución educativa y me gustaría conocer más sobre Schoolify.mx');
 
   const links = [
     {
