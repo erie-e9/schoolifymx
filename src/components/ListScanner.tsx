@@ -59,10 +59,10 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
 
   const startSimulation = () => {
     setStatus('scanning');
-    
+
     // Laser Animation
-    gsap.fromTo(laserRef.current, 
-      { top: '0%' }, 
+    gsap.fromTo(laserRef.current,
+      { top: '0%' },
       { top: '100%', duration: 1.5, repeat: 4, yoyo: true, ease: "sine.inOut" }
     );
 
@@ -75,13 +75,13 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
           setStatus('completed');
           return 100;
         }
-        
+
         // Update text every 20%
         if (Math.floor(prev / 20) > step) {
           step++;
           setScanningText(scanningSteps[step] || scanningSteps[scanningSteps.length - 1]);
         }
-        
+
         return prev + 1;
       });
     }, 60);
@@ -91,7 +91,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setFileName(file.name);
-      
+
       if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
         setFileType('pdf');
         setSelectedFile(null);
@@ -117,17 +117,17 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
 
   return createPortal(
     <div className="fixed inset-0 z-[1001] flex items-center justify-center p-4 md:p-6 lg:p-12">
-      <div 
+      <div
         ref={backdropRef}
         className="absolute inset-0 bg-dark-bg/80 backdrop-blur-xl opacity-0"
         onClick={handleClose}
       />
 
-      <div 
+      <div
         ref={modalRef}
         className="relative w-full max-w-2xl bg-white dark:bg-dark-surface rounded-[2.5rem] shadow-2xl border border-primary/20 dark:border-primary/10 overflow-hidden opacity-0"
       >
-        <button 
+        <button
           onClick={handleClose}
           className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg transition-all z-[30] active:scale-90"
         >
@@ -145,16 +145,16 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
                 <p className="text-text-muted dark:text-dark-muted font-body">Sube una foto de tu lista y nuestra IA la procesará para darte la mejor cotización.</p>
               </div>
 
-              <div 
+              <div
                 onClick={() => fileInputRef.current?.click()}
                 className="cursor-pointer border-2 border-dashed border-primary/30 hover:border-primary rounded-[2rem] p-10 bg-gray-50/50 dark:bg-dark-bg/30 transition-all hover:bg-primary/5 group"
               >
-                <input 
-                  type="file" 
-                  ref={fileInputRef} 
-                  className="hidden" 
-                  accept="image/*,.pdf" 
-                  onChange={onFileChange} 
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  className="hidden"
+                  accept="image/*,.pdf"
+                  onChange={onFileChange}
                 />
                 <div className="flex flex-col items-center gap-4">
                   <div className="w-12 h-12 bg-white dark:bg-dark-surface rounded-full shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -180,8 +180,8 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
                 {fileType === 'pdf' ? (
                   <div className="flex flex-col items-center gap-4 animate-in zoom-in duration-300">
                     <div className="w-24 h-32 bg-red-500/10 rounded-xl border-2 border-red-500/30 flex items-center justify-center relative shadow-lg">
-                        <FileDigit className="w-12 h-12 text-red-500" />
-                        <div className="absolute bottom-2 right-2 bg-red-500 text-white text-[8px] font-bold px-1 rounded uppercase">PDF</div>
+                      <FileDigit className="w-12 h-12 text-red-500" />
+                      <div className="absolute bottom-2 right-2 bg-red-500 text-white text-[8px] font-bold px-1 rounded uppercase">PDF</div>
                     </div>
                     <span className="text-xs font-heading font-700 text-text-main dark:text-dark-text max-w-[200px] truncate">{fileName}</span>
                   </div>
@@ -191,22 +191,22 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
                   )
                 )}
                 {/* Laser Effect */}
-                <div 
+                <div
                   ref={laserRef}
                   className="absolute left-0 right-0 h-1 bg-primary shadow-[0_0_15px_rgba(255,215,0,0.8)] z-10"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
               </div>
-              
+
               <div className="space-y-4">
                 <div className="flex justify-between items-end mb-2">
                   <span className="font-heading font-800 text-text-main dark:text-dark-text text-lg">{scanningText}</span>
                   <span className="font-heading font-900 text-secondary dark:text-primary">{progress}%</span>
                 </div>
                 <div className="h-3 bg-gray-100 dark:bg-dark-bg rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-primary transition-all duration-100 ease-linear shadow-yellow" 
-                    style={{ width: `${progress}%` }} 
+                  <div
+                    className="h-full bg-primary transition-all duration-100 ease-linear shadow-yellow"
+                    style={{ width: `${progress}%` }}
                   />
                 </div>
               </div>
@@ -218,20 +218,20 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
               <div className="mx-auto w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center text-green-500 animate-bounce">
                 <CheckCircle className="w-12 h-12" />
               </div>
-              
+
               <div className="space-y-4">
                 <h2 className="text-4xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight">¡Análisis Exitoso!</h2>
                 <p className="text-text-muted dark:text-dark-muted font-body text-lg">
                   Nuestra herramienta ha identificado <span className="text-secondary dark:text-primary font-bold">12 artículos</span> en tu lista.
                 </p>
                 <div className="bg-gray-50 dark:bg-dark-bg/30 p-6 rounded-2xl border border-gray-100 dark:border-gray-800 text-left space-y-2">
-                    <p className="text-[10px] uppercase font-bold text-text-muted tracking-widest">Resumen detectado:</p>
-                    <ul className="grid grid-cols-2 gap-2 text-xs font-body font-600 text-text-main dark:text-dark-text">
-                        <li>• Cuadernos (6)</li>
-                        <li>• Lápices/Plumas</li>
-                        <li>• Colores Premium</li>
-                        <li>• Material de Arte</li>
-                    </ul>
+                  <p className="text-[10px] uppercase font-bold text-text-muted tracking-widest">Resumen detectado:</p>
+                  <ul className="grid grid-cols-2 gap-2 text-xs font-body font-600 text-text-main dark:text-dark-text">
+                    <li>• Cuadernos (6)</li>
+                    <li>• Lápices/Plumas</li>
+                    <li>• Colores Premium</li>
+                    <li>• Material de Arte</li>
+                  </ul>
                 </div>
               </div>
 
@@ -242,12 +242,12 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-4 bg-secondary dark:bg-primary text-white dark:text-text-main font-heading font-900 text-lg py-5 rounded-2xl shadow-xl hover:-translate-y-1.5 active:scale-95 transition-all duration-300 group"
                 >
-                  <WhatsApp className="w-6 h-6 fill-white dark:fill-text-main group-hover:rotate-12 transition-transform" />
+                  <WhatsApp className="w-6 h-6 group-hover:rotate-12 transition-transform" />
                   Ver mi presupuesto en WhatsApp
                   <ChevronRight className="w-5 h-5" />
                 </a>
                 <p className="text-[10px] text-text-muted font-body leading-relaxed max-w-xs mx-auto">
-                    Presiona el botón para que nuestros asesores te envíen la cotización final por WhatsApp.
+                  Presiona el botón para que nuestros asesores te envíen la cotización final por WhatsApp.
                 </p>
               </div>
             </div>

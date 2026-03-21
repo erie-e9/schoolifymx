@@ -270,7 +270,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* (A) Chest */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900"><span className="text-text-main dark:text-dark-text mr-1">A.</span> Pecho (circunferencia)</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">A.</span> Pecho (circunferencia)</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{chest}</span>
                         </div>
                         <input type="range" min="50" max="140" value={chest} onChange={(e) => setChest(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -279,7 +279,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* (B) Waist */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900"><span className="text-text-main dark:text-dark-text mr-1">B.</span> Cintura (circunferencia)</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">B.</span> Cintura (circunferencia)</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{waist}</span>
                         </div>
                         <input type="range" min="40" max="130" value={waist} onChange={(e) => setWaist(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -288,7 +288,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* (C) Shoulders */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900"><span className="text-text-main dark:text-dark-text mr-1">C.</span> Hombros</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">C.</span> Hombros</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{shoulders}</span>
                         </div>
                         <input type="range" min="20" max="65" value={shoulders} onChange={(e) => setShoulders(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -297,7 +297,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* (D) Length */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900"><span className="text-text-main dark:text-dark-text mr-1">D.</span> Largo</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">D.</span> Largo</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{totalLength}</span>
                         </div>
                         <input type="range" min="30" max="110" value={totalLength} onChange={(e) => setTotalLength(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -306,7 +306,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* (E) Sleeve */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900"><span className="text-text-main dark:text-dark-text mr-1">E.</span> Manga</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">E.</span> Manga</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{sleeveLength}</span>
                         </div>
                         <input type="range" min="30" max="90" value={sleeveLength} onChange={(e) => setSleeveLength(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -315,7 +315,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* (F) Arm Width */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900"><span className="text-text-main dark:text-dark-text mr-1">F.</span> Brazo (circunferencia)</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">F.</span> Brazo (circunferencia)</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{armWidth}</span>
                         </div>
                         <input type="range" min="15" max="55" value={armWidth} onChange={(e) => setArmWidth(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -326,7 +326,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* Pants Waist */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900">Cintura</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">A.</span> Cintura</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{pWaist}</span>
                         </div>
                         <input type="range" min="40" max="130" value={pWaist} onChange={(e) => setPWaist(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -335,7 +335,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* Hip */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900">Cadera</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">B.</span> Cadera</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{pHip}</span>
                         </div>
                         <input type="range" min="60" max="150" value={pHip} onChange={(e) => setPHip(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -344,7 +344,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* Rise */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900">Largo de Tiro</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">C.</span> Largo de Tiro</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{pRise}</span>
                         </div>
                         <input type="range" min="15" max="50" value={pRise} onChange={(e) => setPRise(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -353,7 +353,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* Pants Length */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900">Largo Total</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">D.</span> Largo Total</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{pLength}</span>
                         </div>
                         <input type="range" min="40" max="140" value={pLength} onChange={(e) => setPLength(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -362,7 +362,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* Cuff */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900">Botamanga</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">E.</span> Botamanga</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{pCuff}</span>
                         </div>
                         <input type="range" min="10" max="40" value={pCuff} onChange={(e) => setPCuff(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -373,7 +373,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* Skirt Waist */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900">Cintura</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">A.</span> Cintura</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{fWaist}</span>
                         </div>
                         <input type="range" min="40" max="110" value={fWaist} onChange={(e) => setFWaist(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -382,7 +382,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* Skirt Hip */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900">Cadera</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">B.</span> Cadera</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{fHip}</span>
                         </div>
                         <input type="range" min="50" max="130" value={fHip} onChange={(e) => setFHip(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -391,7 +391,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* Skirt Length */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-[9px] uppercase font-heading font-800 tracking-widest">
-                          <label className="text-text-main dark:text-dark-text font-900">Largo Falda</label>
+                          <label className="text-text-muted dark:text-dark-muted font-900"><span className="mr-1">C.</span> Largo Falda</label>
                           <span className="text-sm font-heading font-900 text-text-main dark:text-dark-text">{fLength}</span>
                         </div>
                         <input type="range" min="20" max="80" value={fLength} onChange={(e) => setFLength(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
@@ -496,4 +496,4 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
   );
 };
 
-export default UniformSizeHelper;
+export default React.memo(UniformSizeHelper);

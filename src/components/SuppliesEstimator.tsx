@@ -13,6 +13,24 @@ interface SuppliesEstimatorProps {
   onOpenScanner: () => void;
 }
 
+const SUPPLIES_DATA = {
+  Preescolar: {
+    Esencial: { min: 800, max: 1200, time: 4 },
+    Selecto: { min: 1200, max: 1800, time: 5 },
+  },
+  Primaria: {
+    Esencial: { min: 1020, max: 1300, time: 5 },
+    Selecto: { min: 1300, max: 1530, time: 6 },
+  },
+  Secundaria: {
+    Esencial: { min: 1300, max: 1400, time: 6 },
+    Selecto: { min: 1500, max: 2000, time: 7 },
+  },
+};
+
+const GRADES: Grade[] = ['Preescolar', 'Primaria', 'Secundaria'];
+const BUNDLES: Bundle[] = ['Esencial', 'Selecto'];
+
 const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, onOpenScanner }) => {
   const [grade, setGrade] = useState<Grade>('Primaria');
   const [bundle, setBundle] = useState<Bundle>('Selecto');
@@ -21,26 +39,6 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
 
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
-
-  const data = {
-    Preescolar: {
-      Esencial: { min: 800, max: 1200, time: 4 },
-      Selecto: { min: 1200, max: 1800, time: 5 },
-    },
-    Primaria: {
-      Esencial: { min: 1020, max: 1300, time: 5 },
-      Selecto: { min: 1300, max: 1530, time: 6 },
-    },
-    Secundaria: {
-      Esencial: { min: 1300, max: 1400, time: 6 },
-      Selecto: { min: 1500, max: 2000, time: 7 },
-    },
-    // Preparatoria: {
-    //   Básico: { min: 1000, max: 1600, time: 4 },
-    //   Plus: { min: 1600, max: 2500, time: 5 },
-    //   Premium: { min: 2500, max: 4000, time: 6 },
-    // },
-  };
 
   useEffect(() => {
     if (isOpen) {
@@ -64,7 +62,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
   };
 
   useEffect(() => {
-    const newStats = data[grade][bundle];
+    const newStats = SUPPLIES_DATA[grade][bundle];
     const targetMin = newStats.min;
     const targetMax = newStats.max;
 
@@ -80,9 +78,6 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
   }, [grade, bundle]);
 
   if (!isOpen) return null;
-
-  const grades: Grade[] = ['Preescolar', 'Primaria', 'Secundaria'];
-  const bundles: Bundle[] = ['Esencial', 'Selecto'];
 
   return createPortal(
     <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-6 lg:p-12">
@@ -131,7 +126,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                     <h4 className="font-heading font-800 text-text-main dark:text-dark-text text-base">¿Cuál es el nivel escolar?</h4>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    {grades.map((g) => (
+                    {GRADES.map((g) => (
                       <button
                         key={g}
                         onClick={() => setGrade(g)}
@@ -153,7 +148,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                     <h4 className="font-heading font-800 text-text-main dark:text-dark-text text-base">¿Qué tipo de surtido prefieres?</h4>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {bundles.map((b) => (
+                    {BUNDLES.map((b) => (
                       <button
                         key={b}
                         onClick={() => setBundle(b)}
@@ -242,4 +237,4 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
   );
 };
 
-export default SuppliesEstimator;
+export default React.memo(SuppliesEstimator);

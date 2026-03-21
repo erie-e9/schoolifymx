@@ -11,6 +11,12 @@ interface HeroProps {
   setActiveService: (service: ServiceType) => void;
 }
 
+const SERVICES: { id: ServiceType; label: string; icon: string; comingSoon?: boolean }[] = [
+  { id: 'uniforms', label: SERVICES_CONTENT['uniforms'].tag, icon: '👕' },
+  { id: 'supplies', label: SERVICES_CONTENT['supplies'].tag, icon: '✏️' },
+  { id: 'didactic', label: SERVICES_CONTENT['didactic'].tag, icon: '📚', comingSoon: true },
+];
+
 const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
   const [displayedService, setDisplayedService] = React.useState(activeService);
   const content = SERVICES_CONTENT[displayedService];
@@ -69,7 +75,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
         setDisplayedService(activeService);
       }
     });
-  }, [activeService]);
+  }, [activeService, displayedService]);
 
   // Handle fade-in after step sync
   useEffect(() => {
@@ -88,13 +94,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
     }
   };
 
-  const whatsappLink = getWhatsappLink(content.whatsappMessage);
-
-  const services: { id: ServiceType; label: string; icon: string; comingSoon?: boolean }[] = [
-    { id: 'uniforms', label: SERVICES_CONTENT['uniforms'].tag, icon: '👕' },
-    { id: 'supplies', label: SERVICES_CONTENT['supplies'].tag, icon: '✏️' },
-    { id: 'didactic', label: SERVICES_CONTENT['didactic'].tag, icon: '📚', comingSoon: true },
-  ];
+  const whatsappLink = React.useMemo(() => getWhatsappLink(content.whatsappMessage), [content.whatsappMessage]);
 
   return (
     <section
@@ -114,7 +114,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
           </h2>
           {/* Service Selector */}
           <div className="flex flex-wrap gap-3 p-1.5 bg-surface dark:bg-dark-surface rounded-2xl border border-gray-100 dark:border-gray-800 self-start mb-2">
-            {services.map((s) => (
+            {SERVICES.map((s) => (
               <button
                 key={s.id}
                 onClick={() => setActiveService(s.id)}
@@ -223,4 +223,4 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
   );
 };
 
-export default Hero;
+export default React.memo(Hero);

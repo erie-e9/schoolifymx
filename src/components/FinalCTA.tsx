@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ChevronRight, Building2, MessageCircle } from 'lucide-react';
+import { ChevronRight, Building2 } from 'lucide-react';
+import WhatsApp from '../assets/whatsapp.svg?react';
 import { SERVICES_CONTENT, getWhatsappLink } from '../types';
 import type { ServiceType } from '../types';
 
@@ -29,8 +30,8 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
     return () => ctx.revert();
   }, []);
 
-  const whatsappLink = getWhatsappLink(content.whatsappMessage);
-  const whatsappLinkSchool = getWhatsappLink('Hola, soy una institución educativa y me interesa Schoolify.mx');
+  const whatsappLink = React.useMemo(() => getWhatsappLink(content.whatsappMessage), [content.whatsappMessage]);
+  const whatsappLinkSchool = React.useMemo(() => getWhatsappLink('Hola, soy una institución educativa y me interesa Schoolify.mx'), []);
 
   return (
     <section className="relative py-24 md:py-32 overflow-hidden transition-colors duration-300" ref={sectionRef}>
@@ -67,7 +68,7 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
             rel="noopener noreferrer"
             className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-text-main dark:bg-primary text-white dark:text-dark-bg font-heading font-800 text-lg px-10 py-5 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300"
           >
-            <MessageCircle className="w-6 h-6" />
+            <WhatsApp />
             Escríbenos ahora
             <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </a>
@@ -101,4 +102,4 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
   );
 };
 
-export default FinalCTA;
+export default React.memo(FinalCTA);

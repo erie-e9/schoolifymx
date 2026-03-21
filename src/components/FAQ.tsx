@@ -7,7 +7,7 @@ import type { ServiceType, FAQItem as FAQItemType } from '../types';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const FAQItem: React.FC<{ item: FAQItemType; index: number }> = ({ item, index }) => {
+const FAQItem: React.FC<{ item: FAQItemType; index: number }> = React.memo(({ item, index }) => {
   const [open, setOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -54,7 +54,7 @@ const FAQItem: React.FC<{ item: FAQItemType; index: number }> = ({ item, index }
       </div>
     </div>
   );
-};
+});
 
 interface FAQProps {
   activeService: ServiceType;
@@ -103,4 +103,4 @@ const FAQ: React.FC<FAQProps> = ({ activeService }) => {
   );
 };
 
-export default FAQ;
+export default React.memo(FAQ);

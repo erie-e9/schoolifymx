@@ -19,7 +19,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
   const content = SERVICES_CONTENT[activeService];
   const carouselItems = content.ctaCarousel;
   const currentItem = carouselItems[currentIndex];
-  const waLink = getWhatsappLink(content.whatsappMessage);
+  const waLink = React.useMemo(() => getWhatsappLink(content.whatsappMessage), [content.whatsappMessage]);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
@@ -182,4 +182,4 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
   );
 };
 
-export default CtaMid;
+export default React.memo(CtaMid);

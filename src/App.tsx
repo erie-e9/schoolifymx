@@ -1,18 +1,19 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { ServiceType } from './types';
 import Hero from './components/Hero';
-// import LogosCarousel from './components/LogosCarousel';
-import Process from './components/Process';
-import Stats from './components/Stats';
-import CtaMid from './components/CtaMid';
-import FAQ from './components/FAQ';
-import FinalCTA from './components/FinalCTA';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import ScrollToTop from './components/ScrollToTop';
-import CookieConsent from './components/CookieConsent';
+
+// Lazy loaded components
+const Process = lazy(() => import('./components/Process'));
+const Stats = lazy(() => import('./components/Stats'));
+const CtaMid = lazy(() => import('./components/CtaMid'));
+const FAQ = lazy(() => import('./components/FAQ'));
+const FinalCTA = lazy(() => import('./components/FinalCTA'));
+const Footer = lazy(() => import('./components/Footer'));
+const ScrollToTop = lazy(() => import('./components/ScrollToTop'));
+const CookieConsent = lazy(() => import('./components/CookieConsent'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,17 +25,19 @@ function App() {
       <Navbar />
       <main>
         <Hero activeService={activeService} setActiveService={setActiveService} />
-        {/* <LogosCarousel /> */}
-        {/* <Features activeService={activeService} /> */}
-        <Process activeService={activeService} />
-        <CtaMid activeService={activeService} />
-        <Stats activeService={activeService} />
-        <FAQ activeService={activeService} />
-        <FinalCTA activeService={activeService} />
+        <Suspense fallback={<div className="min-h-[20vh]" />}>
+          <Process activeService={activeService} />
+          <CtaMid activeService={activeService} />
+          <Stats activeService={activeService} />
+          <FAQ activeService={activeService} />
+          <FinalCTA activeService={activeService} />
+        </Suspense>
       </main>
-      <ScrollToTop />
-      <CookieConsent />
-      <Footer />
+      <Suspense fallback={null}>
+        <ScrollToTop />
+        <CookieConsent />
+        <Footer />
+      </Suspense>
     </div>
   );
 }

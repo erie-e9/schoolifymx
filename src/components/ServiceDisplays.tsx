@@ -9,7 +9,14 @@ import UniformSizeHelper from './UniformSizeHelper';
 gsap.registerPlugin(ScrollTrigger);
 
 /* ─── 1. INTERACTIVE CARD — UNIFORMES ─────────────────────────────── */
-export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
+const UNIFORM_DETAILS = [
+  { icon: '📐', text: 'Confección a medida' },
+  { icon: '🪡', text: 'Reparaciones y ajustes' },
+  { icon: '🎽', text: 'Vestuario escolar y eventos' },
+];
+
+/* ─── 1. INTERACTIVE CARD — UNIFORMES ─────────────────────────────── */
+const UniformsCardBase: React.FC<{ active?: boolean }> = ({ active }) => {
   const [hovered, setHovered] = useState(false);
   const [isSizeHelperOpen, setIsSizeHelperOpen] = useState(false);
   const detailsRef = useRef<HTMLDivElement>(null);
@@ -24,12 +31,6 @@ export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
       });
     }
   }, [hovered, active]);
-
-  const details = [
-    { icon: '📐', text: 'Confección a medida' },
-    { icon: '🪡', text: 'Reparaciones y ajustes' },
-    { icon: '🎽', text: 'Vestuario escolar y eventos' },
-  ];
 
   return (
     <div
@@ -55,7 +56,7 @@ export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
               className="flex items-center gap-2 bg-primary/10 hover:bg-primary text-text-main font-heading font-800 px-3 py-2 rounded-xl transition-all duration-300 border border-primary/20 hover:shadow-yellow hover:-translate-y-0.5 group/btn"
               title="Calcular Talla"
             >
-              <Ruler className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:text-white" />
+              <Ruler className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:text-white animate-shake-icon" />
             </button>
           </div>
           <span className="text-xs font-heading font-600 text-accent dark:text-primary tracking-wider">Pedidos anticipados entregados justo a tiempo y a medida de cada estudiante.</span>
@@ -71,7 +72,7 @@ export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
       {/* Hover-reveal details */}
       <div ref={detailsRef} className="overflow-hidden" style={{ height: active ? 'auto' : 0, opacity: active ? 1 : 0 }}>
         <div className="border-t border-gray-100 dark:border-gray-800 pt-4 flex flex-col gap-3">
-          {details.map((d, i) => (
+          {UNIFORM_DETAILS.map((d, i) => (
             <div key={i} className="flex items-center gap-3">
               <span className="text-lg">{d.icon}</span>
               <span className="font-body font-500 text-text-main dark:text-dark-text text-sm">{d.text}</span>
@@ -82,19 +83,21 @@ export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
     </div>
   );
 };
+export const UniformsCard = React.memo(UniformsCardBase);
+
+const SUPPLIES_ROWS = [
+  { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },
+  { label: 'Costo promedio + extras', bad: '$1,200–1,800', good: '$1,020–1,530' },
+  { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
+  { label: 'Entrega', bad: 'Tú lo transportas', good: 'Nosotros te lo llevamos' },
+  { label: 'Sobrantes', bad: 'Con restos de productos innecesarios', good: '✓ Sin sobrantes' },
+];
 
 /* ─── 2. VISUAL COMPARATOR — ÚTILES ESCOLARES ─────────────────────── */
-export const SuppliesComparator: React.FC<{ active?: boolean }> = ({ active }) => {
+const SuppliesComparatorBase: React.FC<{ active?: boolean }> = ({ active }) => {
   const [hovered, setHovered] = useState(false);
   const [isEstimatorOpen, setIsEstimatorOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
-  const rows = [
-    { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },
-    { label: 'Costo promedio + extras', bad: '$1,200–1,800', good: '$1,020–1,530' },
-    { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
-    { label: 'Entrega', bad: 'Tú lo transportas', good: 'Nosotros te lo llevamos' },
-    { label: 'Sobrantes', bad: 'Con restos de productos innecesarios', good: '✓ Sin sobrantes' },
-  ];
 
   return (
     <div className={`card p-8 border transition-all duration-400 border-gray-100 dark:border-gray-800 bg-white dark:bg-dark-surface ${active ? 'shadow-yellow glow-yellow border-primary/50 dark:border-primary/30 -translate-y-2 ring-2 ring-primary ring-offset-4 dark:ring-offset-dark-bg' : ''}`}
@@ -119,7 +122,7 @@ export const SuppliesComparator: React.FC<{ active?: boolean }> = ({ active }) =
             className="flex items-center gap-2 bg-primary/10 hover:bg-primary text-text-main font-heading font-800 px-3 py-2 md:px-4 md:py-2.5 rounded-xl transition-all duration-300 border border-primary/20 hover:shadow-yellow hover:-translate-y-0.5 group"
             title="Calculadora de Ahorro"
           >
-            <Calculator className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:text-white" />
+            <Calculator className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:text-white animate-shake-icon" />
           </button>
         </div>
       </div>
@@ -141,7 +144,7 @@ export const SuppliesComparator: React.FC<{ active?: boolean }> = ({ active }) =
           </div>
         </div>
 
-        {rows.map((row, i) => (
+        {SUPPLIES_ROWS.map((row, i) => (
           <div
             key={i}
             className={`grid grid-cols-3 border-t border-gray-100 dark:border-gray-800 ${i % 2 === 0 ? 'bg-white dark:bg-dark-surface' : 'bg-gray-50/50 dark:bg-dark-bg/20'}`}
@@ -164,18 +167,19 @@ export const SuppliesComparator: React.FC<{ active?: boolean }> = ({ active }) =
     </div>
   );
 };
+export const SuppliesComparator = React.memo(SuppliesComparatorBase);
+
+const DIDACTIC_STEPS = [
+  { icon: '📋', label: 'Pedido', sub: 'Vía WhatsApp' },
+  { icon: '✨', label: 'Personalización', sub: 'Ponemos manos a la obra' },
+  { icon: '🚚', label: 'Entrega', sub: 'Listo para clases o decoración' },
+];
 
 /* ─── 3. TIMELINE — PAPELERÍA ──────────────────────────────────────── */
-export const DidacticMaterialTimeline: React.FC<{ active?: boolean }> = ({ active }) => {
+const DidacticMaterialTimelineBase: React.FC<{ active?: boolean }> = ({ active }) => {
   const timelineRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
-
-  const steps = [
-    { icon: '📋', label: 'Pedido', sub: 'Vía WhatsApp' },
-    { icon: '✨', label: 'Personalización', sub: 'Ponemos manos a la obra' },
-    { icon: '🚚', label: 'Entrega', sub: 'Listo para clases o decoración' },
-  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -219,7 +223,7 @@ export const DidacticMaterialTimeline: React.FC<{ active?: boolean }> = ({ activ
         </div>
 
         <div className="grid grid-cols-3 gap-2">
-          {steps.map((step, i) => (
+          {DIDACTIC_STEPS.map((step, i) => (
             <div key={i} className="flex flex-col items-center text-center group">
               <div className="w-12 h-12 rounded-xl bg-surface dark:bg-dark-bg flex items-center justify-center text-2xl mb-2 group-hover:bg-primary group-hover:scale-110 transition-all duration-300 shadow-sm dark:shadow-none">
                 {step.icon}
@@ -233,3 +237,4 @@ export const DidacticMaterialTimeline: React.FC<{ active?: boolean }> = ({ activ
     </div>
   );
 };
+export const DidacticMaterialTimeline = React.memo(DidacticMaterialTimelineBase);

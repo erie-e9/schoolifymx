@@ -12,7 +12,7 @@ interface StatCounterProps {
   active: boolean;
 }
 
-const StatCounter: React.FC<StatCounterProps> = ({ stat, active }) => {
+const StatCounter: React.FC<StatCounterProps> = React.memo(({ stat, active }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const StatCounter: React.FC<StatCounterProps> = ({ stat, active }) => {
       <p className="text-text-muted dark:text-dark-muted text-xs md:text-sm leading-snug max-w-[180px] mx-auto opacity-80">{stat.description}</p>
     </div>
   );
-};
+});
 
 interface StatsProps {
   activeService: ServiceType;
@@ -114,4 +114,4 @@ const Stats: React.FC<StatsProps> = ({ activeService }) => {
   );
 };
 
-export default Stats;
+export default React.memo(Stats);

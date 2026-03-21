@@ -184,4 +184,4 @@ const Process: React.FC<ProcessProps> = ({ activeService }) => {
   );
 };
 
-export default Process;
+export default React.memo(Process);

@@ -4,6 +4,14 @@ import Schoolify from '../assets/Schoolify.svg?react';
 import WhatsApp from '../assets/whatsapp.svg?react';
 import { getWhatsappLink } from '../types';
 
+const NAV_LINKS = [
+  { label: 'Servicios', href: '#features' },
+  { label: '¿Cómo funciona?', href: '#process' },
+  { label: 'Galería', href: '#galery' },
+  { label: 'Beneficios', href: '#stats' },
+  { label: 'Preguntas', href: '#faq' },
+];
+
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -38,15 +46,7 @@ const Navbar: React.FC = () => {
     }
   };
 
-  const links = [
-    { label: 'Servicios', href: '#features' },
-    { label: '¿Cómo funciona?', href: '#process' },
-    { label: 'Galería', href: '#galery' },
-    { label: 'Beneficios', href: '#stats' },
-    { label: 'Preguntas', href: '#faq' },
-  ];
-
-  const waLink = getWhatsappLink(import.meta.env.VITE_WHATSAPP_MESSAGE_SCHOOL || 'Hola, me gustaría saber más sobre Schoolify.mx');
+  const waLink = React.useMemo(() => getWhatsappLink(import.meta.env.VITE_WHATSAPP_MESSAGE_SCHOOL || 'Hola, me gustaría saber más sobre Schoolify.mx'), []);
 
   return (
     <header
@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
           <ul className="flex items-center gap-8">
-            {links.map(l => (
+            {NAV_LINKS.map(l => (
               <li key={l.label}>
                 <a
                   href={l.href}
@@ -121,7 +121,7 @@ const Navbar: React.FC = () => {
       {mobileOpen && (
         <div className="md:hidden fixed inset-0 top-[72px] bg-white dark:bg-dark-bg px-6 py-8 flex flex-col gap-6 shadow-2xl animate-fade-in-down h-[calc(100vh-72px)] overflow-y-auto z-[99]">
           <div className="flex flex-col gap-2">
-            {links.map(l => (
+            {NAV_LINKS.map(l => (
               <a
                 key={l.label}
                 href={l.href}
@@ -153,4 +153,4 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar;
+export default React.memo(Navbar);

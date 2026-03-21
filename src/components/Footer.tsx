@@ -1,8 +1,10 @@
 import React from 'react';
 import { Heart, Instagram, Facebook, MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
-import Schoolify from '../assets/Schoolify.svg?react';
 import { getWhatsappLink } from '../types';
+import Schoolify from '../assets/Schoolify.svg?react';
 import WhatsApp from '../assets/whatsapp.svg?react';
+import Youtube from '../assets/youtube.svg?react';
+import Tiktok from '../assets/tiktok.svg?react';
 
 const Footer: React.FC = () => {
   const waLink = getWhatsappLink(import.meta.env.VITE_WHATSAPP_MESSAGE || 'Hola, soy una institución educativa y me gustaría conocer más sobre Schoolify.mx');
@@ -32,6 +34,8 @@ const Footer: React.FC = () => {
     { icon: Facebook, href: 'https://facebook.com/schoolifymx', label: 'Facebook' },
     { icon: Instagram, href: 'https://instagram.com/schoolifymx', label: 'Instagram' },
     { icon: WhatsApp, href: waLink, label: 'WhatsApp' },
+    { icon: Youtube, href: 'https://youtube.com/@schoolifymx', label: 'YouTube' },
+    { icon: Tiktok, href: 'https://tiktok.com/@schoolifymx', label: 'TikTok' },
   ];
 
   return (
@@ -55,7 +59,7 @@ const Footer: React.FC = () => {
                   className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-dark-surface border border-gray-100 dark:border-gray-800 flex items-center justify-center text-text-muted dark:text-dark-muted hover:bg-primary/20 hover:text-text-main dark:hover:text-primary transition-all duration-300"
                   aria-label={s.label}
                 >
-                  <s.icon className="w-5 h-5 text-black" />
+                  <s.icon className="w-5 h-5 dark:text-dark-muted" />
                 </a>
               ))}
             </div>
@@ -114,7 +118,7 @@ const Footer: React.FC = () => {
         {/* Bottom bar */}
         <div className="pt-10 border-t border-gray-100 dark:border-gray-800 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-text-muted/60 dark:text-dark-muted/50 text-xs md:text-sm font-body">
-            © {new Date().getFullYear()} <span className="font-700">Schoolify.mx</span> — Simplificando la vida escolar.
+            © {new Date().getFullYear()} <span className="font-700">Schoolify.mx</span> — Soluciones Escolares.
           </p>
           <div className="flex items-center gap-2 text-text-muted/60 dark:text-dark-muted/50 text-xs md:text-sm font-body">
             <span>Hecho con</span>
