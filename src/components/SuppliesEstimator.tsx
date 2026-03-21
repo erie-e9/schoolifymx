@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
-import { Clock, TrendingDown, ChevronRight, Check, Camera } from 'lucide-react';
+import { Clock, TrendingDown, ChevronRight, Check, Camera, Calculator } from 'lucide-react';
 import { formatNumbers } from '../utils/numbers';
 
 type Grade = 'Preescolar' | 'Primaria' | 'Secundaria';
@@ -113,7 +113,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
             {/* Left Column: Interactive Controls */}
             <div className="space-y-8 py-2">
               <div className="space-y-3">
-                <span className="inline-block py-1 px-3 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-heading font-800 text-secondary dark:text-primary uppercase tracking-widest">Cotizador Inteligente</span>
+                <span className="inline-flex py-1 px-3 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-heading font-800 text-secondary dark:text-primary uppercase tracking-widest"><Calculator className="w-4 h-3" />{' '}Cotizador Inteligente</span>
                 <h2 className="text-3xl md:text-4xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight leading-tight">
                   Calcula tu ahorro al <span className="text-secondary dark:text-primary">instante</span>.
                 </h2>

@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Calculator } from 'lucide-react';
+import { Calculator, Ruler } from 'lucide-react';
 import SuppliesEstimator from './SuppliesEstimator';
 import ListScanner from './ListScanner';
+import UniformSizeHelper from './UniformSizeHelper';
 
 gsap.registerPlugin(ScrollTrigger);
 
 /* ─── 1. INTERACTIVE CARD — UNIFORMES ─────────────────────────────── */
 export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
   const [hovered, setHovered] = useState(false);
+  const [isSizeHelperOpen, setIsSizeHelperOpen] = useState(false);
   const detailsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -42,11 +44,25 @@ export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
         <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl transition-all duration-300 ${hovered || active ? 'bg-primary shadow-yellow scale-110' : 'bg-surface dark:bg-dark-bg'}`}>
           👕
         </div>
-        <div>
-          <h3 className="font-heading font-800 text-2xl text-text-main dark:text-dark-text mt-1">Uniformes a la medida</h3>
+        <div className="flex-1">
+          <div className="flex items-start justify-between">
+            <h3 className="font-heading font-800 text-2xl text-text-main dark:text-dark-text mt-1">Uniformes a la medida</h3>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsSizeHelperOpen(true);
+              }}
+              className="flex items-center gap-2 bg-primary/10 hover:bg-primary text-text-main font-heading font-800 px-3 py-2 rounded-xl transition-all duration-300 border border-primary/20 hover:shadow-yellow hover:-translate-y-0.5 group/btn"
+              title="Calcular Talla"
+            >
+              <Ruler className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:text-white" />
+            </button>
+          </div>
           <span className="text-xs font-heading font-600 text-accent dark:text-primary tracking-wider">Pedidos anticipados entregados justo a tiempo y a medida de cada estudiante.</span>
         </div>
       </div>
+
+      <UniformSizeHelper isOpen={isSizeHelperOpen} onClose={() => setIsSizeHelperOpen(false)} />
 
       <p className="text-text-muted dark:text-dark-muted leading-relaxed mb-4">
         Confeccionamos, reparamos y entregamos el uniforme escolar de estudiantes <span className="text-secondary dark:text-primary font-600">con los colores, tela y especificaciones</span> de cada escuela.
