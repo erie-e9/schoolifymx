@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Calculator } from 'lucide-react';
 import SuppliesEstimator from './SuppliesEstimator';
+import ListScanner from './ListScanner';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -70,6 +71,7 @@ export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
 export const SuppliesComparator: React.FC<{ active?: boolean }> = ({ active }) => {
   const [hovered, setHovered] = useState(false);
   const [isEstimatorOpen, setIsEstimatorOpen] = useState(false);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
   const rows = [
     { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },
     { label: 'Costo promedio + extras', bad: '$1,200–1,800', good: '$1,020–1,530' },
@@ -95,13 +97,15 @@ export const SuppliesComparator: React.FC<{ active?: boolean }> = ({ active }) =
           </div>
         </div>
 
-        <button
-          onClick={() => setIsEstimatorOpen(true)}
-          className="flex items-center gap-2 bg-primary/10 hover:bg-primary text-text-main font-heading font-800 px-3 py-2 md:px-4 md:py-2.5 rounded-xl transition-all duration-300 border border-primary/20 hover:shadow-yellow hover:-translate-y-0.5 group"
-          title="Calculadora de Ahorro"
-        >
-          <Calculator className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:text-white" />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setIsEstimatorOpen(true)}
+            className="flex items-center gap-2 bg-primary/10 hover:bg-primary text-text-main font-heading font-800 px-3 py-2 md:px-4 md:py-2.5 rounded-xl transition-all duration-300 border border-primary/20 hover:shadow-yellow hover:-translate-y-0.5 group"
+            title="Calculadora de Ahorro"
+          >
+            <Calculator className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:text-white" />
+          </button>
+        </div>
       </div>
 
       <p className="text-text-muted dark:text-dark-muted leading-relaxed mb-4">
@@ -132,7 +136,15 @@ export const SuppliesComparator: React.FC<{ active?: boolean }> = ({ active }) =
           </div>
         ))}
       </div>
-      <SuppliesEstimator isOpen={isEstimatorOpen} onClose={() => setIsEstimatorOpen(false)} />
+      <SuppliesEstimator
+        isOpen={isEstimatorOpen}
+        onClose={() => setIsEstimatorOpen(false)}
+        onOpenScanner={() => {
+          setIsEstimatorOpen(false);
+          setIsScannerOpen(true);
+        }}
+      />
+      <ListScanner isOpen={isScannerOpen} onClose={() => setIsScannerOpen(false)} />
     </div>
   );
 };

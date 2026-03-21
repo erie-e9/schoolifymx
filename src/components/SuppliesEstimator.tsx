@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
-import { Clock, TrendingDown, ChevronRight, Check } from 'lucide-react';
-import WhatsApp from '../assets/whatsapp.svg?react';
-import { getWhatsappLink } from '../types';
+import { Clock, TrendingDown, ChevronRight, Check, Camera } from 'lucide-react';
 import { formatNumbers } from '../utils/numbers';
 
 type Grade = 'Preescolar' | 'Primaria' | 'Secundaria';
@@ -12,9 +10,10 @@ type Bundle = 'Esencial' | 'Selecto';
 interface SuppliesEstimatorProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenScanner: () => void;
 }
 
-const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose }) => {
+const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, onOpenScanner }) => {
   const [grade, setGrade] = useState<Grade>('Primaria');
   const [bundle, setBundle] = useState<Bundle>('Selecto');
   const [range, setRange] = useState({ min: 1500, max: 2200 });
@@ -81,9 +80,6 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose }
   }, [grade, bundle]);
 
   if (!isOpen) return null;
-
-  const waMessage = `Hola Schoolify! 👋 Necesito una cotización exacta para Útiles Escolares:\n\n📚 Grado: ${grade}\n📦 Paquete: ${bundle}\n💰 Estimado: $${range.min} - $${range.max}\n\n¿Por dónde empezamos?`;
-  const waLink = getWhatsappLink(waMessage);
 
   const grades: Grade[] = ['Preescolar', 'Primaria', 'Secundaria'];
   const bundles: Bundle[] = ['Esencial', 'Selecto'];
@@ -225,18 +221,16 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose }
               </div>
 
               <div className="space-y-4 pt-4 relative z-10">
-                <a
-                  href={waLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={onOpenScanner}
                   className="w-full inline-flex items-center justify-center gap-3 bg-secondary dark:bg-primary text-white dark:text-text-main font-heading font-900 text-base py-5 rounded-2xl shadow-xl hover:shadow-primary/40 hover:-translate-y-1 active:scale-95 transition-all duration-300 group/btn"
                 >
-                  <WhatsApp className="w-6 h-6 fill-white dark:fill-text-main" />
-                  Cotizar mi lista ahora
+                  <Camera className="w-6 h-6" />
+                  Subir foto de mi lista
                   <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
-                </a>
+                </button>
                 <p className="text-center text-[10px] text-text-muted dark:text-dark-muted font-body leading-relaxed max-w-[280px] mx-auto">
-                  *Estimación referencial. El precio final puede variar según la escuela y el fecha en el que se haga la cotización.
+                  *Al subir tu lista, nuestros asesores podrán darte el precio exacto de inmediato.
                 </p>
               </div>
             </div>
