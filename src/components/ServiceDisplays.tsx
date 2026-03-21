@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Calculator } from 'lucide-react';
+import SuppliesEstimator from './SuppliesEstimator';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -67,9 +69,10 @@ export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
 /* ─── 2. VISUAL COMPARATOR — ÚTILES ESCOLARES ─────────────────────── */
 export const SuppliesComparator: React.FC<{ active?: boolean }> = ({ active }) => {
   const [hovered, setHovered] = useState(false);
+  const [isEstimatorOpen, setIsEstimatorOpen] = useState(false);
   const rows = [
     { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },
-    { label: 'Costo promedio', bad: '$1,200–1,800', good: '$1,020–1,530' },
+    { label: 'Costo promedio + extras', bad: '$1,200–1,800', good: '$1,020–1,530' },
     { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
     { label: 'Entrega', bad: 'Tú lo transportas', good: 'Nosotros te lo llevamos' },
     { label: 'Sobrantes', bad: 'Con restos de productos innecesarios', good: '✓ Sin sobrantes' },
@@ -79,14 +82,26 @@ export const SuppliesComparator: React.FC<{ active?: boolean }> = ({ active }) =
     <div className={`card p-8 border transition-all duration-400 border-gray-100 dark:border-gray-800 bg-white dark:bg-dark-surface ${active ? 'shadow-yellow glow-yellow border-primary/50 dark:border-primary/30 -translate-y-2 ring-2 ring-primary ring-offset-4 dark:ring-offset-dark-bg' : ''}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}>
-      <div className="flex items-start gap-4 mb-6">
-        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl transition-all duration-300 ${hovered || active ? 'bg-primary shadow-yellow scale-110' : 'bg-surface dark:bg-dark-bg'}`}>
-          ✏️
+      <div className="flex items-start justify-between gap-4 mb-6">
+        <div className="flex items-start gap-4">
+          <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center text-3xl transition-all duration-300 ${hovered || active ? 'bg-primary shadow-yellow scale-110' : 'bg-surface dark:bg-dark-bg'}`}>
+            ✏️
+          </div>
+          <div className="flex flex-col gap-0.5 mt-0.5">
+            <h3 className="font-heading font-800 text-xl md:text-2xl text-text-main dark:text-dark-text leading-tight">Útiles Escolares</h3>
+            <span className="text-[10px] md:text-xs font-heading font-600 text-accent dark:text-primary tracking-wider max-w-[240px] md:max-w-none">
+              La solución definitiva al regreso a clases.
+            </span>
+          </div>
         </div>
-        <div>
-          <h3 className="font-heading font-800 text-2xl text-text-main dark:text-dark-text mt-1">Útiles Escolares</h3>
-          <span className="text-xs font-heading font-600 text-accent dark:text-primary tracking-wider">Somos la solución al reto del regreso a clases, nosotros nos encargamos.</span>
-        </div>
+
+        <button
+          onClick={() => setIsEstimatorOpen(true)}
+          className="flex items-center gap-2 bg-primary/10 hover:bg-primary text-text-main font-heading font-800 px-3 py-2 md:px-4 md:py-2.5 rounded-xl transition-all duration-300 border border-primary/20 hover:shadow-yellow hover:-translate-y-0.5 group"
+          title="Calculadora de Ahorro"
+        >
+          <Calculator className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:text-white" />
+        </button>
       </div>
 
       <p className="text-text-muted dark:text-dark-muted leading-relaxed mb-4">
@@ -117,6 +132,7 @@ export const SuppliesComparator: React.FC<{ active?: boolean }> = ({ active }) =
           </div>
         ))}
       </div>
+      <SuppliesEstimator isOpen={isEstimatorOpen} onClose={() => setIsEstimatorOpen(false)} />
     </div>
   );
 };
