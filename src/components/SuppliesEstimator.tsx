@@ -20,7 +20,7 @@ const SUPPLIES_DATA = {
   },
   Primaria: {
     Esencial: { min: 1020, max: 1300, time: 5 },
-    Selecto: { min: 1300, max: 1530, time: 6 },
+    Selecto: { min: 1300, max: 1630, time: 6 },
   },
   Secundaria: {
     Esencial: { min: 1300, max: 1400, time: 6 },
@@ -91,7 +91,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
       {/* Modal Content */}
       <div
         ref={modalRef}
-        className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white dark:bg-dark-surface rounded-[2rem] shadow-[0_24px_48px_-12px_rgba(0,0,0,0.2)] border border-primary/20 dark:border-primary/10 opacity-0"
+        className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white dark:bg-dark-surface rounded-[2rem] shadow-2xl border border-primary/20 dark:border-primary/10 opacity-0"
       >
         <button
           onClick={handleClose}
@@ -157,7 +157,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                           : 'bg-gray-50/50 dark:bg-dark-bg/20 border-gray-100 dark:border-gray-800 grayscale hover:grayscale-0 opacity-80 hover:opacity-100'
                           }`}
                       >
-                        <div className={`text-[9px] font-heading font-900 uppercase tracking-widest mb-1 ${bundle === b ? 'text-secondary dark:text-primary' : 'text-text-muted'}`}>
+                        <div className={`text-[9px] font-heading font-900 uppercase tracking-widest mb-1 ${bundle === b ? 'text-secondary dark:text-primary' : 'dark:text-dark-muted'}`}>
                           {b}
                         </div>
                         <div className="text-xs font-body font-600 text-text-main dark:text-dark-text leading-tight">
@@ -183,7 +183,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                   <span className="text-5xl md:text-6xl font-heading font-900 text-text-main dark:text-dark-text tracking-tighter transition-all">
                     ${formatNumbers(range.min)}
                   </span>
-                  <span className="text-2xl text-white/60 font-heading font-300">-</span>
+                  <span className="text-4xl text-text-main dark:text-dark-text font-heading font-300">-</span>
                   <span className="text-5xl md:text-6xl font-heading font-900 text-text-main dark:text-dark-text tracking-tighter transition-all">
                     ${formatNumbers(range.max)}
                   </span>
@@ -206,10 +206,10 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                 <div className="bg-white dark:bg-dark-surface p-5 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800/60 transition-transform active:scale-95">
                   <div className="flex items-center gap-2 text-green-500 mb-1">
                     <TrendingDown className="w-4 h-4" />
-                    <span className="text-[10px] font-heading font-900 uppercase tracking-widest">Ahorro</span>
+                    <span className="text-[10px] font-heading font-900 uppercase tracking-widest">Ahorro $</span>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-heading font-900 text-text-main dark:text-dark-text">15-20</span>
+                    <span className="text-2xl font-heading font-900 text-text-main dark:text-dark-text">5-10</span>
                     <span className="text-xs font-body text-text-muted dark:text-dark-muted font-600">%</span>
                   </div>
                 </div>
@@ -225,7 +225,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                   <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
                 </button>
                 <p className="text-center text-[10px] text-text-muted dark:text-dark-muted font-body leading-relaxed max-w-[280px] mx-auto">
-                  *Al subir tu lista, nuestros asesores podrán darte el precio exacto de inmediato.
+                  *Al subir tu lista, nuestros asistentes podrán darte el precio exacto de inmediato.
                 </p>
               </div>
             </div>

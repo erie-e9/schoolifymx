@@ -49,7 +49,7 @@ const FAQItem: React.FC<{ item: FAQItemType; index: number }> = React.memo(({ it
       </button>
       <div ref={contentRef} className="overflow-hidden" style={{ height: 0, opacity: 0 }}>
         <div className="px-5 pb-6 md:px-6 md:pb-6">
-          <p className="text-text-muted dark:text-dark-muted leading-relaxed font-body text-sm pl-11 md:pl-12 opacity-90">{item.a}</p>
+          <p className="text-text-muted dark:text-dark-muted leading-relaxed font-body text-sm pl-11 md:pl-12 opacity-90" dangerouslySetInnerHTML={{ __html: item.a }} />
         </div>
       </div>
     </div>

@@ -38,7 +38,7 @@ export interface ServiceContent {
 const RAW_WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '+521000000000';
 // Limpiar el número para el link de WhatsApp (solo dígitos)
 const CLEAN_WHATSAPP_NUMBER = RAW_WHATSAPP_NUMBER.replace(/\D/g, '');
-const WHATSAPP_BASE_URL = `https://wa.me/${CLEAN_WHATSAPP_NUMBER}?text=`;
+const WHATSAPP_BASE_URL = `https://api.whatsapp.com/send/?phone=${CLEAN_WHATSAPP_NUMBER}&text=`;
 
 export const getWhatsappLink = (message: string) => WHATSAPP_BASE_URL + encodeURIComponent(message);
 
@@ -46,7 +46,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
   uniforms: {
     tag: 'Uniformes',
     headline: 'Uniformes a la medida, sin complicaciones.',
-    subheadline: 'Diseñamos y confeccionamos el uniforme escolar con los colores y especificaciones para estudiantes y maestros de preescolar, primaria y secundaria. ¡Ahorra tiempo, dinero y esfuerzo!',
+    subheadline: 'Diseñamos y confeccionamos el uniforme escolar, deportivo o de escolta con los colores y especificaciones para estudiantes y maestros de preescolar, primaria y secundaria. Simplificando tu proceso de compra para todo el ciclo.',
     bullets: [
       'Confección a la medida y reparaciones',
       'Telas duraderas y selectas',
@@ -66,7 +66,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
       {
         image: 'https://res.cloudinary.com/dmm5i6xbi/image/upload/v1773894607/ChatGPT_Image_4_oct_2025_12_00_13_p.m_svkvlp.avif',
         title: 'Escuela Primaria Patria y Libertad',
-        description: 'Confeccionamos el uniforme completo para alumnos y alumnas de la comunidad de Santiago Bayacora Dgo., cuidando cada detalle desde el jumper hasta los moños decorativos en diferentes tamaños para verse impecable.',
+        description: 'Confeccionamos el uniforme completo para estudiantes de la comunidad de Santiago Bayacora Dgo., cuidando cada detalle desde el jumper hasta los moños decorativos en diferentes tamaños para verse impecable.',
         type: 'Jumper, moños'
       },
       {
@@ -90,10 +90,13 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     ],
     faqs: [
       { q: '¿Cuánto tiempo tarda la confección?', a: 'El tiempo promedio es de 3 a 5 días hábiles. Para pedidos especiales o tallas muy específicas, te daremos una fecha exacta al momento de la toma de medidas.' },
-      { q: '¿Qué pasa si la prenda no le queda bien al alumno?', a: 'Contamos con garantía de ajuste. Si algo no queda perfecto, realizamos los ajustes necesarios sin costo adicional para que tu hijo esté cómodo.' },
+      { q: '¿Qué pasa si la prenda no le queda bien al estudiante?', a: 'Contamos con garantía de ajuste. Si algo no queda perfecto, realizamos los ajustes necesarios sin costo adicional para que tu hijo esté cómodo.' },
       { q: '¿Realizan toma de medidas en la escuela?', a: 'Sí, agendamos días específicos con las instituciones aliadas para facilitar el proceso a los padres, o podemos recibirte en nuestros puntos de atención.' },
+      { q: '¿Cómo sé qué talla elegir si compro en línea?', a: 'Para tu tranquilidad, contamos con nuestro <a href="#calculadora" class="text-primary hover:underline font-bold">Asistente de Tallas Virtual</a>, donde puedes ingresar las medidas exactas y calcular automáticamente tu talla recomendada.' },
+      { q: '¿Cuánto dinero es necesario de anticipo por uniforme?', a: 'Contamos con un plan de apartados donde solo requieres un 20% de anticipo para asegurar tu pedido; el resto se liquida al recibir tus prendas. ¡El precio de este plan de apartado es exactamente el mismo que de contado!' },
       { q: '¿Tienen descuentos por volumen?', a: '¡Claro! A partir de 2 uniformes completos (ej. para hermanos) ofrecemos un descuento especial. Pregúntanos por WhatsApp.' },
       { q: '¿Dónde entregan los uniformes?', a: 'Realizamos entregas directamente en la escuela en fechas programadas o envío a domicilio.' },
+      { q: '¿Tienen tallas extras o especiales?', a: 'Sí, confeccionamos tallas a medida exacta. Usa nuestro <a href="#calculadora" class="text-primary hover:underline font-bold">Asistente de Tallas Virtual</a> y especifica cualquier detalle adicional antes de enviarnos tu solicitud por WhatsApp.' },
     ],
   },
   supplies: {
@@ -118,7 +121,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     ctaCarousel: [
       {
         image: 'https://agn.gt/wp-content/uploads/2026/01/WhatsApp-Image-2023-02-28-at-7.03.48-PM-e1677691286845-750x375.jpeg',
-        title: 'Surtido ordenado y completo para cada alumno',
+        title: 'Surtido ordenado y completo para cada estudiante',
         description: 'Nos encargamos de localizar cada artículo de tu lista, desde las marcas más comerciales hasta las más especializadas, para que no tengas que visitar múltiples papelerías buscando un solo producto.',
       },
       {
@@ -134,13 +137,14 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     ],
     faqs: [
       { q: '¿Cómo funciona el servicio?', a: 'Es muy fácil: nos contactas por WhatsApp, nos compartes la lista escolar en imagen o PDF. Nosotros te responderemos con la cotización completa.' },
-      { q: '¿Garantizan las marcas exactas solicitadas?', a: 'Sí, respetamos estrictamente las marcas solicitadas por los maestros. Si alguna no tiene stock, te consultamos antes de ofrecer un sustituto de igual calidad igual o superior.' },
-      { q: '¿Qué pasa si un artículo está agotado?', a: 'Te entregamos el resto de la lista y te avisamos en cuanto el artículo faltante llegue, entregándolo en algun de las sucursales o envío sin costo (según el caso).' },
+      { q: '¿Garantizan las marcas exactas solicitadas?', a: 'Sí, respetamos estrictamente las marcas solicitadas por los maestros. Si alguna no tiene stock, te consultamos antes de ofrecer un sustituto de calidad igual o superior.' },
+      { q: '¿Qué pasa si un artículo está agotado?', a: 'Te entregamos el resto de la lista y te avisamos en cuanto el artículo faltante llegue, entregándolo en alguna de las sucursales o envío sin costo (según el caso).' },
       { q: '¿Tienen opciones de pago flexibles?', a: 'Contamos con un Plan de Apartado para que vayas pagando tu lista poco a poco antes del inicio de clases.' },
       { q: '¿Emiten factura fiscal?', a: 'Aún estamos en este proceso, pronto emitiremos facturas electrónicas de inmediato. Solo solicita tu comprobante al momento de realizar tu pedido vía WhatsApp.' },
-      { q: '¿Cuánto tiempo tarda la entrega?', a: 'Cualquiera de los servicios se realizan con tiempo anticipación y se entregan en 24–48 horas antes de la fecha designada por la escuela. Los uniformes a medida tienen un tiempo de producción de 5–7 días hábiles dependiendo de la complejidad.' },
+      { q: '¿Cuánto tiempo tarda la entrega?', a: 'Cualquiera de los servicios se realiza con tiempo de anticipación y se entregan en 7 días antes de la fecha designada por la escuela. Los uniformes a medida tienen un tiempo de producción de 5–7 días hábiles dependiendo de la complejidad.' },
       { q: '¿Dónde realizan las entregas?', a: 'Nos estamos abriendo paso en el norte de México, esperando algún día alcanzar toda el Área Metropolitana. También tenemos días de "Entrega Gratuita" directamente en instituciones participantes.' },
       { q: '¿Pueden entregar los útiles ya etiquetados?', a: '¡Próximamente! Pronto ofreceremos el servicio de etiquetado personalizado para que cada lápiz, cuaderno y color lleve el nombre del estudiante.' },
+      { q: '¿Surten material de arte o especializado para talleres?', a: 'Por supuesto, contamos con alianzas con los principales proveedores de arte, dibujo técnico y talleres. Solo sube tu foto a nuestro <a href="#escaner" class="text-primary hover:underline font-bold">Escáner de Lista Smart</a> y nosotros nos encargamos.' },
     ],
   },
   didactic: {
@@ -181,10 +185,12 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     ],
     faqs: [
       { q: '¿Qué incluye el kit de material didáctico?', a: 'Incluye los libros del grado, cuadernos forrados en los colores solicitados y un set de etiquetas personalizadas resistentes al agua.' },
-      { q: '¿El forrado y etiquetado tiene costo extra?', a: '¡No! Ya viene incluido en el paquete de Material Didáctico. Te entregamos todo listo para que el alumno solo lo guarde en su mochila.' },
+      { q: '¿El forrado y etiquetado tiene costo extra?', a: '¡No! Ya viene incluido en el paquete de Material Didáctico. Te entregamos todo listo para que el estudiante solo lo guarde en su mochila.' },
       { q: '¿Pueden personalizar las etiquetas con personajes?', a: 'Sí, tenemos un catálogo de diseños y personajes para que los niños se sientan motivados con sus útiles.' },
       { q: '¿Trabajan con libros de cualquier editorial?', a: 'Trabajamos con las editoriales más comunes en México. Al enviarnos tu lista, validamos la disponibilidad de cada título.' },
       { q: '¿Hacen entregas grupales para todo un salón?', a: 'Sí, ofrecemos beneficios especiales a las mesas directivas o grupos de padres que se organizan para surtir todo el salón con nosotros.' },
+      { q: '¿Tienen opciones ecológicas en libretas?', a: 'Ofrecemos forros biodegradables y libretas de papel reciclado bajo pedido especial. Puedes consultarnos vía WhatsApp al cotizar tu paquete.' },
+      { q: '¿Cómo envían el material para no maltratarlo?', a: 'Utilizamos cajas de cartón reforzado y material de embalaje protector para que todo llegue en perfectas condiciones, directo hasta la puerta de tu casa o escuela.' },
     ],
   },
 };

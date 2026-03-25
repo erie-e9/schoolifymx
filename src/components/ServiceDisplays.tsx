@@ -53,10 +53,10 @@ const UniformsCardBase: React.FC<{ active?: boolean }> = ({ active }) => {
                 e.stopPropagation();
                 setIsSizeHelperOpen(true);
               }}
-              className="flex items-center gap-2 bg-primary/10 hover:bg-primary text-text-main font-heading font-800 px-3 py-2 rounded-xl transition-all duration-300 border border-primary/20 hover:shadow-yellow hover:-translate-y-0.5 group/btn"
+              className="flex items-center gap-2 bg-primary/20 border-primary text-text-main dark:text-dark-text hover:bg-primary font-heading font-800 px-3 py-2 rounded-xl transition-all duration-300 border hover:shadow-yellow hover:-translate-y-0.5 group/btn"
               title="Calcular Talla"
             >
-              <Ruler className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:text-white animate-shake-icon" />
+              <Ruler className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:hover:text-secondary dark:text-white animate-shake-icon" />
             </button>
           </div>
           <span className="text-xs font-heading font-600 text-accent dark:text-primary tracking-wider">Pedidos anticipados entregados justo a tiempo y a medida de cada estudiante.</span>
@@ -87,7 +87,7 @@ export const UniformsCard = React.memo(UniformsCardBase);
 
 const SUPPLIES_ROWS = [
   { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },
-  { label: 'Costo promedio + extras', bad: '$1,200–1,800', good: '$1,020–1,530' },
+  { label: 'Costo promedio + extras', bad: '$1,200–1,800', good: '$1,020–1,630' },
   { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
   { label: 'Entrega', bad: 'Tú lo transportas', good: 'Nosotros te lo llevamos' },
   { label: 'Sobrantes', bad: 'Con restos de productos innecesarios', good: '✓ Sin sobrantes' },
@@ -119,10 +119,10 @@ const SuppliesComparatorBase: React.FC<{ active?: boolean }> = ({ active }) => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsEstimatorOpen(true)}
-            className="flex items-center gap-2 bg-primary/10 hover:bg-primary text-text-main font-heading font-800 px-3 py-2 md:px-4 md:py-2.5 rounded-xl transition-all duration-300 border border-primary/20 hover:shadow-yellow hover:-translate-y-0.5 group"
+            className="flex items-center gap-2 bg-primary/20 border-primary text-text-main dark:text-dark-text hover:bg-primary font-heading font-800 px-3 py-2 rounded-xl transition-all duration-300 border hover:shadow-yellow hover:-translate-y-0.5 group/btn"
             title="Calculadora de Ahorro"
           >
-            <Calculator className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:text-white animate-shake-icon" />
+            <Calculator className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:hover:text-secondary dark:text-white animate-shake-icon" />
           </button>
         </div>
       </div>
@@ -204,7 +204,7 @@ const DidacticMaterialTimelineBase: React.FC<{ active?: boolean }> = ({ active }
       onMouseLeave={() => setHovered(false)}>
       <div className="flex items-start gap-4 mb-6">
         <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl transition-all duration-300 ${hovered || active ? 'bg-primary shadow-yellow scale-110' : 'bg-surface dark:bg-dark-bg'}`}>
-          📄
+          📚
         </div>
         <div>
           <h3 className="font-heading font-800 text-2xl text-text-main dark:text-dark-text mt-1">Material didáctico</h3>

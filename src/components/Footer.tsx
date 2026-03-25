@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
               <Schoolify className="h-9 w-auto md:h-11 group-hover:scale-105 transition-transform duration-300" />
             </a>
             <p className="text-text-muted dark:text-dark-muted text-base leading-relaxed max-w-sm mb-8 opacity-90">
-              Transformamos la experiencia del regreso a clases. Soluciones logísticas inteligentes para familias e instituciones más eficientes en México.
+              Transformamos la experiencia del regreso a clases. Soluciones y logísticas inteligentes para familias e instituciones más eficientes en México.
             </p>
 
             <div className="flex gap-3">
@@ -79,13 +79,13 @@ const Footer: React.FC = () => {
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-white dark:text-primary flex-shrink-0" />
-                <a href="mailto:hola@schoolify.mx" className="text-sm text-text-muted dark:text-dark-muted hover:text-secondary dark:hover:text-primary">
+                <a href="mailto:hola@schoolify.mx" className="text-sm text-text-muted dark:text-dark-muted hover:text-white dark:hover:text-primary">
                   hola@schoolify.mx
                 </a>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-white dark:text-primary flex-shrink-0" />
-                <a href={waLink} className="text-sm text-text-muted dark:text-dark-muted hover:text-secondary dark:hover:text-primary">
+                <a href={waLink} className="text-sm text-text-muted dark:text-dark-muted hover:text-white dark:hover:text-primary">
                   {import.meta.env.VITE_WHATSAPP_NUMBER}
                 </a>
               </div>
@@ -103,7 +103,7 @@ const Footer: React.FC = () => {
                   <li key={item.label}>
                     <a
                       href={item.href}
-                      className="group flex items-center gap-1.5 text-text-muted dark:text-dark-muted hover:text-secondary dark:hover:text-primary transition-all duration-200 text-sm font-body font-500"
+                      className="group flex items-center gap-1.5 text-text-muted dark:text-dark-muted hover:text-white dark:hover:text-primary transition-all duration-200 text-sm font-body font-500"
                     >
                       {item.label}
                       {item.href.startsWith('http') && <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />}
@@ -117,10 +117,10 @@ const Footer: React.FC = () => {
 
         {/* Bottom bar */}
         <div className="pt-10 border-t border-gray-100 dark:border-gray-800 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-text-muted/60 dark:text-dark-muted/50 text-xs md:text-sm font-body">
+          <p className="text-text-muted/90 dark:text-dark-muted/50 text-xs md:text-sm font-body">
             © {new Date().getFullYear()} <span className="font-700">Schoolify.mx</span> — Soluciones Escolares.
           </p>
-          <div className="flex items-center gap-2 text-text-muted/60 dark:text-dark-muted/50 text-xs md:text-sm font-body">
+          <div className="flex items-center gap-2 text-text-muted/90 dark:text-dark-muted/50 text-xs md:text-sm font-body">
             <span>Hecho con</span>
             <Heart className="w-3.5 h-3.5 text-red-400 fill-red-400 animate-pulse" />
             <span>especialmente para las familias de México</span>

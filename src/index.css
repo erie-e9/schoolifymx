@@ -28,7 +28,7 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center gap-2 bg-primary text-text-main font-heading font-700 px-8 py-4 rounded-2xl shadow-yellow hover:shadow-yellow-lg transition-all duration-300 hover:scale-105 active:scale-95;
+    @apply inline-flex items-center gap-2 bg-primary text-text-main font-heading px-8 py-4 rounded-2xl shadow-yellow hover:shadow-yellow-lg transition-all duration-300 hover:scale-105 active:scale-95;
   }
 
   .btn-secondary {
@@ -100,14 +100,48 @@
 
 /* Subtle infinite shake for icons */
 @keyframes shake-icon-subtle {
-  0%, 75%, 100% { transform: rotate(0); }
-  77.5% { transform: rotate(-10deg); }
-  82.5% { transform: rotate(10deg); }
-  87.5% { transform: rotate(-10deg); }
-  92.5% { transform: rotate(10deg); }
-  95% { transform: rotate(0); }
+
+  0%,
+  75%,
+  100% {
+    transform: rotate(0);
+  }
+
+  77.5% {
+    transform: rotate(-10deg);
+  }
+
+  82.5% {
+    transform: rotate(10deg);
+  }
+
+  87.5% {
+    transform: rotate(-10deg);
+  }
+
+  92.5% {
+    transform: rotate(10deg);
+  }
+
+  95% {
+    transform: rotate(0);
+  }
 }
 
 .animate-shake-icon {
   animation: shake-icon-subtle 3s ease-in-out infinite;
+}
+
+/* Infinite Brand Carousel */
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 40s linear infinite;
+}
+
+.pause-scroll {
+  animation-play-state: paused;
 }

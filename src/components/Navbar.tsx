@@ -3,6 +3,7 @@ import { Menu, X, Sun, Moon } from 'lucide-react';
 import Schoolify from '../assets/Schoolify.svg?react';
 import WhatsApp from '../assets/whatsapp.svg?react';
 import { getWhatsappLink } from '../types';
+import BrandCarousel from './BrandCarousel';
 
 const NAV_LINKS = [
   { label: 'Servicios', href: '#features' },
@@ -12,7 +13,13 @@ const NAV_LINKS = [
   { label: 'Preguntas', href: '#faq' },
 ];
 
-const Navbar: React.FC = () => {
+import type { ServiceType } from '../types';
+
+interface NavbarProps {
+  activeService?: ServiceType;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies' }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
@@ -55,6 +62,7 @@ const Navbar: React.FC = () => {
         : 'bg-transparent'
         }`}
     >
+      <BrandCarousel activeService={activeService} />
       <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2.5 group">
           <span className="font-heading font-900 text-xl text-text-main dark:text-dark-text">
@@ -119,7 +127,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 top-[72px] bg-white dark:bg-dark-bg px-6 py-8 flex flex-col gap-6 shadow-2xl animate-fade-in-down h-[calc(100vh-72px)] overflow-y-auto z-[99]">
+        <div className="md:hidden fixed inset-0 top-[102px] bg-white dark:bg-dark-bg px-6 py-8 flex flex-col gap-6 shadow-2xl animate-fade-in-down h-[calc(100vh-102px)] overflow-y-auto z-[99]">
           <div className="flex flex-col gap-2">
             {NAV_LINKS.map(l => (
               <a

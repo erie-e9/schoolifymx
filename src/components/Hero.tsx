@@ -120,7 +120,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
                 onClick={() => setActiveService(s.id)}
                 className={`relative flex items-center gap-2 px-4 py-2.5 rounded-xl font-heading font-700 text-sm transition-all duration-300 ${activeService === s.id
                   ? 'bg-primary text-text-main shadow-yellow scale-105'
-                  : 'text-text-muted dark:text-dark-muted hover:bg-gray-100 dark:hover:bg-dark-bg'
+                  : 'text-text-muted dark:text-dark-muted hover:bg-primary/40 dark:hover:bg-secondary/40'
                   }`}
               >
                 <span>{s.icon}</span>

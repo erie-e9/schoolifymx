@@ -10,6 +10,13 @@ interface ListScannerProps {
   onClose: () => void;
 }
 
+interface ScannedItem {
+  id: string;
+  name: string;
+  selected: boolean;
+  note: string;
+}
+
 const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
   const [status, setStatus] = useState<'idle' | 'uploading' | 'scanning' | 'completed'>('idle');
   const [progress, setProgress] = useState(0);
@@ -17,6 +24,8 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [fileType, setFileType] = useState<'image' | 'pdf' | null>(null);
   const [fileName, setFileName] = useState<string>('');
+  const [tier, setTier] = useState<'Esencial' | 'Selecto'>('Esencial');
+  const [items, setItems] = useState<ScannedItem[]>([]);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -48,6 +57,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
       setSelectedFile(null);
       setFileType(null);
       setFileName('');
+      setTier('Esencial');
     }
   }, [isOpen]);
 
@@ -63,8 +73,51 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
     // Laser Animation
     gsap.fromTo(laserRef.current,
       { top: '0%' },
-      { top: '100%', duration: 1.5, repeat: 4, yoyo: true, ease: "sine.inOut" }
+      { top: '95%', duration: 1.5, repeat: 4, yoyo: true, ease: "power1.inOut" }
     );
+
+    const MOCK_NAMES = [
+      "1 Paquete de crayolas gruesas 12 piezas",
+      "1 Lápiz No. 2",
+      "1 Goma de borrar blanca",
+      "1 Sacapuntas con depósito",
+      "1 Pegamento adhesivo grueso 40g",
+      "200 Hojas de máquina blancas",
+      "10 hojas de opalina blancas",
+      "5 barras de silicón delgado",
+      "5 barras de silicon grueso",
+      "1 Plumón para pizarrón blanco",
+      "1 Plumón permanente negro",
+      "2 pliegos papel china",
+      "2 hojas de papel bond (1 lisa, 1 cuadriculada)",
+      "1 pliego grande de fomi diamantado",
+      "1 pliego grande fomi simple",
+      "1 cartulina blanca",
+      "1 pliego de papel corrugado",
+      "1 cinta adhesiva gruesa",
+      "1 masking tape grueso",
+      "1 bolsita de diamantina",
+      "1 bote de pintura témpera vinílica 473ml",
+      "¼ pintura de aceite",
+      "1 pincel grueso",
+      "1 carpeta oficio azul claro (Expediente)",
+      "1 carpeta carta con broche Baco (Lectura)",
+      "1 litro de cloro",
+      "1 litro de limpiador multiusos",
+      "1 jabón líquido para manos grande",
+      "1 paquete de 4 rollos higiénicos",
+      "1 paquete de toallitas húmedas",
+      "1 juego didáctico (especial)",
+      "1 franela para limpiar",
+      "1 mandil escolar",
+      "2 tapitas de garrafón limpias",
+      "10 micas tamaño carta",
+      "1 bolsa de globos de colores",
+      "1 insecticida en aerosol",
+      "10 bolsas para basura grandes",
+      "1 paquete de cucharas desechables",
+      "1 Fotografía tamaño infantil"
+    ];
 
     // Progress and Text Animation
     let step = 0;
@@ -72,6 +125,12 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(interval);
+          setItems(MOCK_NAMES.map((name, idx) => ({
+            id: idx.toString(),
+            name,
+            selected: true,
+            note: ''
+          })));
           setStatus('completed');
           return 100;
         }
@@ -84,7 +143,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
 
         return prev + 1;
       });
-    }, 60);
+    }, 40);
   };
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,7 +171,12 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  const waMessage = `¡Hola Schoolify! 🚀 Acabo de escanear mi lista de útiles con su herramienta. \n\n📸 Ya tengo la foto lista para enviárselas. ¿Me pueden ayudar con la cotización exacta?`;
+  const selectedItemsList = items
+    .filter(i => i.selected)
+    .map(i => `• ${i.name}${i.note ? ` (${i.note})` : ''}`)
+    .join('\n');
+
+  const waMessage = `¡Hola Schoolify! 🚀 Acabo de escanear mi lista de útiles con su herramienta.\n\nMe gustaría cotizar el *Paquete ${tier}* para los siguientes artículos:\n\n${selectedItemsList}\n\n¿Me pueden ayudar con la cotización exacta?`;
   const waLink = getWhatsappLink(waMessage);
 
   return createPortal(
@@ -142,7 +206,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
               </div>
               <div className="space-y-3">
                 <h2 className="text-3xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight">Escáner de Lista Smart</h2>
-                <p className="text-text-muted dark:text-dark-muted font-body">Sube una foto de tu lista y nuestra IA la procesará para darte la mejor cotización.</p>
+                <p className="text-text-muted dark:text-dark-muted font-body">Sube una imagen de tu lista y nuestra IA la procesará para darte la mejor cotización.</p>
               </div>
 
               <div
@@ -157,11 +221,11 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
                   onChange={onFileChange}
                 />
                 <div className="flex flex-col items-center gap-4">
-                  <div className="w-12 h-12 bg-white dark:bg-dark-surface rounded-full shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Upload className="w-6 h-6 text-primary" />
+                  <div className="w-12 h-12 bg-primary dark:bg-dark-surface rounded-full shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Upload className="w-6 h-6 text-secondary dark:text-primary" />
                   </div>
-                  <span className="font-heading font-700 text-text-main dark:text-dark-text">Haz clic para subir foto o PDF</span>
-                  <span className="text-xs text-text-muted">Imágenes o Documentos PDF</span>
+                  <span className="font-heading font-700 text-text-main dark:text-dark-text">Haz clic para subir tu lista escolar</span>
+                  <span className="text-xs text-text-muted">Imagen o documento PDF</span>
                 </div>
               </div>
             </div>
@@ -214,28 +278,72 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
           )}
 
           {status === 'completed' && (
-            <div className="text-center space-y-10 animate-in zoom-in fade-in duration-500">
-              <div className="mx-auto w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center text-green-500 animate-bounce">
-                <CheckCircle className="w-12 h-12" />
-              </div>
-
-              <div className="space-y-4">
-                <h2 className="text-4xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight">¡Análisis Exitoso!</h2>
-                <p className="text-text-muted dark:text-dark-muted font-body text-lg">
-                  Nuestra herramienta ha identificado <span className="text-secondary dark:text-primary font-bold">12 artículos</span> en tu lista.
+            <div className="max-h-[80vh] text-center space-y-6 animate-in zoom-in fade-in duration-500">
+              <div className="space-y-3">
+                <h2 className="text-3xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight">¡Análisis Exitoso!</h2>
+                <p className="text-text-muted dark:text-dark-muted font-body text-sm">
+                  Hemos identificado <span className="text-secondary dark:text-primary font-bold">{items.length} artículos</span>. Resumen de lista procesada.
                 </p>
-                <div className="bg-gray-50 dark:bg-dark-bg/30 p-6 rounded-2xl border border-gray-100 dark:border-gray-800 text-left space-y-2">
-                  <p className="text-[10px] uppercase font-bold text-text-muted tracking-widest">Resumen detectado:</p>
-                  <ul className="grid grid-cols-2 gap-2 text-xs font-body font-600 text-text-main dark:text-dark-text">
-                    <li>• Cuadernos (6)</li>
-                    <li>• Lápices/Plumas</li>
-                    <li>• Colores Premium</li>
-                    <li>• Material de Arte</li>
-                  </ul>
+                <div className="bg-gray-50 dark:bg-dark-bg/30 p-4 rounded-2xl border border-gray-100 dark:border-gray-800 text-left">
+                  <p className="text-[9px] uppercase font-bold text-text-muted tracking-widest mb-3">Selecciona los que deseas cotizar:</p>
+                  <div className="max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
+                    <ul className="space-y-2">
+                      {items.map((item) => (
+                        <li key={item.id} className="flex flex-col gap-1.5 p-2 rounded-xl border border-transparent hover:border-primary/20 hover:bg-white dark:hover:bg-dark-surface transition-all group">
+                          <div className="flex items-center gap-3">
+                            <label className="relative flex items-center cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={item.selected}
+                                onChange={(e) => {
+                                  const val = e.target.checked;
+                                  setItems(prev => prev.map(i => i.id === item.id ? { ...i, selected: val } : i));
+                                }}
+                                className="peer h-4 w-4 cursor-pointer appearance-none rounded border border-gray-300 dark:border-gray-600 checked:bg-primary checked:border-primary transition-all"
+                              />
+                              <CheckCircle className="absolute h-4 w-4 text-secondary opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none p-0.5" />
+                            </label>
+                            <span className={`text-[11px] font-body font-600 transition-colors ${item.selected ? 'text-text-main dark:text-dark-text' : 'text-text-muted line-through opacity-50'}`}>
+                              {item.name}
+                            </span>
+                          </div>
+                          {item.selected && (
+                            <div className="pl-7 animate-in fade-in slide-in-from-top-1 duration-200">
+                              <input
+                                type="text"
+                                placeholder="Puedes incluir una nota sobre este artículo"
+                                value={item.note}
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  setItems(prev => prev.map(i => i.id === item.id ? { ...i, note: val } : i));
+                                }}
+                                className="w-full bg-gray-100 dark:bg-dark-bg/50 border border-gray-200 dark:border-gray-800 rounded-lg px-2 py-1 text-[10px] font-body focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all"
+                              />
+                            </div>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-4 pt-4">
+              <div className="w-full flex bg-gray-100 dark:bg-dark-bg/50 p-1 rounded-2xl max-w-sm mx-auto shadow-inner border border-gray-200 dark:border-primary/10">
+                <button
+                  onClick={() => setTier('Esencial')}
+                  className={`flex-1 py-2.5 text-xs font-heading font-900 tracking-wider rounded-xl transition-all duration-300 ${tier === 'Esencial' ? 'dark:bg-dark-surface shadow-md text-accent scale-100 border border-primary/10' : 'text-text-muted hover:text-white'}`}
+                >
+                  📦 Paquete Esencial
+                </button>
+                <button
+                  onClick={() => setTier('Selecto')}
+                  className={`flex-1 py-2.5 text-xs font-heading font-900 tracking-wider rounded-xl transition-all duration-300 ${tier === 'Selecto' ? 'dark:bg-dark-surface shadow-md text-accent scale-100 border border-primary/10' : 'text-text-muted hover:text-white'}`}
+                >
+                  ✨ Paquete Selecto
+                </button>
+              </div>
+
+              <div className="space-y-4 pt-2">
                 <a
                   href={waLink}
                   target="_blank"
@@ -246,8 +354,8 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
                   Ver mi presupuesto en WhatsApp
                   <ChevronRight className="w-5 h-5" />
                 </a>
-                <p className="text-[10px] text-text-muted font-body leading-relaxed max-w-xs mx-auto">
-                  Presiona el botón para que nuestros asesores te envíen la cotización final por WhatsApp.
+                <p className="text-[10px] text-text-muted font-body leading-relaxed max-w-md mx-auto">
+                  El costo de lista puede variar entre la fecha de cotización y de pedido realizado, el precio del mercado y otros factores. Nuestros asesores te enviarán la cotización final por WhatsApp.
                 </p>
               </div>
             </div>

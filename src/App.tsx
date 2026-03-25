@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-dark-bg transition-colors duration-300 overflow-x-hidden">
-      <Navbar />
+      <Navbar activeService={activeService} />
       <main>
         <Hero activeService={activeService} setActiveService={setActiveService} />
         <Suspense fallback={<div className="min-h-[20vh]" />}>
