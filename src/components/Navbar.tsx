@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, GraduationCap } from 'lucide-react';
 import Schoolify from '../assets/Schoolify.svg?react';
+import SchoolifyLogo from '../assets/logo.svg?react';
 import WhatsApp from '../assets/whatsapp.svg?react';
-import { getWhatsappLink } from '../types';
 import BrandCarousel from './BrandCarousel';
+import { getWhatsappLink } from '../types';
 
 const NAV_LINKS = [
   { label: 'Servicios', href: '#features' },
@@ -65,6 +66,9 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies' }) => {
       <BrandCarousel activeService={activeService} />
       <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-yellow group-hover:scale-110 transition-transform">
+            <SchoolifyLogo className="w-9 h-9" />
+          </div>
           <span className="font-heading font-900 text-xl text-text-main dark:text-dark-text">
             <Schoolify className="h-9 w-auto md:h-11 group-hover:scale-105 transition-transform duration-300" />
           </span>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
-import { Clock, TrendingDown, ChevronRight, Check, Camera, Calculator } from 'lucide-react';
+import { Clock, TrendingDown, ChevronRight, Check, Camera, Calculator, X } from 'lucide-react';
 import { formatNumbers } from '../utils/numbers';
 
 type Grade = 'Preescolar' | 'Primaria' | 'Secundaria';
@@ -95,26 +95,28 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
       >
         <button
           onClick={handleClose}
-          className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg transition-all z-[20] active:scale-90"
+          className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
           aria-label="Cerrar"
         >
-          <svg className="w-5 h-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <X className="w-4 h-4 text-gray-600 dark:text-gray-300" />
         </button>
 
         <div className="p-8 md:p-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
             {/* Left Column: Interactive Controls */}
             <div className="space-y-8 py-2">
-              <div className="space-y-3">
-                <span className="inline-flex py-1 px-3 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-heading font-800 text-secondary dark:text-primary uppercase tracking-widest"><Calculator className="w-4 h-3" />{' '}Cotizador Inteligente</span>
-                <h2 className="text-3xl md:text-4xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight leading-tight">
-                  Calcula tu ahorro al <span className="text-secondary dark:text-primary">instante</span>.
-                </h2>
-                <p className="text-text-muted dark:text-dark-muted text-sm font-body max-w-md">
-                  Selecciona el nivel educativo y tipo de surtido de útiles escolares para obtener una estimación inmediata basada en promedios de mercado.
-                </p>
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-yellow animate-float flex-shrink-0">
+                  <Calculator className="w-5 h-5 text-gray-900" />
+                </div>
+                <div>
+                  <h2 className="text-3xl md:text-4xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight leading-tight">
+                    Calcula tu ahorro al <span className="text-secondary dark:text-primary">instante</span>.
+                  </h2>
+                  <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
+                    Selecciona el nivel educativo y tipo de surtido de útiles escolares para obtener una estimación inmediata basada en promedios de mercado.
+                  </p>
+                </div>
               </div>
 
               {/* Steps */}

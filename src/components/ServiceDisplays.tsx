@@ -1,22 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Calculator, Ruler } from 'lucide-react';
+import { Calculator, Ruler, Backpack } from 'lucide-react';
 import SuppliesEstimator from './SuppliesEstimator';
 import ListScanner from './ListScanner';
+import BackpackSim from './BackpackSim';
 import UniformSizeHelper from './UniformSizeHelper';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ─── 1. INTERACTIVE CARD — UNIFORMES ─────────────────────────────── */
 const UNIFORM_DETAILS = [
   { icon: '📐', text: 'Confección a medida' },
   { icon: '🪡', text: 'Reparaciones y ajustes' },
   { icon: '🎽', text: 'Vestuario escolar y eventos' },
 ];
 
-/* ─── 1. INTERACTIVE CARD — UNIFORMES ─────────────────────────────── */
-const UniformsCardBase: React.FC<{ active?: boolean }> = ({ active }) => {
+export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
   const [hovered, setHovered] = useState(false);
   const [isSizeHelperOpen, setIsSizeHelperOpen] = useState(false);
   const detailsRef = useRef<HTMLDivElement>(null);
@@ -83,7 +82,6 @@ const UniformsCardBase: React.FC<{ active?: boolean }> = ({ active }) => {
     </div>
   );
 };
-export const UniformsCard = React.memo(UniformsCardBase);
 
 const SUPPLIES_ROWS = [
   { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },
@@ -98,6 +96,8 @@ const SuppliesComparatorBase: React.FC<{ active?: boolean }> = ({ active }) => {
   const [hovered, setHovered] = useState(false);
   const [isEstimatorOpen, setIsEstimatorOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [isBackpackOpen, setIsBackpackOpen] = useState(false);
+  const [scannedItems, setScannedItems] = useState<{ id: string; name: string; selected: boolean; note: string }[]>([]);
 
   return (
     <div className={`card p-8 border transition-all duration-400 border-gray-100 dark:border-gray-800 bg-white dark:bg-dark-surface ${active ? 'shadow-yellow glow-yellow border-primary/50 dark:border-primary/30 -translate-y-2 ring-2 ring-primary ring-offset-4 dark:ring-offset-dark-bg' : ''}`}
@@ -118,12 +118,20 @@ const SuppliesComparatorBase: React.FC<{ active?: boolean }> = ({ active }) => {
 
         <div className="flex items-center gap-2">
           <button
+            onClick={() => setIsBackpackOpen(true)}
+            className="flex items-center gap-2 bg-primary/20 border-primary text-text-main dark:text-dark-text hover:bg-primary font-heading font-800 px-3 py-2 rounded-xl transition-all duration-300 border hover:shadow-yellow hover:-translate-y-0.5 group/btn"
+            title="Calculadora de Ahorro"
+          >
+            <Backpack className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:hover:text-secondary dark:text-white animate-shake-icon" />
+          </button>
+          <button
             onClick={() => setIsEstimatorOpen(true)}
             className="flex items-center gap-2 bg-primary/20 border-primary text-text-main dark:text-dark-text hover:bg-primary font-heading font-800 px-3 py-2 rounded-xl transition-all duration-300 border hover:shadow-yellow hover:-translate-y-0.5 group/btn"
             title="Calculadora de Ahorro"
           >
             <Calculator className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:hover:text-secondary dark:text-white animate-shake-icon" />
           </button>
+          <BackpackSim isOpen={isBackpackOpen} onClose={() => setIsBackpackOpen(false)} scannedItems={scannedItems} />
         </div>
       </div>
 
@@ -163,7 +171,14 @@ const SuppliesComparatorBase: React.FC<{ active?: boolean }> = ({ active }) => {
           setIsScannerOpen(true);
         }}
       />
-      <ListScanner isOpen={isScannerOpen} onClose={() => setIsScannerOpen(false)} />
+      <ListScanner 
+        isOpen={isScannerOpen} 
+        onClose={() => setIsScannerOpen(false)} 
+        onScanComplete={(items) => {
+          setScannedItems(items);
+          setIsBackpackOpen(true);
+        }}
+      />
     </div>
   );
 };

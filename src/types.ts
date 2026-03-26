@@ -113,7 +113,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     trustEmojis: ['✏️', '📓', '🎨', '🎒', '📏'],
     trustText: 'Surtimos más de 500 listas escolares cada año',
     stats: [
-      { value: 15, suffix: '%', prefix: 'hasta ', label: 'Ahorro real', description: 'Comparado con papelerías locales', emoji: '📉' },
+      { value: 10, suffix: '%', prefix: 'hasta ', label: 'Ahorro real', description: 'Comparado con papelerías locales', emoji: '📉' },
       { value: 5, suffix: ' horas', prefix: '~', label: 'Tiempo ganado', description: 'Por cada lista surtida', emoji: '⏰' },
       { value: 50, suffix: '+', prefix: '', label: 'Marcas', description: 'Líderes en el mercado escolar', emoji: '📐' },
       { value: 0, suffix: ' estrés', prefix: '', label: 'Sin filas', description: 'Todo llega a tiempo', emoji: '😌' },

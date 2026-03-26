@@ -1,12 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import gsap from 'gsap';
-import { X, Ruler, Check, ChevronRight, Shirt, Plus, Trash2, Info } from 'lucide-react';
+import { X, Check, ChevronRight, Shirt, Plus, Trash2, Info } from 'lucide-react';
 import WhatsApp from '../assets/whatsapp.svg?react';
 import { getWhatsappLink } from '../types';
 import shirtGuide from '../assets/shirt_guide2.png';
 import pantsGuide from '../assets/pants_guide_es.png';
 import skirtGuide from '../assets/skirt_guide_updated.png';
+import jumperGuide from '../assets/jumper_guide.png';
+
+const shoeGuide = `data:image/svg+xml;utf8,${encodeURIComponent(`
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#B9BFBF"/>
+  <path d="M100 280C100 280 90 260 90 230C90 200 110 180 130 160C150 140 180 130 210 130C240 130 260 150 270 180C280 210 270 280 270 280H100Z" fill="#222F52" stroke="white" stroke-width="2"/>
+  <path d="M100 280L90 295H280L270 280" fill="#222F52" stroke="white" stroke-width="2"/>
+  <line x1="90" y1="330" x2="280" y2="330" stroke="white" stroke-width="2" stroke-dasharray="4 4"/>
+  <path d="M90 320V340M280 320V340" stroke="white" stroke-width="2"/>
+  <text x="185" y="365" fill="white" font-family="Arial" font-size="16" font-weight="900" text-anchor="middle">A. LARGO DEL PIE</text>
+  <circle cx="185" cy="330" r="12" fill="#FED100"/>
+  <text x="185" y="335" fill="#222F52" font-family="Arial" font-size="14" font-weight="900" text-anchor="middle">A</text>
+  <text x="200" y="80" fill="#222F52" font-family="Arial" font-size="18" font-weight="900" text-anchor="middle" opacity="0.6">GUÍA DE CALZADO</text>
+</svg>
+`)}`;
 
 interface UniformSizeHelperProps {
   isOpen: boolean;
@@ -37,20 +52,37 @@ const SkirtIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const JumperIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M6 3h12l2 7-2 11H6L4 10l2-7z" />
+    <path d="M10 3v4M14 3v4" />
+    <path d="M6 10h12" />
+  </svg>
+);
+
+const ShoeIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M3 12h5l2-3h7l2 3h2v4l-3 3H4l-1-7z" />
+    <path d="M10 9v3" />
+  </svg>
+);
+
 interface StudentMeasurement {
   id: string;
   name: string;
   garmentType: string;
   suggestedSize: string;
   advancedNote: string;
-  activeTab: 'shirt' | 'pants' | 'skirt';
+  activeTab: 'shirt' | 'pants' | 'skirt' | 'jumper' | 'shoes';
   rawMeasurements: Record<string, number>;
   specialUniformType: string;
+  gender?: 'Niño' | 'Niña';
+  shoeType?: 'Escolar' | 'Deportivo';
   garmentNote?: string;
 }
 
 const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'shirt' | 'pants' | 'skirt'>('shirt');
+  const [activeTab, setActiveTab] = useState<'shirt' | 'pants' | 'skirt' | 'jumper' | 'shoes'>('shirt');
   const [selectedTopTypes, setSelectedTopTypes] = useState<string[]>(['Camisa']);
   const [selectedPantsTypes, setSelectedPantsTypes] = useState<string[]>(['Pantalón']);
 
@@ -88,7 +120,20 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
   const [fLength, setFLength] = useState(45);
   const [hHip, setWHip] = useState(20);
 
-  const [showOptional, setShowOptional] = useState(false);
+  // Advanced Measures (Jumper)
+  const [jTotalLength, setJTotalLength] = useState(75);
+  const [jChest, setJChest] = useState(70);
+  const [jWaist, setJWaist] = useState(68);
+  const [jNeck, setJNeck] = useState(30);
+  const [jShoulder, setJShoulder] = useState(12);
+  const [jSkirtLength, setJSkirtLength] = useState(40);
+
+  // Advanced Measures (Shoes)
+  const [footLength, setFootLength] = useState(20);
+  const [shoeGender, setShoeGender] = useState<'Niño' | 'Niña'>('Niño');
+  const [shoeType, setShoeType] = useState<'Escolar' | 'Deportivo'>('Escolar');
+
+  const [showOptional] = useState(false);
   const [suggestedSize, setSuggestedSize] = useState('8');
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -128,7 +173,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
       else if (w < 99) size = '32/34';
       else if (w < 105) size = '36/38';
       else size = '40+';
-    } else {
+    } else if (activeTab === 'skirt') {
       const w = fWaist;
       if (w < 52) size = '2';
       else if (w < 57) size = '4';
@@ -139,6 +184,20 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
       else if (w < 82) size = '14';
       else if (w < 87) size = '16';
       else size = 'CH/M';
+    } else if (activeTab === 'jumper') {
+      const c = jChest;
+      if (c < 60) size = '2';
+      else if (c < 66) size = '4';
+      else if (c < 71) size = '6';
+      else if (c < 76) size = '8';
+      else if (c < 81) size = '10';
+      else if (c < 86) size = '12';
+      else if (c < 91) size = '14';
+      else if (c < 96) size = '16';
+      else size = 'CH/M';
+    } else if (activeTab === 'shoes') {
+      const cm = footLength;
+      size = Math.round(cm * 2) / 2 + "";
     }
 
     setSuggestedSize(size);
@@ -146,7 +205,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
     if (resultRef.current) {
       gsap.fromTo(resultRef.current, { scale: 0.8, opacity: 0.5 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(2)' });
     }
-  }, [activeTab, chest, pWaist, fWaist]);
+  }, [activeTab, chest, pWaist, fWaist, jChest, footLength]);
 
   // Handle Height/Weight section animation
   useEffect(() => {
@@ -183,15 +242,35 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
   };
 
   if (!isOpen) return null;
-  const advancedNote = `\n📋 Ficha Técnica ${activeTab === 'shirt' ? 'Prendas Superiores' : activeTab === 'pants' ? 'Pantalón' : 'Falda'}:\n` +
+  const advancedNote = `\n📋 Ficha Técnica ${activeTab === 'shirt'
+    ? 'Prendas Superiores'
+    : activeTab === 'pants'
+      ? 'Pantalón'
+      : activeTab === 'skirt'
+        ? 'Falda'
+        : activeTab === 'jumper'
+          ? 'Jumper'
+          : 'Calzado'}:\n` +
     (activeTab === 'shirt'
       ? `A. Cuello: ${neck}cm\n B. Pecho: ${chest}cm\n C. Cintura: ${waist}cm\n D. Hombros: ${shoulders}cm\n E. Hombro: ${shoulder}cm\n F. Largo: ${totalLength}cm\n G. Hombro a manga: ${sleeveLength}cm\n H. Brazo: ${armWidth}cm\n I. Muñeca: ${cuffWidth}cm`
       : activeTab === 'pants'
         ? `A. Cintura: ${pWaist}cm\n B. Cadera: ${pHip}cm\n C. Largo tiro: ${pRise}cm\n D. Largo total: ${pLength}cm\n E. Tiro a tobillo: ${pRiseToCuff}cm\n F. Campana: ${pCuff}cm`
-        : `A. Cintura: ${fWaist}cm\n B. Cadera: ${fHip}cm\n C. Largo cadera: ${hHip}cm\n D. Largo: ${fLength}cm`) +
+        : activeTab === 'skirt'
+          ? `A. Cintura: ${fWaist}cm\n B. Cadera: ${fHip}cm\n C. Largo cadera: ${hHip}cm\n D. Largo: ${fLength}cm`
+          : activeTab === 'jumper'
+            ? `A. Largo Total: ${jTotalLength}cm\n B. Ancho Pecho: ${jChest}cm\n C. Cintura: ${jWaist}cm\n D. Cuello: ${jNeck}cm\n E. Hombro: ${jShoulder}cm\n F. Largo Falda: ${jSkirtLength}cm`
+            : `A. Largo del pie: ${footLength}cm\n B. Estilo: ${shoeType}\n C. Género: ${shoeGender}`) +
     (garmentNote ? `\n\n📝 Nota adicional:\n ${garmentNote}` : '');
 
-  const currentGarmentType = (activeTab === 'shirt' ? selectedTopTypes.join(', ') : activeTab === 'pants' ? selectedPantsTypes.join(', ') : 'Falda') + (specialUniformType ? ` (${specialUniformType})` : '');
+  const currentGarmentType = (activeTab === 'shirt'
+    ? selectedTopTypes.join(', ')
+    : activeTab === 'pants'
+      ? selectedPantsTypes.join(', ')
+      : activeTab === 'skirt'
+        ? 'Falda'
+        : activeTab === 'jumper'
+          ? 'Jumper'
+          : 'Calzado') + (specialUniformType ? ` (${specialUniformType})` : '');
 
   const handleAddStudent = () => {
     if (!currentStudentName.trim()) {
@@ -199,7 +278,13 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
       return;
     }
 
-    const raw = { neck, chest, waist, shoulders, shoulder, totalLength, sleeveLength, armWidth, cuffWidth, pWaist, pHip, pRise, pLength, pCuff, fWaist, fHip, fLength };
+    const raw = {
+      neck, chest, waist, shoulders, shoulder, totalLength, sleeveLength, armWidth, cuffWidth,
+      pWaist, pHip, pRise, pLength, pCuff,
+      fWaist, fHip, fLength,
+      jTotalLength, jChest, jWaist, jNeck, jShoulder, jSkirtLength,
+      footLength
+    };
 
     const newStudent: StudentMeasurement = {
       id: editingStudentId || Date.now().toString(),
@@ -210,6 +295,8 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
       activeTab,
       rawMeasurements: raw,
       specialUniformType: specialUniformType.trim(),
+      shoeType: activeTab === 'shoes' ? shoeType : undefined,
+      gender: activeTab === 'shoes' ? shoeGender : undefined,
       garmentNote: garmentNote.trim()
     };
 
@@ -256,6 +343,17 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
       if (r.fWaist !== undefined) setFWaist(r.fWaist);
       if (r.fHip !== undefined) setFHip(r.fHip);
       if (r.fLength !== undefined) setFLength(r.fLength);
+
+      if (r.jTotalLength !== undefined) setJTotalLength(r.jTotalLength);
+      if (r.jChest !== undefined) setJChest(r.jChest);
+      if (r.jWaist !== undefined) setJWaist(r.jWaist);
+      if (r.jNeck !== undefined) setJNeck(r.jNeck);
+      if (r.jShoulder !== undefined) setJShoulder(r.jShoulder);
+      if (r.jSkirtLength !== undefined) setJSkirtLength(r.jSkirtLength);
+
+      if (r.footLength !== undefined) setFootLength(r.footLength);
+      if (student.gender) setShoeGender(student.gender);
+      if (student.shoeType) setShoeType(student.shoeType);
     }
   };
 
@@ -306,24 +404,27 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
       >
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg transition-all z-50 bg-white/50 dark:bg-dark-surface/50 backdrop-blur-sm"
+          className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
+          aria-label="Cerrar"
         >
-          <X className="w-5 h-5 text-text-muted" />
+          <X className="w-4 h-4 text-gray-600 dark:text-gray-300" />
         </button>
 
         {/* Header */}
         <div className="p-8 pb-2 md:p-8 md:pb-2 border-b border-gray-100 dark:border-primary/5">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="space-y-3">
-              <span className="inline-flex py-1 px-3 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-heading font-800 text-secondary dark:text-primary uppercase tracking-widest items-center">
-                <Ruler className="w-4 h-3 mr-1.5" /> Asistente de Tallas
-              </span>
-              <h2 className="text-3xl md:text-4xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight leading-tight">
-                Asistente de <span className="text-secondary dark:text-primary">Tallas</span>.
-              </h2>
-              <p className="text-text-muted dark:text-dark-muted text-sm font-body max-w-md">
-                Elige una o más prendas y toma las medidas al estudiante e ingrésalas para estimar su talla recomendada al instante.
-              </p>
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-yellow animate-float flex-shrink-0">
+                <Shirt className="w-5 h-5 text-gray-900" />
+              </div>
+              <div>
+                <h2 className="text-3xl md:text-4xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight leading-tight">
+                  Asistente de <span className="text-secondary dark:text-primary">Tallas</span>.
+                </h2>
+                <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
+                  Elige una o más prendas y toma las medidas al estudiante e ingrésalas para estimar su talla recomendada al instante.
+                </p>
+              </div>
             </div>
 
             <a
@@ -344,32 +445,48 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
             <div
               className="absolute inset-y-1 bg-primary dark:bg-primary dark:bg-dark-surface rounded-xl shadow-md transition-all duration-300 ease-out z-0"
               style={{
-                width: 'calc(33.33% - 4px)',
-                left: activeTab === 'shirt' ? '4px' : activeTab === 'pants' ? '33.33%' : '66.66%'
+                width: 'calc(20% - 4px)',
+                left: activeTab === 'shirt' ? '4px' : activeTab === 'pants' ? '20%' : activeTab === 'skirt' ? '40%' : activeTab === 'jumper' ? '60%' : '80%'
               }}
             />
 
             <button
               onClick={() => setActiveTab('shirt')}
-              className={`relative z-10 flex-1 flex items-center justify-center gap-2 text-[10px] font-heading font-900 tracking-widest transition-colors ${activeTab === 'shirt' ? 'text-text-main dark:text-text-main font-900' : 'text-text-main dark:text-white opacity-60 hover:opacity-100'}`}
+              className={`relative z-10 flex-1 flex items-center justify-center gap-2 text-[8px] font-heading font-900 tracking-widest transition-colors ${activeTab === 'shirt' ? 'text-text-main dark:text-text-main font-900' : 'text-text-main dark:text-white opacity-60 hover:opacity-100'}`}
             >
               <Shirt className="w-3.5 h-3.5" />
-              <span className="md:hidden">P. superior</span>
               <span className="hidden md:block">Parte superior</span>
             </button>
             <button
               onClick={() => setActiveTab('pants')}
-              className={`relative z-10 flex-1 flex items-center justify-center gap-2 text-[10px] font-heading font-900 tracking-widest transition-colors ${activeTab === 'pants' ? 'text-text-main dark:text-text-main font-900' : 'text-text-main dark:text-white opacity-60 hover:opacity-100'}`}
+              className={`relative z-10 flex-1 flex items-center justify-center gap-2 text-[8px] font-heading font-900 tracking-widest transition-colors ${activeTab === 'pants' ? 'text-text-main dark:text-text-main font-900' : 'text-text-main dark:text-white opacity-60 hover:opacity-100'}`}
             >
               <PantsIcon className="w-3.5 h-3.5" />
-              Pantalón
+              <span className="hidden md:block">Pantalón</span>
             </button>
             <button
               onClick={() => setActiveTab('skirt')}
-              className={`relative z-10 flex-1 flex items-center justify-center gap-2 text-[10px] font-heading font-900 tracking-widest transition-colors ${activeTab === 'skirt' ? 'text-text-main dark:text-text-main font-900' : 'text-text-main dark:text-white opacity-60 hover:opacity-100'}`}
+              className={`relative z-10 flex-1 flex items-center justify-center gap-2 text-[8px] font-heading font-900 tracking-widest transition-colors ${activeTab === 'skirt' ? 'text-text-main dark:text-text-main font-900' : 'text-text-main dark:text-white opacity-60 hover:opacity-100'}`}
             >
               <SkirtIcon className="w-3.5 h-3.5" />
-              Falda
+              <span className="hidden md:block">Falda</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('jumper')}
+              className={`relative z-10 flex-1 flex items-center justify-center gap-2 text-[8px] font-heading font-900 tracking-widest transition-colors ${activeTab === 'jumper' ? 'text-text-main dark:text-text-main font-900' : 'text-text-main dark:text-white opacity-60 hover:opacity-100'}`}
+            >
+              <JumperIcon className="w-3.5 h-3.5" />
+              <span className="hidden md:block">Jumper</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('shoes')}
+              className={`relative z-10 flex-1 flex items-center justify-center gap-2 text-[8px] font-heading font-900 tracking-widest transition-colors ${activeTab === 'shoes' ? 'text-text-main dark:text-text-main font-900' : 'text-text-main dark:text-white opacity-60 hover:opacity-100'}`}
+            >
+              <ShoeIcon className="w-3.5 h-3.5" />
+              <span className="hidden md:block">Calzado</span>
+              <span className="absolute top-0 -right-1 bg-secondary dark:bg-secondary text-white text-[8px] px-1.5 py-0.5 rounded-lg font-800 tracking-tighter leading-none whitespace-nowrap">
+                Próximamente
+              </span>
             </button>
           </div>
 
@@ -440,8 +557,20 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                 </div>
                 <div className="relative w-full aspect-square rounded-3xl overflow-hidden shadow-2xl bg-white dark:bg-dark-surface group">
                   <img
-                    src={activeTab === 'shirt' ? shirtGuide : activeTab === 'pants' ? pantsGuide : skirtGuide}
-                    alt="Guía de medidas"
+                    src={
+                      activeTab === 'shirt'
+                        ? shirtGuide
+                        : activeTab === 'pants'
+                          ? pantsGuide
+                          : activeTab === 'skirt'
+                            ? skirtGuide
+                            : activeTab === 'jumper'
+                              ? jumperGuide
+                              : activeTab === 'shoes'
+                                ? shoeGuide
+                                : shirtGuide
+                    }
+                    alt={`Guía de medidas de ${activeTab}`}
                     className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
@@ -603,7 +732,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                         <input type="range" min="10" max="40" value={pCuff} onChange={(e) => setPCuff(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
                       </div>
                     </>
-                  ) : (
+                  ) : activeTab === 'skirt' ? (
                     <>
                       {/* (A) Skirt Waist */}
                       <div className="space-y-1.5">
@@ -641,6 +770,110 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                         <input type="range" min="20" max="80" value={fLength} onChange={(e) => setFLength(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
                       </div>
                     </>
+                  ) : activeTab === 'jumper' ? (
+                    <>
+                      {/* (A) Total Length */}
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between items-center text-[9px] font-heading font-800 tracking-widest">
+                          <label className="text-text-muted dark:text-dark-muted font-900 flex items-center"><span className="mr-1">A.</span> Largo Total<Tooltip content="Mide desde el hombro hasta el bajo del jumper." /></label>
+                          <input type="number" value={jTotalLength} onChange={(e) => setJTotalLength(parseInt(e.target.value) || 0)} className="w-12 bg-transparent text-right outline-none font-heading font-900 text-sm text-text-main dark:text-dark-text border-b border-dashed border-gray-300 dark:border-gray-600 focus:border-primary m-0 p-0 appearance-none" />
+                        </div>
+                        <input type="range" min="40" max="150" value={jTotalLength} onChange={(e) => setJTotalLength(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
+                      </div>
+
+                      {/* (B) Chest */}
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between items-center text-[9px] font-heading font-800 tracking-widest">
+                          <label className="text-text-muted dark:text-dark-muted font-900 flex items-center"><span className="mr-1">B.</span> Ancho Pecho<Tooltip content="Mide debajo de las axilas, en la parte más ancha del pecho." /></label>
+                          <input type="number" value={jChest} onChange={(e) => setJChest(parseInt(e.target.value) || 0)} className="w-12 bg-transparent text-right outline-none font-heading font-900 text-sm text-text-main dark:text-dark-text border-b border-dashed border-gray-300 dark:border-gray-600 focus:border-primary m-0 p-0 appearance-none" />
+                        </div>
+                        <input type="range" min="40" max="130" value={jChest} onChange={(e) => setJChest(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
+                      </div>
+
+                      {/* (C) Waist */}
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between items-center text-[9px] font-heading font-800 tracking-widest">
+                          <label className="text-text-muted dark:text-dark-muted font-900 flex items-center"><span className="mr-1">C.</span> Cintura<Tooltip content="Mide alrededor de la cintura." /></label>
+                          <input type="number" value={jWaist} onChange={(e) => setJWaist(parseInt(e.target.value) || 0)} className="w-12 bg-transparent text-right outline-none font-heading font-900 text-sm text-text-main dark:text-dark-text border-b border-dashed border-gray-300 dark:border-gray-600 focus:border-primary m-0 p-0 appearance-none" />
+                        </div>
+                        <input type="range" min="30" max="120" value={jWaist} onChange={(e) => setJWaist(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
+                      </div>
+
+                      {/* (D) Neck */}
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between items-center text-[9px] font-heading font-800 tracking-widest">
+                          <label className="text-text-muted dark:text-dark-muted font-900 flex items-center"><span className="mr-1">D.</span> Cuello<Tooltip content="Mide alrededor de la base del cuello." /></label>
+                          <input type="number" value={jNeck} onChange={(e) => setJNeck(parseInt(e.target.value) || 0)} className="w-12 bg-transparent text-right outline-none font-heading font-900 text-sm text-text-main dark:text-dark-text border-b border-dashed border-gray-300 dark:border-gray-600 focus:border-primary m-0 p-0 appearance-none" />
+                        </div>
+                        <input type="range" min="15" max="60" value={jNeck} onChange={(e) => setJNeck(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
+                      </div>
+
+                      {/* (E) Shoulder */}
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between items-center text-[9px] font-heading font-800 tracking-widest">
+                          <label className="text-text-muted dark:text-dark-muted font-900 flex items-center"><span className="mr-1">E.</span> Hombro<Tooltip content="Mide desde la base del cuello hasta el inicio de la sisa." /></label>
+                          <input type="number" value={jShoulder} onChange={(e) => setJShoulder(parseInt(e.target.value) || 0)} className="w-12 bg-transparent text-right outline-none font-heading font-900 text-sm text-text-main dark:text-dark-text border-b border-dashed border-gray-300 dark:border-gray-600 focus:border-primary m-0 p-0 appearance-none" />
+                        </div>
+                        <input type="range" min="5" max="25" value={jShoulder} onChange={(e) => setJShoulder(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
+                      </div>
+
+                      {/* (F) Skirt Length */}
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between items-center text-[9px] font-heading font-800 tracking-widest">
+                          <label className="text-text-muted dark:text-dark-muted font-900 flex items-center"><span className="mr-1">F.</span> Largo Falda<Tooltip content="Mide desde la cintura hasta el bajo deseado." /></label>
+                          <input type="number" value={jSkirtLength} onChange={(e) => setJSkirtLength(parseInt(e.target.value) || 0)} className="w-12 bg-transparent text-right outline-none font-heading font-900 text-sm text-text-main dark:text-dark-text border-b border-dashed border-gray-300 dark:border-gray-600 focus:border-primary m-0 p-0 appearance-none" />
+                        </div>
+                        <input type="range" min="20" max="100" value={jSkirtLength} onChange={(e) => setJSkirtLength(parseInt(e.target.value))} className="w-full h-1 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
+                      </div>
+                    </>
+                  ) : (
+                    <div className="col-span-full space-y-6">
+                      {/* Shoe Type Selection */}
+                      <div className="space-y-2">
+                        <p className="text-[10px] font-heading font-800 text-text-muted dark:text-dark-muted tracking-widest uppercase text-center">Tipo de Calzado</p>
+                        <div className="flex items-center justify-center flex-wrap gap-2 pt-1 pb-2">
+                          {(['Escolar', 'Deportivo'] as const).map((type) => (
+                            <button
+                              key={type}
+                              onClick={() => setShoeType(type)}
+                              className={`px-3 py-1.5 rounded-full text-[8px] font-heading font-900 tracking-widest border transition-all ${shoeType === type ? 'bg-primary/20 border-primary text-text-main dark:text-dark-text' : 'bg-transparent border-gray-100 dark:border-primary/10 text-text-white opacity-90'}`}
+                            >
+                              {type}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Gender Selection */}
+                      <div className="space-y-2">
+                        <p className="text-[10px] font-heading font-800 text-text-muted dark:text-dark-muted tracking-widest uppercase text-center">Género</p>
+                        <div className="flex items-center justify-center flex-wrap gap-2 pt-1 pb-2">
+                          {(['Niño', 'Niña'] as const).map((g) => (
+                            <button
+                              key={g}
+                              onClick={() => setShoeGender(g)}
+                              className={`px-3 py-1.5 rounded-full text-[8px] font-heading font-900 tracking-widest border transition-all ${shoeGender === g ? 'bg-primary/20 border-primary text-text-main dark:text-dark-text' : 'bg-transparent border-gray-100 dark:border-primary/10 text-text-white opacity-90'}`}
+                            >
+                              {g}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* (A) Foot Length */}
+                      <div className="space-y-3 border-t border-gray-100 dark:border-primary/5 pt-4">
+                        <div className="flex justify-between items-center text-[10px] font-heading font-800 tracking-widest px-1">
+                          <label className="text-text-muted dark:text-dark-muted font-900 flex items-center uppercase"><span className="mr-2 text-secondary dark:text-primary">A.</span> Largo del pie (cm)<Tooltip content="Mide desde la punta del dedo gordo hasta el talón." /></label>
+                          <div className="flex items-center gap-1.5">
+                            <input type="number" step="0.5" value={footLength} onChange={(e) => setFootLength(parseFloat(e.target.value) || 0)} className="w-16 bg-gray-50 dark:bg-dark-bg/50 text-center outline-none font-heading font-900 text-lg text-secondary dark:text-primary rounded-lg py-1 appearance-none border border-transparent focus:border-primary" />
+                            <span className="text-[10px] text-text-muted dark:text-dark-muted">CM</span>
+                          </div>
+                        </div>
+                        <div className="px-2">
+                          <input type="range" min="10" max="32" step="0.5" value={footLength} onChange={(e) => setFootLength(parseFloat(e.target.value))} className="w-full h-1.5 bg-gray-100 dark:bg-dark-bg rounded-lg appearance-none cursor-pointer accent-primary" />
+                        </div>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
@@ -685,7 +918,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                 <input
                   type="text"
                   maxLength={180}
-                  placeholder="Nota adicional de la prenda (Opcional)"
+                  placeholder={`Incluir nota adicional (Opcional)`}
                   value={garmentNote}
                   onChange={(e) => setGarmentNote(e.target.value)}
                   className="w-full bg-transparent border-b border-gray-200 dark:border-primary/20 px-2 py-2 text-[11px] font-body text-text-main dark:text-dark-text outline-none focus:border-primary transition-colors placeholder:dark:text-dark-muted"
@@ -783,7 +1016,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                             <div key={student.id} onClick={() => handleEditStudent(student)} className={`bg-white dark:bg-dark-surface p-3 rounded-xl flex items-center justify-between shadow-sm border cursor-pointer hover:border-primary/50 transition-colors ${editingStudentId === student.id ? 'border-primary' : 'border-gray-100 dark:border-primary/5'}`}>
                               <div className="flex flex-col gap-0.5 max-w-[70%]">
                                 <span className="font-heading font-800 text-xs text-text-main dark:text-dark-text truncate">{student.name}</span>
-                                <div className="flex flex-row gap-0.5 text-text-muted dark:text-dark-muted">{student.garmentType === 'Camisa' ? <Shirt className="w-3.5 h-3.5" /> : student.garmentType === 'Pantalón' ? <PantsIcon className="w-3.5 h-3.5" /> : <SkirtIcon className="w-3.5 h-3.5" />}<span className="text-[9px] text-text-muted dark:text-dark-muted font-body line-clamp-1">{student.garmentType} - Talla {student.suggestedSize}</span></div>
+                                <div className="flex flex-row gap-0.5 text-text-muted dark:text-dark-muted">{student.garmentType === 'Camisa' ? <Shirt className="w-3.5 h-3.5" /> : student.garmentType === 'Pantalón' ? <PantsIcon className="w-3.5 h-3.5" /> : student.garmentType === 'Falda' ? <SkirtIcon className="w-3.5 h-3.5" /> : student.garmentType === 'Jumper' ? <JumperIcon className="w-3.5 h-3.5" /> : <ShoeIcon className="w-3.5 h-3.5" />}<span className="text-[9px] text-text-muted dark:text-dark-muted font-body line-clamp-1">{student.garmentType} - Talla {student.suggestedSize}</span></div>
                               </div>
                               <button
                                 onClick={(e) => handleRemoveStudent(student.id, e)}
@@ -841,6 +1074,26 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                     </button>
                     <button onClick={() => { setActiveTab('skirt'); setShowNextStepModal(false); setGarmentNote(''); }} className="w-full bg-primary/10 hover:bg-primary/20 text-text-secondary py-3.5 rounded-xl font-heading font-800 text-sm transition-colors cursor-pointer border border-primary/20 flex items-center justify-center gap-2">
                       <SkirtIcon className="w-4 h-4" /> Continuar con Falda
+                    </button>
+                    <button onClick={() => { setActiveTab('jumper'); setShowNextStepModal(false); setGarmentNote(''); }} className="w-full bg-primary/10 hover:bg-primary/20 text-text-secondary py-3.5 rounded-xl font-heading font-800 text-sm transition-colors cursor-pointer border border-primary/20 flex items-center justify-center gap-2">
+                      <JumperIcon className="w-4 h-4" /> Continuar con Jumper
+                    </button>
+                    <button onClick={() => { setActiveTab('shoes'); setShowNextStepModal(false); setGarmentNote(''); }} className="w-full bg-primary/10 hover:bg-primary/20 text-text-secondary py-3.5 rounded-xl font-heading font-800 text-sm transition-colors cursor-pointer border border-primary/20 flex items-center justify-center gap-2">
+                      <ShoeIcon className="w-4 h-4" /> Continuar con Calzado
+                    </button>
+                  </>
+                )}
+                {activeTab === 'jumper' && (
+                  <>
+                    <button onClick={() => { setActiveTab('shoes'); setShowNextStepModal(false); setGarmentNote(''); }} className="w-full bg-primary/10 hover:bg-primary/20 text-text-secondary py-3.5 rounded-xl font-heading font-800 text-sm transition-colors cursor-pointer border border-primary/20 flex items-center justify-center gap-2">
+                      <ShoeIcon className="w-4 h-4" /> Continuar con Calzado
+                    </button>
+                  </>
+                )}
+                {(activeTab === 'pants' || activeTab === 'skirt') && (
+                  <>
+                    <button onClick={() => { setActiveTab('shoes'); setShowNextStepModal(false); setGarmentNote(''); }} className="w-full bg-primary/10 hover:bg-primary/20 text-text-secondary py-3.5 rounded-xl font-heading font-800 text-sm transition-colors cursor-pointer border border-primary/20 flex items-center justify-center gap-2">
+                      <ShoeIcon className="w-4 h-4" /> Continuar con Calzado
                     </button>
                   </>
                 )}

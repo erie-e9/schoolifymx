@@ -124,7 +124,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
                   }`}
               >
                 <span>{s.icon}</span>
-                {s.label}
+                <span className="hidden md:block">{s.label}</span>
                 {s.comingSoon && (
                   <span className="absolute -top-4 -right-1 bg-secondary dark:bg-secondary text-white text-[10px] px-1.5 py-0.5 rounded-lg font-800 tracking-tighter">
                     Próximamente
@@ -213,7 +213,11 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
 
             <div className="relative animate-float z-10">
               {displayedService === 'uniforms' && <UniformsCard active />}
-              {displayedService === 'supplies' && <SuppliesComparator active />}
+              {displayedService === 'supplies' && (
+                <div className="flex flex-col gap-4">
+                  <SuppliesComparator active />
+                </div>
+              )}
               {displayedService === 'didactic' && <DidacticMaterialTimeline active />}
             </div>
           </div>

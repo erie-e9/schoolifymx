@@ -18,7 +18,7 @@ export default {
         // Dark Mode Colors
         dark: {
           bg: '#0F172A', // Deep blue-gray
-          surface: '#1E293B',
+          surface: '#1a1f2e',
           text: '#F8FAFC',
           muted: '#94A3B8',
           accent: '#FFD700', // Brighter yellow for dark mode contrast

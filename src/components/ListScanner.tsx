@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
-import { Upload, CheckCircle, Zap, ChevronRight, X, Loader2, FileDigit } from 'lucide-react';
+import { Upload, CheckCircle, Zap, ChevronRight, X, Loader2, FileDigit, Backpack } from 'lucide-react';
 import WhatsApp from '../assets/whatsapp.svg?react';
 import { getWhatsappLink } from '../types';
 
 interface ListScannerProps {
   isOpen: boolean;
   onClose: () => void;
+  onScanComplete?: (items: ScannedItem[]) => void;
 }
 
-interface ScannedItem {
+export interface ScannedItem {
   id: string;
   name: string;
   selected: boolean;
   note: string;
 }
 
-const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
+const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComplete }) => {
   const [status, setStatus] = useState<'idle' | 'uploading' | 'scanning' | 'completed'>('idle');
   const [progress, setProgress] = useState(0);
   const [scanningText, setScanningText] = useState('Iniciando...');
@@ -26,6 +27,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
   const [fileName, setFileName] = useState<string>('');
   const [tier, setTier] = useState<'Esencial' | 'Selecto'>('Esencial');
   const [items, setItems] = useState<ScannedItem[]>([]);
+  const [isDraggingOver, setIsDraggingOver] = useState(false);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -58,6 +60,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
       setFileType(null);
       setFileName('');
       setTier('Esencial');
+      setIsDraggingOver(false);
     }
   }, [isOpen]);
 
@@ -125,12 +128,13 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(interval);
-          setItems(MOCK_NAMES.map((name, idx) => ({
+          const scannedItems = MOCK_NAMES.map((name, idx) => ({
             id: idx.toString(),
             name,
             selected: true,
             note: ''
-          })));
+          }));
+          setItems(scannedItems);
           setStatus('completed');
           return 100;
         }
@@ -146,27 +150,50 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
     }, 40);
   };
 
+  const processFile = (file: File) => {
+    setFileName(file.name);
+    if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+      setFileType('pdf');
+      setSelectedFile(null);
+      setStatus('uploading');
+      setTimeout(() => startSimulation(), 1000);
+    } else {
+      setFileType('image');
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setSelectedFile(event.target?.result as string);
+        setStatus('uploading');
+        setTimeout(() => startSimulation(), 1500);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setFileName(file.name);
-
-      if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
-        setFileType('pdf');
-        setSelectedFile(null);
-        setStatus('uploading');
-        setTimeout(() => startSimulation(), 1000);
-      } else {
-        setFileType('image');
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          setSelectedFile(event.target?.result as string);
-          setStatus('uploading');
-          setTimeout(() => startSimulation(), 1500);
-        };
-        reader.readAsDataURL(file);
-      }
+      processFile(e.target.files[0]);
     }
+  };
+
+  // Drag & Drop handlers
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDraggingOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDraggingOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDraggingOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) processFile(file);
   };
 
   if (!isOpen) return null;
@@ -211,7 +238,13 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
 
               <div
                 onClick={() => fileInputRef.current?.click()}
-                className="cursor-pointer border-2 border-dashed border-primary/30 hover:border-primary rounded-[2rem] p-10 bg-gray-50/50 dark:bg-dark-bg/30 transition-all hover:bg-primary/5 group"
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                className={`cursor-pointer border-2 border-dashed rounded-[2rem] p-10 transition-all group ${isDraggingOver
+                  ? 'border-primary bg-primary/10 scale-[1.02] shadow-yellow'
+                  : 'border-primary/30 hover:border-primary bg-gray-50/50 dark:bg-dark-bg/30 hover:bg-primary/5'
+                  }`}
               >
                 <input
                   type="file"
@@ -221,11 +254,17 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
                   onChange={onFileChange}
                 />
                 <div className="flex flex-col items-center gap-4">
-                  <div className="w-12 h-12 bg-primary dark:bg-dark-surface rounded-full shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className={`w-12 h-12 rounded-full shadow-sm flex items-center justify-center transition-all ${isDraggingOver ? 'bg-primary scale-125' : 'bg-primary dark:bg-dark-surface group-hover:scale-110'}`}>
                     <Upload className="w-6 h-6 text-secondary dark:text-primary" />
                   </div>
-                  <span className="font-heading font-700 text-text-main dark:text-dark-text">Haz clic para subir tu lista escolar</span>
-                  <span className="text-xs text-text-muted">Imagen o documento PDF</span>
+                  {isDraggingOver ? (
+                    <span className="font-heading font-800 text-primary dark:text-primary text-lg">¡Suelta aquí tu archivo!</span>
+                  ) : (
+                    <>
+                      <span className="font-heading font-700 text-text-main dark:text-dark-text">Arrastra tu lista o haz clic para subir</span>
+                      <span className="text-xs text-text-muted">Imagen o documento PDF • Arrastra y suelta aquí</span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -299,11 +338,11 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
                                   const val = e.target.checked;
                                   setItems(prev => prev.map(i => i.id === item.id ? { ...i, selected: val } : i));
                                 }}
-                                className="peer h-4 w-4 cursor-pointer appearance-none rounded border border-gray-300 dark:border-gray-600 checked:bg-primary checked:border-primary transition-all"
+                                className="peer h-4 w-4 cursor-pointer appearance-none rounded border border-gray-300 dark:border-gray-600 checked:bg-success checked:border-success transition-all"
                               />
-                              <CheckCircle className="absolute h-4 w-4 text-secondary opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none p-0.5" />
+                              <CheckCircle className="absolute h-4 w-4 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none p-0.5" />
                             </label>
-                            <span className={`text-[11px] font-body font-600 transition-colors ${item.selected ? 'text-text-main dark:text-dark-text' : 'text-text-muted line-through opacity-50'}`}>
+                            <span className={`text-[11px] font-body font-600 transition-colors ${item.selected ? 'text-text-main dark:text-dark-text' : 'text-text-muted line-through opacity-90'}`}>
                               {item.name}
                             </span>
                           </div>
@@ -311,7 +350,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
                             <div className="pl-7 animate-in fade-in slide-in-from-top-1 duration-200">
                               <input
                                 type="text"
-                                placeholder="Puedes incluir una nota sobre este artículo"
+                                placeholder="Incluir nota (marca, color...)"
                                 value={item.note}
                                 onChange={(e) => {
                                   const val = e.target.value;
@@ -331,33 +370,48 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose }) => {
               <div className="w-full flex bg-gray-100 dark:bg-dark-bg/50 p-1 rounded-2xl max-w-sm mx-auto shadow-inner border border-gray-200 dark:border-primary/10">
                 <button
                   onClick={() => setTier('Esencial')}
-                  className={`flex-1 py-2.5 text-xs font-heading font-900 tracking-wider rounded-xl transition-all duration-300 ${tier === 'Esencial' ? 'dark:bg-dark-surface shadow-md text-accent scale-100 border border-primary/10' : 'text-text-muted hover:text-white'}`}
+                  className={`flex-1 py-2.5 text-xs font-heading font-900 tracking-wider rounded-xl transition-all duration-300 ${tier === 'Esencial' ? 'dark:bg-dark-primary bg-primary shadow-md text-text-main dark:text-text-main scale-100 border border-primary/10' : 'text-text-muted dark:hover:text-white hover:text-text-main'}`}
                 >
                   📦 Paquete Esencial
                 </button>
                 <button
                   onClick={() => setTier('Selecto')}
-                  className={`flex-1 py-2.5 text-xs font-heading font-900 tracking-wider rounded-xl transition-all duration-300 ${tier === 'Selecto' ? 'dark:bg-dark-surface shadow-md text-accent scale-100 border border-primary/10' : 'text-text-muted hover:text-white'}`}
+                  className={`flex-1 py-2.5 text-xs font-heading font-900 tracking-wider rounded-xl transition-all duration-300 ${tier === 'Selecto' ? 'dark:bg-dark-primary bg-primary shadow-md text-text-main dark:text-text-main scale-100 border border-primary/10' : 'text-text-muted dark:hover:text-white hover:text-text-main'}`}
                 >
                   ✨ Paquete Selecto
                 </button>
               </div>
 
-              <div className="space-y-4 pt-2">
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                {/* WhatsApp button - Main CTA */}
                 <a
                   href={waLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-4 bg-secondary dark:bg-primary text-white dark:text-text-main font-heading font-900 text-lg py-5 rounded-2xl shadow-xl hover:-translate-y-1.5 active:scale-95 transition-all duration-300 group"
+                  className="flex-[1.2] inline-flex items-center justify-center gap-1 bg-secondary dark:bg-primary text-white dark:text-text-main font-heading font-900 text-sm py-4 rounded-2xl shadow-xl hover:-translate-y-1 active:scale-95 transition-all duration-300 group"
                 >
-                  <WhatsApp className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-                  Ver mi presupuesto en WhatsApp
-                  <ChevronRight className="w-5 h-5" />
+                  <WhatsApp className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                  <span className="whitespace-nowrap">Ver mi presupuesto en WhatsApp</span>
                 </a>
-                <p className="text-[10px] text-text-muted font-body leading-relaxed max-w-md mx-auto">
-                  El costo de lista puede variar entre la fecha de cotización y de pedido realizado, el precio del mercado y otros factores. Nuestros asesores te enviarán la cotización final por WhatsApp.
-                </p>
+
+                {/* Send to BackpackSim button - Secondary CTA */}
+                {onScanComplete && (
+                  <button
+                    onClick={() => {
+                      const selected = items.filter(i => i.selected);
+                      onScanComplete(selected);
+                      handleClose();
+                    }}
+                    className="flex-1 inline-flex items-center justify-center gap-1 bg-primary/80 dark:bg-white/5 border border-primary/30 dark:border-secondary/30 text-secondary dark:text-primary font-heading font-800 text-[11px] sm:text-xs py-4 rounded-2xl hover:bg-primary/20 active:scale-95 transition-all duration-300 group"
+                  >
+                    <Backpack className="w-4 h-4" />
+                    <span className="leading-tight">Integrar al Creador de listas</span>
+                  </button>
+                )}
               </div>
+              <p className="text-[10px] text-text-muted font-body leading-relaxed max-w-md mx-auto">
+                El costo final puede variar entre la fecha de cotización y la de pedido realizado, el precio del mercado entre otros factores.
+              </p>
             </div>
           )}
         </div>
