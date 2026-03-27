@@ -4,24 +4,12 @@ import gsap from 'gsap';
 import { X, Check, ChevronRight, Shirt, Plus, Trash2, Info } from 'lucide-react';
 import WhatsApp from '../assets/whatsapp.svg?react';
 import { getWhatsappLink } from '../types';
-import shirtGuide from '../assets/shirt_guide2.png';
-import pantsGuide from '../assets/pants_guide_es.png';
-import skirtGuide from '../assets/skirt_guide_updated.png';
-import jumperGuide from '../assets/jumper_guide.png';
-
-const shoeGuide = `data:image/svg+xml;utf8,${encodeURIComponent(`
-<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="400" height="400" fill="#B9BFBF"/>
-  <path d="M100 280C100 280 90 260 90 230C90 200 110 180 130 160C150 140 180 130 210 130C240 130 260 150 270 180C280 210 270 280 270 280H100Z" fill="#222F52" stroke="white" stroke-width="2"/>
-  <path d="M100 280L90 295H280L270 280" fill="#222F52" stroke="white" stroke-width="2"/>
-  <line x1="90" y1="330" x2="280" y2="330" stroke="white" stroke-width="2" stroke-dasharray="4 4"/>
-  <path d="M90 320V340M280 320V340" stroke="white" stroke-width="2"/>
-  <text x="185" y="365" fill="white" font-family="Arial" font-size="16" font-weight="900" text-anchor="middle">A. LARGO DEL PIE</text>
-  <circle cx="185" cy="330" r="12" fill="#FED100"/>
-  <text x="185" y="335" fill="#222F52" font-family="Arial" font-size="14" font-weight="900" text-anchor="middle">A</text>
-  <text x="200" y="80" fill="#222F52" font-family="Arial" font-size="18" font-weight="900" text-anchor="middle" opacity="0.6">GUÍA DE CALZADO</text>
-</svg>
-`)}`;
+import shirtGuide from '../assets/shirt_guide2.avif';
+import pantsGuide from '../assets/pants_guide_es.avif';
+import skirtGuide from '../assets/skirt_guide1.avif';
+import jumperGuide from '../assets/jumper_guide.avif';
+import shoeGuide from '../assets/shoe_guide.avif';
+import shoeGuideGirl from '../assets/shoe_guide_g.avif';
 
 interface UniformSizeHelperProps {
   isOpen: boolean;
@@ -484,7 +472,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
             >
               <ShoeIcon className="w-3.5 h-3.5" />
               <span className="hidden md:block">Calzado</span>
-              <span className="absolute top-0 -right-1 bg-secondary dark:bg-secondary text-white text-[8px] px-1.5 py-0.5 rounded-lg font-800 tracking-tighter leading-none whitespace-nowrap">
+              <span className="absolute -top-1.5 -right-1 bg-secondary dark:bg-secondary text-white text-[9px] px-1.5 py-1 rounded-lg font-800 tracking-tighter leading-none whitespace-nowrap">
                 Próximamente
               </span>
             </button>
@@ -567,7 +555,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                             : activeTab === 'jumper'
                               ? jumperGuide
                               : activeTab === 'shoes'
-                                ? shoeGuide
+                                ? shoeGender === 'Niño' ? shoeGuide : shoeGuideGirl
                                 : shirtGuide
                     }
                     alt={`Guía de medidas de ${activeTab}`}
@@ -829,8 +817,8 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                   ) : (
                     <div className="col-span-full space-y-6">
                       {/* Shoe Type Selection */}
-                      <div className="space-y-2">
-                        <p className="text-[10px] font-heading font-800 text-text-muted dark:text-dark-muted tracking-widest uppercase text-center">Tipo de Calzado</p>
+                      <div className="flex flex-row items-center justify-center space-y-2">
+                        <p className="text-[10px] font-heading pr-3 font-800 text-text-muted dark:text-dark-muted tracking-widest text-center">Tipo de Calzado</p>
                         <div className="flex items-center justify-center flex-wrap gap-2 pt-1 pb-2">
                           {(['Escolar', 'Deportivo'] as const).map((type) => (
                             <button
@@ -845,8 +833,8 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       </div>
 
                       {/* Gender Selection */}
-                      <div className="space-y-2">
-                        <p className="text-[10px] font-heading font-800 text-text-muted dark:text-dark-muted tracking-widest uppercase text-center">Género</p>
+                      <div className="flex flex-row items-center justify-center space-y-2">
+                        <p className="text-[10px] font-heading pr-3 font-800 text-text-muted dark:text-dark-muted tracking-widest text-center">Género</p>
                         <div className="flex items-center justify-center flex-wrap gap-2 pt-1 pb-2">
                           {(['Niño', 'Niña'] as const).map((g) => (
                             <button
@@ -863,7 +851,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       {/* (A) Foot Length */}
                       <div className="space-y-3 border-t border-gray-100 dark:border-primary/5 pt-4">
                         <div className="flex justify-between items-center text-[10px] font-heading font-800 tracking-widest px-1">
-                          <label className="text-text-muted dark:text-dark-muted font-900 flex items-center uppercase"><span className="mr-2 text-secondary dark:text-primary">A.</span> Largo del pie (cm)<Tooltip content="Mide desde la punta del dedo gordo hasta el talón." /></label>
+                          <label className="text-text-muted dark:text-dark-muted font-900 flex items-center"><span className="mr-1">A.</span> Largo del pie (cm)<Tooltip content="Mide desde la punta del dedo gordo hasta el talón." /></label>
                           <div className="flex items-center gap-1.5">
                             <input type="number" step="0.5" value={footLength} onChange={(e) => setFootLength(parseFloat(e.target.value) || 0)} className="w-16 bg-gray-50 dark:bg-dark-bg/50 text-center outline-none font-heading font-900 text-lg text-secondary dark:text-primary rounded-lg py-1 appearance-none border border-transparent focus:border-primary" />
                             <span className="text-[10px] text-text-muted dark:text-dark-muted">CM</span>
