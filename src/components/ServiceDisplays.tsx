@@ -33,7 +33,7 @@ export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
 
   return (
     <div
-      className={`card p-8 cursor-pointer transition-all duration-400 ${hovered || active
+      className={`card p-6 md:p-8 cursor-pointer transition-all duration-400 ${hovered || active
         ? 'shadow-yellow glow-yellow border-primary/50 dark:border-primary/30 -translate-y-2'
         : 'border-gray-100 dark:border-gray-800'
         } border bg-white dark:bg-dark-surface ${active ? 'ring-2 ring-primary ring-offset-4 dark:ring-offset-dark-bg' : ''}`}
@@ -58,7 +58,7 @@ export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
               <Ruler className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-12 dark:hover:text-secondary dark:text-white animate-shake-icon" />
             </button>
           </div>
-          <span className="text-xs font-heading font-600 text-accent dark:text-primary tracking-wider">Pedidos anticipados entregados justo a tiempo y a medida de cada estudiante.</span>
+          <span className="text-xs font-heading font-600 text-accent dark:text-primary tracking-wider">Pedidos anticipados entregados justo a tiempo y a medida de cada estudiante y nivel educativo.</span>
         </div>
       </div>
 
@@ -85,10 +85,11 @@ export const UniformsCard: React.FC<{ active?: boolean }> = ({ active }) => {
 
 const SUPPLIES_ROWS = [
   { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },
-  { label: 'Costo promedio + extras', bad: '$1,200–1,800', good: '$1,020–1,630' },
+  { label: 'Costo promedio + extras', bad: '~ $1,200', good: '~ $1,080' },
   { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
   { label: 'Entrega', bad: 'Tú lo transportas', good: 'Nosotros te lo llevamos' },
   { label: 'Sobrantes', bad: 'Con restos de productos innecesarios', good: '✓ Sin sobrantes' },
+  { label: 'Garantía', bad: 'Dudosa procedencia', good: 'Original y con garantía' },
 ];
 
 /* ─── 2. VISUAL COMPARATOR — ÚTILES ESCOLARES ─────────────────────── */
@@ -100,7 +101,7 @@ const SuppliesComparatorBase: React.FC<{ active?: boolean }> = ({ active }) => {
   const [scannedItems, setScannedItems] = useState<{ id: string; name: string; selected: boolean; note: string }[]>([]);
 
   return (
-    <div className={`card p-8 border transition-all duration-400 border-gray-100 dark:border-gray-800 bg-white dark:bg-dark-surface ${active ? 'shadow-yellow glow-yellow border-primary/50 dark:border-primary/30 -translate-y-2 ring-2 ring-primary ring-offset-4 dark:ring-offset-dark-bg' : ''}`}
+    <div className={`card p-6 md:p-8 border transition-all duration-400 border-gray-100 dark:border-gray-800 bg-white dark:bg-dark-surface ${active ? 'shadow-yellow glow-yellow border-primary/50 dark:border-primary/30 -translate-y-2 ring-2 ring-primary ring-offset-4 dark:ring-offset-dark-bg' : ''}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}>
       <div className="flex items-start justify-between gap-4 mb-6">
@@ -116,7 +117,7 @@ const SuppliesComparatorBase: React.FC<{ active?: boolean }> = ({ active }) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col md:flex-row items-center gap-2">
           <button
             onClick={() => setIsBackpackOpen(true)}
             className="flex items-center gap-2 bg-primary/20 border-primary text-text-main dark:text-dark-text hover:bg-primary font-heading font-800 px-3 py-2 rounded-xl transition-all duration-300 border hover:shadow-yellow hover:-translate-y-0.5 group/btn"
@@ -171,9 +172,9 @@ const SuppliesComparatorBase: React.FC<{ active?: boolean }> = ({ active }) => {
           setIsScannerOpen(true);
         }}
       />
-      <ListScanner 
-        isOpen={isScannerOpen} 
-        onClose={() => setIsScannerOpen(false)} 
+      <ListScanner
+        isOpen={isScannerOpen}
+        onClose={() => setIsScannerOpen(false)}
         onScanComplete={(items) => {
           setScannedItems(items);
           setIsBackpackOpen(true);
@@ -214,7 +215,7 @@ const DidacticMaterialTimelineBase: React.FC<{ active?: boolean }> = ({ active }
   }, []);
 
   return (
-    <div className={`card p-8 border transition-all duration-400 border-gray-100 dark:border-gray-800 bg-white dark:bg-dark-surface ${active ? 'shadow-yellow glow-yellow border-primary/50 dark:border-primary/30 -translate-y-2 ring-2 ring-primary ring-offset-4 dark:ring-offset-dark-bg' : ''}`} ref={timelineRef}
+    <div className={`card p-6 md:p-8 border transition-all duration-400 border-gray-100 dark:border-gray-800 bg-white dark:bg-dark-surface ${active ? 'shadow-yellow glow-yellow border-primary/50 dark:border-primary/30 -translate-y-2 ring-2 ring-primary ring-offset-4 dark:ring-offset-dark-bg' : ''}`} ref={timelineRef}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}>
       <div className="flex items-start gap-4 mb-6">

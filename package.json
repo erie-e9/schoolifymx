@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "expose": "npm run dev -- --host"
   },
   "dependencies": {
     "gsap": "^3.14.2",

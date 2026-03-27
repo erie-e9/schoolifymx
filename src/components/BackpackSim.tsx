@@ -20,9 +20,11 @@ import {
   Paintbrush,
   Check,
   StickyNote,
+  Camera,
 } from 'lucide-react';
 import WhatsApp from '../assets/whatsapp.svg?react';
 import { getWhatsappLink } from '../types';
+import ListScanner from './ListScanner';
 
 interface BackpackSimProps {
   isOpen: boolean;
@@ -183,12 +185,13 @@ const ITEMS: SupplyItem[] = [
 ];
 
 const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems = [] }) => {
-  const [selectedItems, setSelectedItems] = useState<Record<string, { qty: number; note: string }>>({});
+  const [selectedItems, setSelectedItems] = useState<Record<string, { qty: number; note: string; name?: string }>>({});
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isCompleted, setIsCompleted] = useState(false);
   const [noteOpenId, setNoteOpenId] = useState<string | null>(null);
   const [scannedSection, setScannedSection] = useState<{ id: string; name: string; note: string; selected: boolean }[]>([]);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -230,6 +233,14 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
     }
   }, [isOpen, scannedItems]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) handleClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
   const handleClose = () => {
     const tl = gsap.timeline({ onComplete: onClose });
     tl.to(modalRef.current, { y: 30, opacity: 0, scale: 0.96, duration: 0.35, ease: 'power2.in' })
@@ -237,6 +248,11 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
   };
 
   const updateQuantity = (id: string, delta: number) => {
+    if (delta > 0) {
+      window.dispatchEvent(new CustomEvent('schoolify-mission-progress', {
+        detail: { missionId: 'backpack_items', increment: 1 }
+      }));
+    }
     setSelectedItems(prev => {
       const current = prev[id]?.qty || 0;
       const next = Math.max(0, current + delta);
@@ -271,11 +287,12 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
     const list = Object.entries(selectedItems)
       .map(([id, info]) => {
         const item = ITEMS.find(i => i.id === id);
-        return `• ${info.qty}x ${item?.name}${info.note ? ` (${info.note})` : ''}`;
+        const name = info.name || item?.name || 'Artículo desconocido';
+        return `• ${info.qty}x ${name}${info.note ? ` (${info.note})` : ''}`;
       })
       .join('\n');
 
-    return `¡Hola Schoolify! 👋 He creado mi lista escolar.\n\n📚 Mi lista incluye:\n${list}\n\n¿Me pueden enviar una cotización? ✨`;
+    return `¡Hola Schoolify! 👋 He creado mi lista escolar.\n\n📚 Mi lista incluye:\n${list}`;
   };
 
   const waLink = getWhatsappLink(getWhatsAppMsg());
@@ -334,13 +351,13 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
                       const next = { ...prev };
                       scannedSection.filter(i => i.selected).forEach(item => {
                         const key = `scanned-${item.id}`;
-                        if (!next[key]) next[key] = { qty: 1, note: item.note };
+                        if (!next[key]) next[key] = { qty: 1, note: item.note, name: item.name };
                       });
                       return next;
                     });
                     setScannedSection([]);
                   }}
-                  className="text-[10px] text-primary font-bold hover:underline"
+                  className="text-[10px] text-secondary dark:text-primary font-bold hover:underline"
                 >
                   Importar todo
                 </button>
@@ -373,13 +390,14 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
             ) : (
               Object.entries(selectedItems).map(([id, info]) => {
                 const item = ITEMS.find(i => i.id === id);
-                if (!item) return null;
-                const catName = CATEGORIES.find(c => c.id === item.category)?.name;
+                const itemName = info.name || item?.name;
+                if (!itemName) return null;
+                const catName = item ? CATEGORIES.find(c => c.id === item.category)?.name : 'Escaneado';
                 return (
                   <div key={id} className="bg-white dark:bg-white/5 rounded-xl p-3 border border-gray-100 dark:border-white/10">
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-xs text-gray-900 dark:text-white leading-tight truncate">{item.name}</p>
+                        <p className="font-medium text-xs text-gray-900 dark:text-white leading-tight truncate">{itemName}</p>
                         <p className="text-[10px] text-gray-400 mt-0.5">{catName}</p>
                       </div>
                       {/* Inline qty controls */}
@@ -438,16 +456,25 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
                   </div>
                 </div>
 
-                {/* Search */}
-                <div className="relative">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Buscar artículos..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-white/10 rounded-xl border border-transparent focus:border-primary/50 focus:bg-white dark:focus:bg-white/15 transition-all outline-none text-sm text-gray-800 dark:text-white placeholder:text-gray-400"
-                  />
+                {/* Search & Scan */}
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Buscar artículos..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-white/10 rounded-xl border border-transparent focus:border-primary/50 focus:bg-white dark:focus:bg-white/15 transition-all outline-none text-sm text-gray-800 dark:text-white placeholder:text-gray-400"
+                    />
+                  </div>
+                  <button
+                    onClick={() => setIsScannerOpen(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-primary/20 border border-primary text-text-main dark:text-dark-text hover:bg-primary rounded-xl transition-all duration-300 font-heading font-700 text-[10px] tracking-wider uppercase shadow-sm hover:shadow-yellow"
+                  >
+                    <Camera className="w-4 h-4" />
+                    <span className="hidden sm:inline">Escanear</span>
+                  </button>
                 </div>
 
                 {/* Categories horizontal scroll */}
@@ -640,6 +667,14 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
           )}
         </div>
       </div>
+      <ListScanner
+        isOpen={isScannerOpen}
+        onClose={() => setIsScannerOpen(false)}
+        onScanComplete={(items) => {
+          setScannedSection(items);
+          setIsScannerOpen(false);
+        }}
+      />
     </div>,
     document.body
   );

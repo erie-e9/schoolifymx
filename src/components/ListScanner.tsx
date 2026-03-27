@@ -25,7 +25,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [fileType, setFileType] = useState<'image' | 'pdf' | null>(null);
   const [fileName, setFileName] = useState<string>('');
-  const [tier, setTier] = useState<'Esencial' | 'Selecto'>('Esencial');
+  const [tier, setTier] = useState<'Esencial' | 'Selecto'>('Selecto');
   const [items, setItems] = useState<ScannedItem[]>([]);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
 
@@ -62,6 +62,14 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
       setTier('Esencial');
       setIsDraggingOver(false);
     }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) handleClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
   const handleClose = () => {
@@ -203,7 +211,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
     .map(i => `• ${i.name}${i.note ? ` (${i.note})` : ''}`)
     .join('\n');
 
-  const waMessage = `¡Hola Schoolify! 🚀 Acabo de escanear mi lista de útiles con su herramienta.\n\nMe gustaría cotizar el *Paquete ${tier}* para los siguientes artículos:\n\n${selectedItemsList}\n\n¿Me pueden ayudar con la cotización exacta?`;
+  const waMessage = `¡Hola Schoolify! 🚀 Acabo de escanear mi lista de útiles con su herramienta.\n\nMe gustaría cotizar el *Paquete ${tier}* para los siguientes artículos:\n\n${selectedItemsList}`;
   const waLink = getWhatsappLink(waMessage);
 
   return createPortal(
@@ -220,7 +228,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
       >
         <button
           onClick={handleClose}
-          className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg transition-all z-[30] active:scale-90"
+          className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
         >
           <X className="w-5 h-5 text-text-muted" />
         </button>
@@ -391,7 +399,8 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
                   className="flex-[1.2] inline-flex items-center justify-center gap-1 bg-secondary dark:bg-primary text-white dark:text-text-main font-heading font-900 text-sm py-4 rounded-2xl shadow-xl hover:-translate-y-1 active:scale-95 transition-all duration-300 group"
                 >
                   <WhatsApp className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  <span className="whitespace-nowrap">Ver mi presupuesto en WhatsApp</span>
+                  <span className="whitespace-nowrap hidden md:inline">Ver mi presupuesto en WhatsApp</span>
+                  <span className="whitespace-nowrap inline md:hidden">Ver mi presupuesto</span>
                 </a>
 
                 {/* Send to BackpackSim button - Secondary CTA */}
@@ -400,6 +409,10 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
                     onClick={() => {
                       const selected = items.filter(i => i.selected);
                       onScanComplete(selected);
+                      // Dispatch mission progress
+                      window.dispatchEvent(new CustomEvent('schoolify-mission-progress', {
+                        detail: { missionId: 'scan_list' }
+                      }));
                       handleClose();
                     }}
                     className="flex-1 inline-flex items-center justify-center gap-1 bg-primary/80 dark:bg-white/5 border border-primary/30 dark:border-secondary/30 text-secondary dark:text-primary font-heading font-800 text-[11px] sm:text-xs py-4 rounded-2xl hover:bg-primary/20 active:scale-95 transition-all duration-300 group"

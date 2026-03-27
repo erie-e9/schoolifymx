@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { ServiceType } from './types';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
+import DailyChallenges from './components/DailyChallenges';
 
 // Lazy loaded components
 const Process = lazy(() => import('./components/Process'));
@@ -37,6 +38,7 @@ function App() {
         <ScrollToTop />
         <CookieConsent />
         <Footer />
+        <DailyChallenges />
       </Suspense>
     </div>
   );

@@ -4,12 +4,6 @@ import gsap from 'gsap';
 import { X, Check, ChevronRight, Shirt, Plus, Trash2, Info } from 'lucide-react';
 import WhatsApp from '../assets/whatsapp.svg?react';
 import { getWhatsappLink } from '../types';
-import shirtGuide from '../assets/shirt_guide2.avif';
-import pantsGuide from '../assets/pants_guide_es.avif';
-import skirtGuide from '../assets/skirt_guide1.avif';
-import jumperGuide from '../assets/jumper_guide.avif';
-import shoeGuide from '../assets/shoe_guide.avif';
-import shoeGuideGirl from '../assets/shoe_guide_g.avif';
 
 interface UniformSizeHelperProps {
   isOpen: boolean;
@@ -129,6 +123,14 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
   const resultRef = useRef<HTMLDivElement>(null);
   const optionalRef = useRef<HTMLDivElement>(null);
 
+  // Image items
+  const shirtGuide = 'https://res.cloudinary.com/dmm5i6xbi/image/upload/v1774639803/shirt_guide2_r7yr51.avif';
+  const pantsGuide = 'https://res.cloudinary.com/dmm5i6xbi/image/upload/v1774639804/pants_guide_es_aztg4d.avif';
+  const skirtGuide = 'https://res.cloudinary.com/dmm5i6xbi/image/upload/v1774639803/skirt_guide1_ui7wkz.avif';
+  const jumperGuide = 'https://res.cloudinary.com/dmm5i6xbi/image/upload/v1774639803/jumper_guide_ptmmm6.avif';
+  const shoeGuide = 'https://res.cloudinary.com/dmm5i6xbi/image/upload/v1774639803/shoe_guide_rklhd2.avif';
+  const shoeGuideGirl = 'https://res.cloudinary.com/dmm5i6xbi/image/upload/v1774639803/shoe_guide_g_bkqwny.avif';
+
   // Independent Sizing Logic (Mexico Standards)
   useEffect(() => {
     let size = '8';
@@ -223,6 +225,14 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) handleClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
   const handleClose = () => {
     const tl = gsap.timeline({ onComplete: onClose });
     tl.to(modalRef.current, { y: 30, opacity: 0, scale: 0.95, duration: 0.4, ease: 'power2.in' })
@@ -297,6 +307,12 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
     } else {
       setStudents(prev => [...prev, newStudent]);
       setLastAddedStudentName(newStudent.name);
+
+      // Dispatch mission progress
+      window.dispatchEvent(new CustomEvent('schoolify-mission-progress', {
+        detail: { missionId: 'add_student' }
+      }));
+
       setShowNextStepModal(true);
       // Mantener currentStudentName y specialUniformType para la siguiente prenda
       setGarmentNote('');
@@ -951,7 +967,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                           id="studentName"
                           type="text"
                           maxLength={50}
-                          placeholder="Nombre del Estudiante (Ej. Eric Torres)*"
+                          placeholder="Nombre completo del estudiante (Ej. Eric Torres)*"
                           value={currentStudentName}
                           onChange={(e) => {
                             const val = e.target.value;

@@ -63,7 +63,7 @@ const CookieConsent: React.FC = () => {
   return (
     <div
       ref={bannerRef}
-      className="fixed bottom-6 left-6 right-6 z-[200] pointer-events-auto flex justify-center"
+      className="fixed bottom-6 left-6 right-6 z-[201] pointer-events-auto flex justify-center"
     >
       <div className="group relative bg-white/90 dark:bg-dark-surface/90 backdrop-blur-xl border border-gray-200 dark:border-gray-800 p-5 md:py-5 md:px-10 rounded-3xl md:rounded-[3rem] shadow-2xl dark:shadow-primary/5 transition-all overflow-hidden w-full max-w-7xl">
         {/* Decorative background element */}
@@ -92,7 +92,7 @@ const CookieConsent: React.FC = () => {
             >
               Política de Privacidad
             </a>
-            <div className="flex gap-2 w-full md:w-auto">
+            <div className="flex gap-2 w-full md:w-auto md:text-xs">
               <button
                 onClick={handleDecline}
                 className="flex-1 md:flex-none px-6 py-3 rounded-2xl border border-gray-200 dark:border-gray-800 text-sm font-heading font-700 text-text-muted dark:text-dark-muted hover:bg-gray-50 dark:hover:bg-dark-bg transition-all"
@@ -101,7 +101,7 @@ const CookieConsent: React.FC = () => {
               </button>
               <button
                 onClick={handleAccept}
-                className="flex-[2] md:flex-none bg-primary text-text-main font-heading font-700 px-8 py-3.5 rounded-2xl shadow-yellow hover:shadow-yellow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 md:min-w-[160px]"
+                className="flex-[1] md:flex-none bg-primary text-text-main font-heading font-700 px-8 py-3 rounded-2xl text-sm shadow-yellow hover:shadow-yellow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 md:min-w-[160px]"
               >
                 Aceptar todo
               </button>

@@ -64,13 +64,13 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies' }) => {
         }`}
     >
       <BrandCarousel activeService={activeService} />
-      <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2.5 group">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-yellow group-hover:scale-110 transition-transform">
             <SchoolifyLogo className="w-9 h-9" />
           </div>
           <span className="font-heading font-900 text-xl text-text-main dark:text-dark-text">
-            <Schoolify className="h-9 w-auto md:h-11 group-hover:scale-105 transition-transform duration-300" />
+            <Schoolify className="h-8 w-auto md:h-10 group-hover:scale-105 transition-transform duration-300" />
           </span>
         </a>
 
@@ -106,7 +106,8 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies' }) => {
             className="inline-flex items-center gap-2 bg-primary text-text-main font-heading font-700 text-sm px-5 py-2.5 rounded-xl shadow-yellow hover:shadow-yellow-lg hover:scale-105 transition-all duration-200"
           >
             <WhatsApp className="w-5 h-5 text-black" />
-            Contacto para escuelas
+            <span className="hidden lg:inline">Contacto para escuelas</span>
+            <GraduationCap className="w-5 h-5 text-black inline lg:hidden" />
           </a>
         </div>
 
@@ -137,7 +138,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies' }) => {
               <a
                 key={l.label}
                 href={l.href}
-                className="font-heading font-700 text-2xl text-text-main dark:text-dark-text hover:text-secondary dark:hover:text-primary py-3 border-b border-gray-50 dark:border-gray-800/50 transition-colors"
+                className="font-heading font-700 text-sm text-text-main dark:text-dark-text hover:text-secondary dark:hover:text-primary py-3 border-b border-gray-50 dark:border-gray-800/50 transition-colors"
                 onClick={() => setMobileOpen(false)}
               >
                 {l.label}

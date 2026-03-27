@@ -92,11 +92,11 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
       { q: '¿Cuánto tiempo tarda la confección?', a: 'El tiempo promedio es de 3 a 5 días hábiles. Para pedidos especiales o tallas muy específicas, te daremos una fecha exacta al momento de la toma de medidas.' },
       { q: '¿Qué pasa si la prenda no le queda bien al estudiante?', a: 'Contamos con garantía de ajuste. Si algo no queda perfecto, realizamos los ajustes necesarios sin costo adicional para que tu hijo esté cómodo.' },
       { q: '¿Realizan toma de medidas en la escuela?', a: 'Sí, agendamos días específicos con las instituciones aliadas para facilitar el proceso a los padres, o podemos recibirte en nuestros puntos de atención.' },
-      { q: '¿Cómo sé qué talla elegir si compro en línea?', a: 'Para tu tranquilidad, contamos con nuestro <a href="#calculadora" class="text-primary hover:underline font-bold">Asistente de Tallas Virtual</a>, donde puedes ingresar las medidas exactas y calcular automáticamente tu talla recomendada.' },
+      { q: '¿Cómo sé qué talla elegir si compro en línea?', a: 'Para tu tranquilidad, contamos con nuestro <a href="#calculadora" class="text-primary hover:underline font-bold">Asistente de Tallas</a>, donde puedes ingresar las medidas exactas y calcular automáticamente tu talla recomendada.' },
       { q: '¿Cuánto dinero es necesario de anticipo por uniforme?', a: 'Contamos con un plan de apartados donde solo requieres un 20% de anticipo para asegurar tu pedido; el resto se liquida al recibir tus prendas. ¡El precio de este plan de apartado es exactamente el mismo que de contado!' },
       { q: '¿Tienen descuentos por volumen?', a: '¡Claro! A partir de 2 uniformes completos (ej. para hermanos) ofrecemos un descuento especial. Pregúntanos por WhatsApp.' },
       { q: '¿Dónde entregan los uniformes?', a: 'Realizamos entregas directamente en la escuela en fechas programadas o envío a domicilio.' },
-      { q: '¿Tienen tallas extras o especiales?', a: 'Sí, confeccionamos tallas a medida exacta. Usa nuestro <a href="#calculadora" class="text-primary hover:underline font-bold">Asistente de Tallas Virtual</a> y especifica cualquier detalle adicional antes de enviarnos tu solicitud por WhatsApp.' },
+      { q: '¿Tienen tallas extras o especiales?', a: 'Sí, confeccionamos tallas a medida exacta. Usa nuestro <a href="#calculadora" class="text-primary hover:underline font-bold">Asistente de Tallas</a> y especifica cualquier detalle adicional antes de enviarnos tu solicitud por WhatsApp.' },
     ],
   },
   supplies: {
@@ -138,6 +138,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     faqs: [
       { q: '¿Cómo funciona el servicio?', a: 'Es muy fácil: nos contactas por WhatsApp, nos compartes la lista escolar en imagen o PDF. Nosotros te responderemos con la cotización completa.' },
       { q: '¿Garantizan las marcas exactas solicitadas?', a: 'Sí, respetamos estrictamente las marcas solicitadas por los maestros. Si alguna no tiene stock, te consultamos antes de ofrecer un sustituto de calidad igual o superior.' },
+      { q: '¿Cuentan con garantía si llega algún artículo en mal estado o faltante?', a: 'Entregamos el paquete escolar y lo revisamos frente a ti o el maestro, si algo falta o está en mal estado lo reponemos.' },
       { q: '¿Qué pasa si un artículo está agotado?', a: 'Te entregamos el resto de la lista y te avisamos en cuanto el artículo faltante llegue, entregándolo en alguna de las sucursales o envío sin costo (según el caso).' },
       { q: '¿Tienen opciones de pago flexibles?', a: 'Contamos con un Plan de Apartado para que vayas pagando tu lista poco a poco antes del inicio de clases.' },
       { q: '¿Emiten factura fiscal?', a: 'Aún estamos en este proceso, pronto emitiremos facturas electrónicas de inmediato. Solo solicita tu comprobante al momento de realizar tu pedido vía WhatsApp.' },
@@ -150,7 +151,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
   didactic: {
     tag: 'Material Didáctico',
     headline: 'Material didáctico listo para el aprendizaje.',
-    subheadline: 'Libros, cuadernos forrados y etiquetas personalizadas. Todo lo que tus hijos necesitan para empezar con el pie derecho.',
+    subheadline: 'Acompañamiento durante todo el ciclo escolar. Personalización, temáticas, decoración y más dentro del aula y para eventos.',
     bullets: [
       'Forrado y etiquetado profesional incluido',
       'Materiales específicos por grado y escuela',

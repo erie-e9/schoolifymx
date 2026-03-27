@@ -19,7 +19,7 @@ const SUPPLIES_DATA = {
     Selecto: { min: 1200, max: 1800, time: 5 },
   },
   Primaria: {
-    Esencial: { min: 1020, max: 1300, time: 5 },
+    Esencial: { min: 1080, max: 1300, time: 5 },
     Selecto: { min: 1300, max: 1630, time: 6 },
   },
   Secundaria: {
@@ -53,6 +53,14 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
     } else {
       document.body.style.overflow = 'unset';
     }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) handleClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
   const handleClose = () => {
@@ -101,7 +109,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
           <X className="w-4 h-4 text-gray-600 dark:text-gray-300" />
         </button>
 
-        <div className="p-8 md:p-12">
+        <div className="p-7 md:p-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
             {/* Left Column: Interactive Controls */}
             <div className="space-y-8 py-2">
@@ -175,7 +183,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
             </div>
 
             {/* Right Column: Dynamic Results Dashboard */}
-            <div className="bg-gray-50/50 dark:bg-dark-bg/40 rounded-[2.5rem] p-8 md:p-10 border border-gray-200/50 dark:border-gray-800/50 flex flex-col justify-between space-y-8 relative overflow-hidden">
+            <div className="bg-gray-50/50 dark:bg-dark-bg/40 rounded-[2.5rem] p-7 md:p-7 border border-gray-200/50 dark:border-gray-800/50 flex flex-col justify-between space-y-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -183,21 +191,21 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                 <p className="text-[10px] font-heading font-900 text-secondary dark:text-primary uppercase tracking-[0.25em]">Estimación Inmediata</p>
                 <div className="flex items-baseline justify-center gap-2">
                   <span className="text-5xl md:text-6xl font-heading font-900 text-text-main dark:text-dark-text tracking-tighter transition-all">
-                    ${formatNumbers(range.min)}
+                    ~ ${formatNumbers(range.min)}
                   </span>
-                  <span className="text-4xl text-text-main dark:text-dark-text font-heading font-300">-</span>
+                  {/* <span className="text-4xl text-text-main dark:text-dark-text font-heading font-300">-</span>
                   <span className="text-5xl md:text-6xl font-heading font-900 text-text-main dark:text-dark-text tracking-tighter transition-all">
                     ${formatNumbers(range.max)}
                   </span>
-                  <span className="text-xl font-heading font-800 text-text-muted ml-1">MXN</span>
+                  <span className="text-xl font-heading font-800 text-text-muted ml-1">MXN</span> */}
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4 relative z-10">
-                <div className="bg-white dark:bg-dark-surface p-5 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800/60 transition-transform active:scale-95">
-                  <div className="flex items-center gap-2 text-secondary dark:text-primary mb-1">
+                <div className="bg-white dark:bg-dark-surface p-4 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800/60 transition-transform active:scale-95">
+                  <div className="flex items-center gap-1 text-secondary dark:text-primary mb-1">
                     <Clock className="w-4 h-4" />
-                    <span className="text-[10px] font-heading font-900 uppercase tracking-widest">Tiempo que ahorras</span>
+                    <span className="text-[9px] font-heading font-900 uppercase tracking-widest">Tiempo que ahorras</span>
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-heading font-900 text-text-main dark:text-dark-text">{timeSaved}</span>
@@ -205,10 +213,10 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-dark-surface p-5 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800/60 transition-transform active:scale-95">
-                  <div className="flex items-center gap-2 text-green-500 mb-1">
+                <div className="bg-white dark:bg-dark-surface p-4 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800/60 transition-transform active:scale-95">
+                  <div className="flex items-center gap-1 text-green-500 mb-1">
                     <TrendingDown className="w-4 h-4" />
-                    <span className="text-[10px] font-heading font-900 uppercase tracking-widest">Ahorro $</span>
+                    <span className="text-[9px] font-heading font-900 uppercase tracking-widest">Ahorro</span>
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-heading font-900 text-text-main dark:text-dark-text">5-10</span>
@@ -223,11 +231,12 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                   className="w-full inline-flex items-center justify-center gap-3 bg-secondary dark:bg-primary text-white dark:text-text-main font-heading font-900 text-base py-5 rounded-2xl shadow-xl hover:shadow-primary/40 hover:-translate-y-1 active:scale-95 transition-all duration-300 group/btn"
                 >
                   <Camera className="w-6 h-6" />
-                  Subir foto de mi lista
+                  <span className='hidden md:inline'>Subir imagen de mi lista</span>
+                  <span className='inline md:hidden'>Subir mi lista</span>
                   <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
                 </button>
                 <p className="text-center text-[10px] text-text-muted dark:text-dark-muted font-body leading-relaxed max-w-[280px] mx-auto">
-                  *Al subir tu lista, nuestros asistentes podrán darte el precio exacto de inmediato.
+                  *Al subir tu lista, nuestros asistentes te podrán compartir precio actual de tu lista.
                 </p>
               </div>
             </div>

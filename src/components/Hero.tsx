@@ -100,7 +100,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
     <section
       ref={heroRef}
       id="features"
-      className="relative min-h-[90vh] lg:min-h-screen flex items-center bg-white dark:bg-dark-bg overflow-hidden pt-32 pb-20 lg:pt-28 lg:pb-16 transition-colors duration-300"
+      className="relative min-h-[85vh] lg:min-h-screen flex items-center bg-white dark:bg-dark-bg overflow-hidden pt-28 pb-16 lg:pt-24 lg:pb-12 transition-colors duration-300"
     >
       {/* Background decorative blobs */}
       <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary/10 dark:bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
@@ -137,7 +137,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
           {/* Headline */}
           <h1
             ref={headlineRef}
-            className="font-heading font-800 text-4xl md:text-5xl xl:text-5xl text-text-main dark:text-dark-text leading-[1.08] tracking-tight"
+            className="font-heading font-800 text-3xl md:text-4xl xl:text-4xl text-text-main dark:text-dark-text leading-[1.1] tracking-tight"
           >{content.headline}
             {/* {content.headline.split(',').map((part, i) => (
               <React.Fragment key={i}>
@@ -150,7 +150,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
           {/* Subheadline */}
           <p
             ref={subRef}
-            className="text-text-muted dark:text-dark-muted text-base md:text-lg lg:text-xl leading-relaxed max-w-xl opacity-90"
+            className="text-text-muted dark:text-dark-muted text-sm md:text-base lg:text-lg leading-relaxed max-w-xl opacity-90"
           >
             {content.subheadline}
           </p>
