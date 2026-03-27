@@ -5,7 +5,7 @@ import { ngrok } from 'vite-plugin-ngrok'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/schoolifymx/',
+  base: '/',
   plugins: [react(), svgr(), ngrok({
     compression: true,
     authtoken: '2pHekMvnS5S75v3oiFFQICtQixf_5jGyJHcdXFXaPga1YL1pj',
