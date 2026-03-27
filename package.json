@@ -32,7 +32,6 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.0.0",
-    "vite-plugin-ngrok": "^2.0.1",
     "vite-plugin-svgr": "^4.5.0"
   }
 }
