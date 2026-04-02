@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CheckCircle2, ChevronRight } from 'lucide-react';
 import { SERVICES_CONTENT } from '../../types';
 import type { ServiceType } from '../../types';
@@ -10,6 +11,8 @@ import WhatsApp from '../../assets/whatsapp.svg?react';
 import { WhatsAppService } from '../../services/WhatsAppService';
 import Button from '../atoms/Button';
 import Badge from '../atoms/Badge';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface HeroProps {
   activeService: ServiceType;
@@ -66,6 +69,61 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
     return () => { tl.kill(); };
   }, []);
 
+  // Parallax ScrollTrigger animation
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      // Parallax blobs
+      gsap.to('.hero-blob-1', {
+        yPercent: 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1,
+        }
+      });
+
+      gsap.to('.hero-blob-2', {
+        yPercent: -30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1,
+        }
+      });
+
+      // Subtle parallax on display card wrap
+      gsap.to('.hero-parallax-display', {
+        y: 60,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.8,
+        }
+      });
+
+      // Subtle parallax on text content with slight fade out
+      gsap.to('.hero-content-wrap', {
+        y: -40,
+        opacity: 0.6,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.5,
+        }
+      });
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
   // Service change animation
   useEffect(() => {
     if (activeService === displayedService) return;
@@ -111,12 +169,12 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
       className="relative min-h-[85vh] lg:min-h-screen flex items-center bg-white dark:bg-dark-bg overflow-hidden pt-28 pb-16 lg:pt-24 lg:pb-12 transition-colors duration-300"
     >
       {/* Background decorative blobs */}
-      <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary/10 dark:bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-primary/5 dark:bg-primary/3 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+      <div className="hero-blob-1 absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary/10 dark:bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="hero-blob-2 absolute bottom-0 left-0 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-primary/5 dark:bg-primary/3 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
         {/* LEFT — Content */}
-        <div className="flex flex-col gap-4">
+        <div className="hero-content-wrap flex flex-col gap-4">
           <h2 className="mb-1 dark:text-dark-text text-1xl md:text-1xl">
             Soluciones Escolares
           </h2>
@@ -208,8 +266,8 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
         </div>
 
         {/* RIGHT — Dynamic Display */}
-        <div className="relative flex items-center justify-center order-1 lg:order-2 scale-90 sm:scale-100" ref={displayRef}>
-          <div className="relative w-full max-w-[500px] lg:max-w-none">
+        <div className="hero-parallax-display relative flex items-center justify-center order-1 lg:order-2 scale-90 sm:scale-100">
+          <div ref={displayRef} className="relative w-full max-w-[500px] lg:max-w-none">
             {/* Decorative background for the component */}
             <div className="absolute inset-x-0 inset-y-0 bg-primary/10 dark:bg-primary/5 rounded-[2.5rem] -rotate-2 scale-105 blur-md" />
             <div className="absolute inset-x-0 inset-y-0 bg-accent/10 dark:bg-accent/5 rounded-[2.5rem] rotate-1 scale-100 blur-sm" />
