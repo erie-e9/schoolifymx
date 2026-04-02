@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { Calculator, Backpack } from 'lucide-react';
-import SuppliesEstimator from '../organisms/SuppliesEstimator';
-import ListScanner from '../organisms/ListScanner';
-import BackpackSim from '../organisms/BackpackSim';
+
+const SuppliesEstimator = React.lazy(() => import('../organisms/SuppliesEstimator'));
+const ListScanner = React.lazy(() => import('../organisms/ListScanner'));
+const BackpackSim = React.lazy(() => import('../organisms/BackpackSim'));
 
 const SUPPLIES_ROWS = [
   { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },
@@ -82,27 +83,35 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
         ))}
       </div>
 
-      <SuppliesEstimator
-        isOpen={isEstimatorOpen}
-        onClose={() => setIsEstimatorOpen(false)}
-        onOpenScanner={() => {
-          setIsEstimatorOpen(false);
-          setIsScannerOpen(true);
-        }}
-      />
-      <ListScanner
-        isOpen={isScannerOpen}
-        onClose={() => setIsScannerOpen(false)}
-        onScanComplete={(items) => {
-          setScannedItems(items);
-          setIsBackpackOpen(true);
-        }}
-      />
-      <BackpackSim
-        isOpen={isBackpackOpen}
-        onClose={() => setIsBackpackOpen(false)}
-        scannedItems={scannedItems}
-      />
+      <Suspense fallback={null}>
+        {isEstimatorOpen && (
+          <SuppliesEstimator
+            isOpen={isEstimatorOpen}
+            onClose={() => setIsEstimatorOpen(false)}
+            onOpenScanner={() => {
+              setIsEstimatorOpen(false);
+              setIsScannerOpen(true);
+            }}
+          />
+        )}
+        {isScannerOpen && (
+          <ListScanner
+            isOpen={isScannerOpen}
+            onClose={() => setIsScannerOpen(false)}
+            onScanComplete={(items) => {
+              setScannedItems(items);
+              setIsBackpackOpen(true);
+            }}
+          />
+        )}
+        {isBackpackOpen && (
+          <BackpackSim
+            isOpen={isBackpackOpen}
+            onClose={() => setIsBackpackOpen(false)}
+            scannedItems={scannedItems}
+          />
+        )}
+      </Suspense>
     </div>
   );
 };

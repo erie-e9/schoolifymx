@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { gsap } from 'gsap';
 import { Ruler } from 'lucide-react';
-import UniformSizeHelper from '../organisms/UniformSizeHelper';
+
+const UniformSizeHelper = React.lazy(() => import('../organisms/UniformSizeHelper'));
 
 const UNIFORM_DETAILS = [
   { icon: '📐', text: 'Confección a medida' },
@@ -59,7 +60,11 @@ const UniformsCard: React.FC<UniformsCardProps> = ({ active }) => {
         </div>
       </div>
 
-      <UniformSizeHelper isOpen={isSizeHelperOpen} onClose={() => setIsSizeHelperOpen(false)} />
+      <Suspense fallback={null}>
+        {isSizeHelperOpen && (
+          <UniformSizeHelper isOpen={isSizeHelperOpen} onClose={() => setIsSizeHelperOpen(false)} />
+        )}
+      </Suspense>
 
       <p className="text-text-muted dark:text-dark-muted leading-relaxed mb-4">
         Confeccionamos, reparamos y entregamos el uniforme escolar <span className="text-secondary dark:text-primary font-600">con los colores, tela y especificaciones</span> de cada escuela.

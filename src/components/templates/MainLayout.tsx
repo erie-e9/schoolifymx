@@ -1,9 +1,10 @@
 import React, { Suspense } from 'react';
 import Navbar from '../organisms/Navbar';
-import Footer from '../organisms/Footer';
 import ScrollToTop from '../atoms/ScrollToTop';
-import CookieConsent from '../organisms/CookieConsent';
 import type { ServiceType } from '../../types';
+
+const Footer = React.lazy(() => import('../organisms/Footer'));
+const CookieConsent = React.lazy(() => import('../organisms/CookieConsent'));
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -34,3 +35,4 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 };
 
 export default MainLayout;
+
