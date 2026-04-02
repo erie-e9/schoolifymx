@@ -5,12 +5,5 @@ import svgr from 'vite-plugin-svgr'
 // https://vite.dev/config/
 export default defineConfig({
   base: '/schoolifymx/',
-  plugins: [react(), svgr()],
-  build: {
-    cssCodeSplit: true,
-    reportCompressedSize: false,
-    rollupOptions: {
-      output: {}
-    }
-  }
+  plugins: [react(), svgr()]
 })
