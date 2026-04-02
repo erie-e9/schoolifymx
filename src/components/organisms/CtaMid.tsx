@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { gsap } from 'gsap';
-import { SERVICES_CONTENT, getWhatsappLink } from '../types';
-import type { ServiceType } from '../types';
-import WhatsApp from '../assets/whatsapp.svg?react';
+import { SERVICES_CONTENT, getWhatsappLink } from '../../types';
+import type { ServiceType } from '../../types';
+import WhatsApp from '../../assets/whatsapp.svg?react';
+import Badge from '../atoms/Badge';
 
 interface CtaMidProps {
   activeService: ServiceType;
@@ -80,6 +81,9 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
   return (
     <section id="galery" className="py-20 md:py-32 bg-surface dark:bg-dark-bg transition-colors duration-300 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center max-w-3xl mx-auto mb-5 md:mb-5" ref={titleRef}>
+          <Badge variant="tag" size="lg" className="mb-4">Algunos de nuestros trabajos</Badge>
+        </div>
         <div className="bg-white dark:bg-dark-surface rounded-[2.5rem] shadow-xl dark:shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800">
           <div className="flex flex-col lg:flex-row min-h-[600px]">
             {/* Left Column: Info synced with image */}
@@ -99,7 +103,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
 
               <p
                 ref={descRef}
-                className="text-text-muted dark:text-dark-muted text-lg mb-8 font-body leading-relaxed max-w-md"
+                className="text-text-muted dark:text-dark-muted text-sm md:text-base lg:text-md leading-relaxed max-w-xl opacity-90"
               >
                 {currentItem?.description}
               </p>
@@ -109,10 +113,9 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
                   href={waLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center justify-center gap-2.5 bg-primary text-text-main font-heading font-700 text-base px-8 py-4 rounded-2xl shadow-yellow hover:shadow-yellow-lg hover:scale-105 active:scale-95 transition-all duration-300"
-
+                  className="inline-flex items-center justify-center gap-2 font-heading font-700 transition-all duration-300 active:scale-95 bg-primary text-text-main shadow-yellow hover:shadow-yellow-lg hover:scale-105 hover:bg-primary/90 px-8 py-4 text-base rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed group"
                 >
-                  <WhatsApp className="w-5 h-5 text-black" /> Escríbenos ahora
+                  <span className="flex-shrink-0"><WhatsApp className="w-5 h-5 text-black" /></span> Escríbenos ahora
                 </a>
               </div>
             </div>
@@ -120,16 +123,16 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
             {/* Right Column: Carousel (Clean version) */}
             <div className="lg:w-1/2 bg-gray-50 dark:bg-dark-bg/50 relative group h-[450px] md:h-[500px] lg:h-auto">
               <div className="h-full overflow-hidden">
-                <div 
-                    className="flex h-full will-change-transform" 
-                    ref={carouselRef}
-                    style={{ width: `${carouselItems.length * 100}%` }}
+                <div
+                  className="flex h-full will-change-transform"
+                  ref={carouselRef}
+                  style={{ width: `${carouselItems.length * 100}%` }}
                 >
                   {carouselItems.map((item, i) => (
-                    <div 
-                        key={i} 
-                        className="carousel-slide h-full relative" 
-                        style={{ width: `${100 / carouselItems.length}%` }}
+                    <div
+                      key={i}
+                      className="carousel-slide h-full relative"
+                      style={{ width: `${100 / carouselItems.length}%` }}
                     >
                       <img
                         src={item.image}

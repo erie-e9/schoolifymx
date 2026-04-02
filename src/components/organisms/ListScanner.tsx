@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
-import { Upload, CheckCircle, Zap, ChevronRight, X, Loader2, FileDigit, Backpack } from 'lucide-react';
-import WhatsApp from '../assets/whatsapp.svg?react';
-import { getWhatsappLink } from '../types';
+import { Upload, CheckCircle, Zap, X, Loader2, FileDigit, Backpack, AlertCircle, RefreshCw } from 'lucide-react';
+import WhatsApp from '../../assets/whatsapp.svg?react';
+import { WhatsAppService } from '../../services/WhatsAppService';
+import { useScanner } from '../../hooks/useScanner';
+import Button from '../atoms/Button';
+import type { ScannedItem } from '../../types';
 
 interface ListScannerProps {
   isOpen: boolean;
@@ -11,36 +14,27 @@ interface ListScannerProps {
   onScanComplete?: (items: ScannedItem[]) => void;
 }
 
-export interface ScannedItem {
-  id: string;
-  name: string;
-  selected: boolean;
-  note: string;
-}
-
 const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComplete }) => {
-  const [status, setStatus] = useState<'idle' | 'uploading' | 'scanning' | 'completed'>('idle');
-  const [progress, setProgress] = useState(0);
-  const [scanningText, setScanningText] = useState('Iniciando...');
-  const [selectedFile, setSelectedFile] = useState<string | null>(null);
-  const [fileType, setFileType] = useState<'image' | 'pdf' | null>(null);
-  const [fileName, setFileName] = useState<string>('');
-  const [tier, setTier] = useState<'Esencial' | 'Selecto'>('Selecto');
-  const [items, setItems] = useState<ScannedItem[]>([]);
-  const [isDraggingOver, setIsDraggingOver] = useState(false);
+  const {
+    status,
+    progress,
+    scanningText,
+    items,
+    setItems,
+    selectedFile,
+    fileType,
+    fileName,
+    tier,
+    setTier,
+    processFile,
+    error
+  } = useScanner(isOpen);
 
+  const [isDraggingOver, setIsDraggingOver] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
   const laserRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const scanningSteps = [
-    "Detectando caligrafía...",
-    "Identificando cuadernos y libretas...",
-    "Buscando marcas específicas...",
-    "Calculando mejores ofertas...",
-    "Finalizando análisis..."
-  ];
 
   useEffect(() => {
     if (isOpen) {
@@ -54,15 +48,17 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
         );
     } else {
       document.body.style.overflow = 'unset';
-      setStatus('idle');
-      setProgress(0);
-      setSelectedFile(null);
-      setFileType(null);
-      setFileName('');
-      setTier('Esencial');
-      setIsDraggingOver(false);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (status === 'scanning') {
+      gsap.fromTo(laserRef.current,
+        { top: '0%' },
+        { top: '95%', duration: 1.5, repeat: 4, yoyo: true, ease: "power1.inOut" }
+      );
+    }
+  }, [status]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -78,141 +74,19 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
       .to(backdropRef.current, { opacity: 0, duration: 0.2 }, "-=0.1");
   };
 
-  const startSimulation = () => {
-    setStatus('scanning');
-
-    // Laser Animation
-    gsap.fromTo(laserRef.current,
-      { top: '0%' },
-      { top: '95%', duration: 1.5, repeat: 4, yoyo: true, ease: "power1.inOut" }
-    );
-
-    const MOCK_NAMES = [
-      "1 Paquete de crayolas gruesas 12 piezas",
-      "1 Lápiz No. 2",
-      "1 Goma de borrar blanca",
-      "1 Sacapuntas con depósito",
-      "1 Pegamento adhesivo grueso 40g",
-      "200 Hojas de máquina blancas",
-      "10 hojas de opalina blancas",
-      "5 barras de silicón delgado",
-      "5 barras de silicon grueso",
-      "1 Plumón para pizarrón blanco",
-      "1 Plumón permanente negro",
-      "2 pliegos papel china",
-      "2 hojas de papel bond (1 lisa, 1 cuadriculada)",
-      "1 pliego grande de fomi diamantado",
-      "1 pliego grande fomi simple",
-      "1 cartulina blanca",
-      "1 pliego de papel corrugado",
-      "1 cinta adhesiva gruesa",
-      "1 masking tape grueso",
-      "1 bolsita de diamantina",
-      "1 bote de pintura témpera vinílica 473ml",
-      "¼ pintura de aceite",
-      "1 pincel grueso",
-      "1 carpeta oficio azul claro (Expediente)",
-      "1 carpeta carta con broche Baco (Lectura)",
-      "1 litro de cloro",
-      "1 litro de limpiador multiusos",
-      "1 jabón líquido para manos grande",
-      "1 paquete de 4 rollos higiénicos",
-      "1 paquete de toallitas húmedas",
-      "1 juego didáctico (especial)",
-      "1 franela para limpiar",
-      "1 mandil escolar",
-      "2 tapitas de garrafón limpias",
-      "10 micas tamaño carta",
-      "1 bolsa de globos de colores",
-      "1 insecticida en aerosol",
-      "10 bolsas para basura grandes",
-      "1 paquete de cucharas desechables",
-      "1 Fotografía tamaño infantil"
-    ];
-
-    // Progress and Text Animation
-    let step = 0;
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          const scannedItems = MOCK_NAMES.map((name, idx) => ({
-            id: idx.toString(),
-            name,
-            selected: true,
-            note: ''
-          }));
-          setItems(scannedItems);
-          setStatus('completed');
-          return 100;
-        }
-
-        // Update text every 20%
-        if (Math.floor(prev / 20) > step) {
-          step++;
-          setScanningText(scanningSteps[step] || scanningSteps[scanningSteps.length - 1]);
-        }
-
-        return prev + 1;
-      });
-    }, 40);
-  };
-
-  const processFile = (file: File) => {
-    setFileName(file.name);
-    if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
-      setFileType('pdf');
-      setSelectedFile(null);
-      setStatus('uploading');
-      setTimeout(() => startSimulation(), 1000);
-    } else {
-      setFileType('image');
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setSelectedFile(event.target?.result as string);
-        setStatus('uploading');
-        setTimeout(() => startSimulation(), 1500);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     if (e.target.files && e.target.files[0]) {
       processFile(e.target.files[0]);
     }
   };
 
-  // Drag & Drop handlers
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDraggingOver(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDraggingOver(false);
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDraggingOver(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file) processFile(file);
+  const handleWhatsAppSend = () => {
+    const selected = items.filter(i => i.selected);
+    WhatsAppService.sendScannedListQuote(selected, tier); // pendiente
   };
 
   if (!isOpen) return null;
-
-  const selectedItemsList = items
-    .filter(i => i.selected)
-    .map(i => `• ${i.name}${i.note ? ` (${i.note})` : ''}`)
-    .join('\n');
-
-  const waMessage = `¡Hola Schoolify! 🚀 Acabo de escanear mi lista de útiles con su herramienta.\n\nMe gustaría cotizar el *Paquete ${tier}* para los siguientes artículos:\n\n${selectedItemsList}`;
-  const waLink = getWhatsappLink(waMessage);
 
   return createPortal(
     <div className="fixed inset-0 z-[1001] flex items-center justify-center p-4 md:p-6 lg:p-12">
@@ -246,9 +120,14 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
 
               <div
                 onClick={() => fileInputRef.current?.click()}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
+                onDragOver={(e) => { e.preventDefault(); setIsDraggingOver(true); }}
+                onDragLeave={() => setIsDraggingOver(false)}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setIsDraggingOver(false);
+                  const file = e.dataTransfer.files?.[0];
+                  if (file) processFile(file);
+                }}
                 className={`cursor-pointer border-2 border-dashed rounded-[2rem] p-10 transition-all group ${isDraggingOver
                   ? 'border-primary bg-primary/10 scale-[1.02] shadow-yellow'
                   : 'border-primary/30 hover:border-primary bg-gray-50/50 dark:bg-dark-bg/30 hover:bg-primary/5'
@@ -259,7 +138,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
                   ref={fileInputRef}
                   className="hidden"
                   accept="image/*,.pdf"
-                  onChange={onFileChange}
+                  onChange={handleFileChange}
                 />
                 <div className="flex flex-col items-center gap-4">
                   <div className={`w-12 h-12 rounded-full shadow-sm flex items-center justify-center transition-all ${isDraggingOver ? 'bg-primary scale-125' : 'bg-primary dark:bg-dark-surface group-hover:scale-110'}`}>
@@ -285,6 +164,32 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
             </div>
           )}
 
+          {status === 'error' && (
+            <div className="text-center py-16 space-y-6 animate-in fade-in duration-300">
+              <div className="mx-auto w-20 h-20 bg-red-100 dark:bg-red-900/30 rounded-3xl flex items-center justify-center">
+                <AlertCircle className="w-10 h-10 text-red-500" />
+              </div>
+              <div className="space-y-3">
+                <h2 className="text-2xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight">Error al procesar</h2>
+                <p className="text-text-muted dark:text-dark-muted font-body text-sm max-w-sm mx-auto">
+                  {error?.message || 'No pudimos procesar tu lista. Por favor, intenta de nuevo.'}
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                    fileInputRef.current.click();
+                  }
+                }}
+                leftIcon={<RefreshCw className="w-4 h-4" />}
+              >
+                Intentar de nuevo
+              </Button>
+            </div>
+          )}
+
           {status === 'scanning' && (
             <div className="space-y-10 animate-in fade-in duration-500">
               <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden bg-black/5 dark:bg-black/20 border border-primary/20 shadow-inner flex items-center justify-center">
@@ -301,7 +206,6 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
                     <img src={selectedFile} alt="Lista" className="w-full h-full object-contain opacity-50 grayscale" />
                   )
                 )}
-                {/* Laser Effect */}
                 <div
                   ref={laserRef}
                   className="absolute left-0 right-0 h-1 bg-primary shadow-[0_0_15px_rgba(255,215,0,0.8)] z-10"
@@ -391,42 +295,39 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                {/* WhatsApp button - Main CTA */}
-                <a
-                  href={waLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-[1.2] inline-flex items-center justify-center gap-1 bg-secondary dark:bg-primary text-white dark:text-text-main font-heading font-900 text-sm py-4 rounded-2xl shadow-xl hover:-translate-y-1 active:scale-95 transition-all duration-300 group"
+                <Button
+                  variant="primary"
+                  className="flex-[1.2] py-4 bg-secondary dark:bg-primary text-white dark:text-text-main"
+                  onClick={handleWhatsAppSend}
+                  leftIcon={<WhatsApp className="w-5 h-5" />}
                 >
-                  <WhatsApp className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                   <span className="whitespace-nowrap hidden md:inline">Ver mi presupuesto en WhatsApp</span>
                   <span className="whitespace-nowrap inline md:hidden">Ver mi presupuesto</span>
-                </a>
+                </Button>
 
-                {/* Send to BackpackSim button - Secondary CTA */}
                 {onScanComplete && (
-                  <button
+                  <Button
+                    variant="thirdary"
+                    className="flex-1 py-4 border-primary/30 dark:border-secondary/30 text-secondary dark:text-primary"
                     onClick={() => {
                       const selected = items.filter(i => i.selected);
                       onScanComplete(selected);
-                      // Dispatch mission progress
                       window.dispatchEvent(new CustomEvent('schoolify-mission-progress', {
                         detail: { missionId: 'scan_list' }
                       }));
                       handleClose();
                     }}
-                    className="flex-1 inline-flex items-center justify-center gap-1 bg-primary/80 dark:bg-white/5 border border-primary/30 dark:border-secondary/30 text-secondary dark:text-primary font-heading font-800 text-[11px] sm:text-xs py-4 rounded-2xl hover:bg-primary/20 active:scale-95 transition-all duration-300 group"
+                    leftIcon={<Backpack className="w-4 h-4" />}
                   >
-                    <Backpack className="w-4 h-4" />
-                    <span className="leading-tight">Integrar al Creador de listas</span>
-                  </button>
+                    <span className="text-[10px] leading-tight">Integrar al Creador de listas</span>
+                  </Button>
                 )}
               </div>
-              <p className="text-[10px] text-text-muted font-body leading-relaxed max-w-md mx-auto">
-                El costo final puede variar entre la fecha de cotización y la de pedido realizado, el precio del mercado entre otros factores.
-              </p>
             </div>
           )}
+          <p className="text-[10px] text-center mt-5 text-text-muted font-body leading-relaxed max-w-md mx-auto">
+            El costo final puede variar entre la fecha de cotización y la de pedido realizado, el precio del mercado entre otros factores.
+          </p>
         </div>
       </div>
     </div>,

@@ -1,10 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronRight, Building2 } from 'lucide-react';
-import WhatsApp from '../assets/whatsapp.svg?react';
-import { SERVICES_CONTENT, getWhatsappLink } from '../types';
-import type { ServiceType } from '../types';
+import WhatsApp from '../../assets/whatsapp.svg?react';
+import { SERVICES_CONTENT, getWhatsappLink } from '../../types';
+import type { ServiceType } from '../../types';
+import Button from '../atoms/Button';
+import Badge from '../atoms/Badge';
+import { WhatsAppService } from '../../services/WhatsAppService';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,8 +33,13 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
     return () => ctx.revert();
   }, []);
 
-  const whatsappLink = React.useMemo(() => getWhatsappLink(content.whatsappMessage), [content.whatsappMessage]);
-  const whatsappLinkSchool = React.useMemo(() => getWhatsappLink('Hola, soy una institución educativa y me interesa Schoolify.mx'), []);
+  const handleCtaClick = () => {
+    WhatsAppService.sendGenericContact(content.whatsappMessage);
+  };
+
+  const handleInstitutionClick = () => {
+    WhatsAppService.sendGenericContact('Hola, soy una institución educativa y me interesa Schoolify.mx');
+  };
 
   return (
     <section className="relative py-24 md:py-32 overflow-hidden transition-colors duration-300" ref={sectionRef}>
@@ -44,9 +52,9 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center" ref={contentRef}>
         {/* Label */}
-        <div className="inline-flex items-center gap-2 bg-white/20 dark:bg-primary/10 backdrop-blur-sm text-text-main dark:text-dark-text font-heading font-700 text-sm px-5 py-2 rounded-full border border-white/30 dark:border-primary/20 mb-6 tracking-wider">
+        <Badge variant="tag" size='lg' className="mb-6 bg-white/20 dark:bg-primary/10 backdrop-blur-sm px-5 py-2">
           🚀 Empieza hoy mismo
-        </div>
+        </Badge>
 
         {/* Headline */}
         <h2 className="font-heading font-900 text-4xl md:text-6xl text-text-main dark:text-dark-text leading-[1.1] mb-6">
@@ -62,26 +70,26 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-          <a
-            href={whatsappLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-text-main dark:bg-primary text-white dark:text-dark-bg font-heading font-800 text-lg px-10 py-5 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300"
+          <Button
+            variant="primary"
+            size="lg"
+            className="w-full sm:w-auto text-lg px-10 py-5 bg-text-main dark:bg-primary text-white dark:text-dark-bg"
+            onClick={handleCtaClick}
+            leftIcon={<WhatsApp />}
+            rightIcon={<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
           >
-            <WhatsApp />
             Escríbenos ahora
-            <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </a>
+          </Button>
 
-          <a
-            href={whatsappLinkSchool}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white/30 dark:bg-dark-surface/50 backdrop-blur-md border-2 border-white/60 dark:border-primary/30 text-text-main dark:text-dark-text font-heading font-700 text-lg px-10 py-5 rounded-2xl hover:bg-white/50 dark:hover:bg-dark-surface hover:scale-105 active:scale-95 transition-all duration-300"
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full sm:w-auto text-lg px-10 py-5 bg-white/30 dark:bg-dark-surface/50 backdrop-blur-md border-2 border-white/60 dark:border-primary/30"
+            onClick={handleInstitutionClick}
+            leftIcon={<Building2 className="w-6 h-6 text-secondary dark:text-primary" />}
           >
-            <Building2 className="w-6 h-6 text-secondary dark:text-primary" />
             Soy de una institución
-          </a>
+          </Button>
         </div>
 
         {/* Social proof footer */}

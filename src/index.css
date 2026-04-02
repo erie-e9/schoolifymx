@@ -13,7 +13,7 @@
     @apply font-body text-text-main bg-white antialiased transition-colors duration-300;
   }
 
-  body.dark {
+  .dark body {
     @apply bg-dark-bg text-dark-text;
   }
 
@@ -43,7 +43,7 @@
     @apply font-heading text-4xl md:text-5xl text-text-main leading-tight transition-colors duration-300;
   }
 
-  body.dark .section-title {
+  .dark .section-title {
     @apply text-dark-text;
   }
 
@@ -51,7 +51,7 @@
     @apply text-text-muted text-lg font-body leading-relaxed transition-colors duration-300;
   }
 
-  body.dark .section-subtitle {
+  .dark .section-subtitle {
     @apply text-dark-muted;
   }
 
@@ -59,7 +59,7 @@
     @apply inline-flex items-center gap-1.5 text-sm font-bold bg-surface text-secondary px-4 py-1.5 rounded-full transition-colors duration-300;
   }
 
-  body.dark .tag {
+  .dark .tag {
     @apply bg-dark-surface text-primary border border-primary/20;
   }
 }
@@ -134,8 +134,13 @@
 
 /* Infinite Brand Carousel */
 @keyframes scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-scroll-left {
@@ -144,28 +149,6 @@
 
 .pause-scroll {
   animation-play-state: paused;
-}
-
-/* Custom scrollbar utilities for BackpackSim */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-primary/30 rounded-full hover:bg-primary/50 transition-colors;
-}
-
-.custom-scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-.custom-scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 /* Mask for horizontal scrolling shadow */

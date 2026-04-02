@@ -1,10 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { CheckCircle2, ChevronRight } from 'lucide-react';
-import { SERVICES_CONTENT, getWhatsappLink } from '../types';
-import type { ServiceType } from '../types';
-import { UniformsCard, SuppliesComparator, DidacticMaterialTimeline } from './ServiceDisplays';
-import WhatsApp from '../assets/whatsapp.svg?react';
+import { SERVICES_CONTENT } from '../../types';
+import type { ServiceType } from '../../types';
+import UniformsCard from '../molecules/UniformsCard';
+import SuppliesComparator from '../molecules/SuppliesComparator';
+import DidacticMaterialTimeline from '../molecules/DidacticMaterial';
+import WhatsApp from '../../assets/whatsapp.svg?react';
+import { WhatsAppService } from '../../services/WhatsAppService';
+import Button from '../atoms/Button';
+import Badge from '../atoms/Badge';
 
 interface HeroProps {
   activeService: ServiceType;
@@ -18,8 +23,9 @@ const SERVICES: { id: ServiceType; label: string; icon: string; comingSoon?: boo
 ];
 
 const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
-  const [displayedService, setDisplayedService] = React.useState(activeService);
+  const [displayedService, setDisplayedService] = useState(activeService);
   const content = SERVICES_CONTENT[displayedService];
+
   const heroRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subRef = useRef<HTMLParagraphElement>(null);
@@ -60,7 +66,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
     return () => { tl.kill(); };
   }, []);
 
-  // Service change animation fix: Fade out -> Sync State -> Fade in
+  // Service change animation
   useEffect(() => {
     if (activeService === displayedService) return;
 
@@ -77,7 +83,6 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
     });
   }, [activeService, displayedService]);
 
-  // Handle fade-in after step sync
   useEffect(() => {
     const targets = [headlineRef.current, subRef.current, bulletsRef.current, displayRef.current, tagRef.current];
     gsap.fromTo(targets,
@@ -86,15 +91,18 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
     );
   }, [displayedService]);
 
-  const scrollToProcess = (e: React.MouseEvent) => {
+  const handleCtaClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    WhatsAppService.sendGenericContact(content?.whatsappMessage);
+  };
+
+  const handleSecondaryClick = (e: React.MouseEvent) => {
     e.preventDefault();
     const element = document.getElementById('process');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
-  const whatsappLink = React.useMemo(() => getWhatsappLink(content.whatsappMessage), [content.whatsappMessage]);
 
   return (
     <section
@@ -112,6 +120,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
           <h2 className="mb-1 dark:text-dark-text text-1xl md:text-1xl">
             Soluciones Escolares
           </h2>
+
           {/* Service Selector */}
           <div className="flex flex-wrap gap-3 p-1.5 bg-surface dark:bg-dark-surface rounded-2xl border border-gray-100 dark:border-gray-800 self-start mb-2">
             {SERVICES.map((s) => (
@@ -126,9 +135,9 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
                 <span>{s.icon}</span>
                 <span className="hidden md:block">{s.label}</span>
                 {s.comingSoon && (
-                  <span className="absolute -top-4 -right-1 bg-secondary dark:bg-secondary text-white text-[10px] px-1.5 py-0.5 rounded-lg font-800 tracking-tighter">
+                  <Badge variant="secondary" size="sm" className="absolute -top-4 -right-1">
                     Próximamente
-                  </span>
+                  </Badge>
                 )}
               </button>
             ))}
@@ -137,27 +146,22 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
           {/* Headline */}
           <h1
             ref={headlineRef}
-            className="font-heading font-800 text-3xl md:text-4xl xl:text-4xl text-text-main dark:text-dark-text leading-[1.1] tracking-tight"
-          >{content.headline}
-            {/* {content.headline.split(',').map((part, i) => (
-              <React.Fragment key={i}>
-                {i > 0 && <br className="hidden sm:block" />}
-                {i > 0 ? part.trim() : part}
-              </React.Fragment>
-            ))} */}
+            className="font-heading font-800 text-4xl md:text-4xl xl:text-4xl text-text-main dark:text-dark-text leading-[1.1] tracking-tight"
+          >
+            {content?.headline}
           </h1>
 
           {/* Subheadline */}
           <p
             ref={subRef}
-            className="text-text-muted dark:text-dark-muted text-sm md:text-base lg:text-lg leading-relaxed max-w-xl opacity-90"
+            className="text-text-muted dark:text-dark-muted text-sm md:text-base lg:text-md leading-relaxed max-w-xl opacity-90"
           >
-            {content.subheadline}
+            {content?.subheadline}
           </p>
 
           {/* Bullet points */}
           <ul ref={bulletsRef} className="flex flex-col gap-3.5">
-            {content.bullets.map((item, i) => (
+            {content?.bullets.map((item, i) => (
               <li key={i} className="flex items-start gap-3">
                 <span className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center mt-0.5">
                   <CheckCircle2 className="w-5 h-5 text-success font-bold" />
@@ -169,37 +173,36 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
 
           {/* CTAs */}
           <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center mt-2">
-            <a
-              href={whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center gap-2.5 bg-primary text-text-main font-heading font-700 text-base px-8 py-4 rounded-2xl shadow-yellow hover:shadow-yellow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={handleCtaClick}
+              leftIcon={<WhatsApp className="w-5 h-5 text-black" />}
             >
-              <WhatsApp className="w-5 h-5 text-black" />
               Escríbenos ahora
-            </a>
+            </Button>
 
-            <a
-              href="#process"
-              onClick={scrollToProcess}
-              className="inline-flex items-center justify-center gap-2 border-2 border-secondary dark:border-primary text-secondary dark:text-primary font-heading font-700 text-base px-8 py-4 rounded-2xl hover:bg-secondary dark:hover:bg-primary dark:hover:text-dark-bg hover:text-white hover:scale-105 active:scale-95 transition-all duration-300"
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={handleSecondaryClick}
+              rightIcon={<ChevronRight className="w-5 h-5" />}
             >
               Conoce cómo funciona
-              <ChevronRight className="w-5 h-5" />
-            </a>
+            </Button>
           </div>
 
           {/* Trust indicators */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 pt-2">
             <div className="flex -space-x-2.5">
-              {content.trustEmojis.map((emoji, i) => (
+              {content?.trustEmojis.map((emoji, i) => (
                 <div key={i} className="w-9 h-9 bg-white dark:bg-dark-surface rounded-full border-2 border-primary/20 dark:border-dark-bg flex items-center justify-center text-sm shadow-sm">
                   {emoji}
                 </div>
               ))}
             </div>
             <p className="text-sm text-text-muted dark:text-dark-muted font-body leading-tight">
-              <span className="font-800 text-text-main dark:text-dark-text text-base">{content.trustText.split(' ')[0]}</span> {content.trustText.split(' ').slice(1).join(' ')}
+              <span className="font-800 text-text-main dark:text-dark-text text-base">{(content?.trustText || '').split(' ')[0]}</span> {(content?.trustText || '').split(' ').slice(1).join(' ')}
             </p>
           </div>
         </div>
@@ -223,8 +226,8 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
           </div>
         </div>
       </div>
-    </section >
+    </section>
   );
 };
 
-export default React.memo(Hero);
+export default Hero;

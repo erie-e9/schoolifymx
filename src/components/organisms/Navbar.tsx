@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, GraduationCap } from 'lucide-react';
-import Schoolify from '../assets/Schoolify.svg?react';
-import SchoolifyLogo from '../assets/logo.svg?react';
-import WhatsApp from '../assets/whatsapp.svg?react';
-import BrandCarousel from './BrandCarousel';
-import { getWhatsappLink } from '../types';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Menu, X, Sun, Moon, GraduationCap, Trophy } from 'lucide-react';
+import Schoolify from '../../assets/Schoolify.svg?react';
+import SchoolifyLogo from '../../assets/logo.svg?react';
+import WhatsApp from '../../assets/whatsapp.svg?react';
+import BrandCarousel from '../molecules/BrandCarousel';
+import { WhatsAppService } from '../../services/WhatsAppService';
+import { useTheme } from '../../hooks/useTheme';
+import Button from '../atoms/Button';
+import type { ServiceType } from '../../types';
 
 const NAV_LINKS = [
   { label: 'Servicios', href: '#features' },
@@ -14,47 +17,28 @@ const NAV_LINKS = [
   { label: 'Preguntas', href: '#faq' },
 ];
 
-import type { ServiceType } from '../types';
-
 interface NavbarProps {
   activeService?: ServiceType;
+  onOpenChallenges?: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies' }) => {
+const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChallenges }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
+  const { isDark, toggleDarkMode } = useTheme();
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-      setIsDark(true);
-      document.body.classList.add('dark');
-    } else {
-      setIsDark(false);
-      document.body.classList.remove('dark');
-    }
-
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleDarkMode = () => {
-    const newDark = !isDark;
-    setIsDark(newDark);
-    if (newDark) {
-      document.body.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.body.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  };
+  const waLink = useMemo(() => import.meta.env.VITE_WHATSAPP_MESSAGE_SCHOOL || 'Hola, me gustaría saber más sobre Schoolify.mx', []);
 
-  const waLink = React.useMemo(() => getWhatsappLink(import.meta.env.VITE_WHATSAPP_MESSAGE_SCHOOL || 'Hola, me gustaría saber más sobre Schoolify.mx'), []);
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    WhatsAppService.sendGenericContact(waLink);
+  };
 
   return (
     <header
@@ -91,42 +75,61 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies' }) => {
 
           <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-2" />
 
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onOpenChallenges}
+            aria-label="Daily challenges"
+            className="hidden lg:flex"
+          >
+            <Trophy className="w-5 h-5 text-secondary dark:text-primary" />
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={toggleDarkMode}
-            className="p-2.5 rounded-xl bg-gray-100 dark:bg-dark-surface text-gray-600 dark:text-dark-text hover:bg-primary/20 dark:hover:bg-primary/10 transition-all duration-300"
             aria-label="Toggle dark mode"
           >
-            {isDark ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5" />}
-          </button>
+            {isDark ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5 text-secondary" />}
+          </Button>
 
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-primary text-text-main font-heading font-700 text-sm px-5 py-2.5 rounded-xl shadow-yellow hover:shadow-yellow-lg hover:scale-105 transition-all duration-200"
+          <Button
+            variant="primary"
+            size="md"
+            onClick={handleContactClick}
+            leftIcon={<WhatsApp className="w-5 h-5 text-black" />}
           >
-            <WhatsApp className="w-5 h-5 text-black" />
             <span className="hidden lg:inline">Contacto para escuelas</span>
             <GraduationCap className="w-5 h-5 text-black inline lg:hidden" />
-          </a>
+          </Button>
         </div>
 
         {/* Mobile menu toggle */}
         <div className="flex md:hidden items-center gap-3">
-          <button
-            onClick={toggleDarkMode}
-            className="p-2.5 rounded-xl bg-gray-100 dark:bg-dark-surface text-gray-600 dark:text-dark-text"
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onOpenChallenges}
           >
-            {isDark ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5" />}
-          </button>
+            <Trophy className="w-4 h-4 text-secondary dark:text-primary" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleDarkMode}
+          >
+            {isDark ? <Sun className="w-4 h-4 text-primary" /> : <Moon className="w-4 h-4" />}
+          </Button>
 
-          <button
-            className="p-2.5 rounded-xl bg-gray-100 dark:bg-dark-surface text-gray-600 dark:text-dark-text"
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </Button>
         </div>
       </nav>
 
@@ -147,15 +150,15 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies' }) => {
           </div>
 
           <div className="mt-auto pb-10 flex flex-col gap-4">
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-primary dark:bg-primary text-secondary font-heading font-800 text-lg px-6 py-5 rounded-2xl text-center shadow-lg active:scale-95 transition-all w-full flex items-center justify-center gap-3"
+            <Button
+              variant="primary"
+              size="lg"
+              className="w-full text-lg py-5"
+              onClick={handleContactClick}
+              leftIcon={<WhatsApp className="w-6 h-6" />}
             >
-              <WhatsApp className="w-5 h-5" />
               Escríbenos ahora
-            </a>
+            </Button>
             <p className="text-center text-text-muted dark:text-dark-muted font-body text-sm px-4">
               Atención inmediata de Lunes a Sábado de 9:00 AM a 7:00 PM
             </p>
@@ -166,4 +169,4 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies' }) => {
   );
 };
 
-export default React.memo(Navbar);
+export default Navbar;

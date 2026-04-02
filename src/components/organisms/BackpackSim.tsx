@@ -1,17 +1,9 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
 import {
   X,
   Backpack,
-  Plus,
-  Minus,
-  Search,
-  Notebook as NotebookIcon,
-  PenTool,
-  Palette,
-  Ruler,
-  Scissors,
   Star,
   Archive,
   Briefcase,
@@ -19,26 +11,36 @@ import {
   Shapes,
   Paintbrush,
   Check,
-  StickyNote,
   Camera,
+  Notebook as NotebookIcon,
+  PenTool,
+  Palette,
+  Ruler,
+  Scissors,
 } from 'lucide-react';
-import WhatsApp from '../assets/whatsapp.svg?react';
-import { getWhatsappLink } from '../types';
-import ListScanner from './ListScanner';
+import WhatsApp from '../../assets/whatsapp.svg?react';
+import { WhatsAppService } from '../../services/WhatsAppService';
+import { useBackpack } from '../../hooks/useBackpack';
+import ListScanner from '../organisms/ListScanner';
+import Button from '../atoms/Button';
+import SearchBar from '../molecules/SearchBar';
+import ItemCard from '../molecules/ItemCard';
+import SummaryItem from '../molecules/SummaryItem';
+import type { SupplyItem, SupplyCategory, ScannedItem } from '../../types';
 
 interface BackpackSimProps {
   isOpen: boolean;
   onClose: () => void;
-  scannedItems?: { id: string; name: string; selected: boolean; note: string }[];
+  scannedItems?: ScannedItem[];
 }
 
-interface SupplyItem {
+interface Category {
   id: string;
   name: string;
-  category: string;
+  icon: React.ReactNode;
 }
 
-const CATEGORIES = [
+const CATEGORIES: Category[] = [
   { id: 'all', name: 'Todos', icon: <Star className="w-3.5 h-3.5" /> },
   { id: 'escritura', name: 'Escritura', icon: <PenTool className="w-3.5 h-3.5" /> },
   { id: 'libretas', name: 'Libretas', icon: <NotebookIcon className="w-3.5 h-3.5" /> },
@@ -54,7 +56,6 @@ const CATEGORIES = [
 ];
 
 const ITEMS: SupplyItem[] = [
-  // Escritura
   { id: 'lapiz-grafito', name: 'Lápiz de Grafito', category: 'escritura' },
   { id: 'lapiceras', name: 'Lapiceras', category: 'escritura' },
   { id: 'lapices-colores', name: 'Lápices de Colores', category: 'escritura' },
@@ -67,13 +68,11 @@ const ITEMS: SupplyItem[] = [
   { id: 'lettering', name: 'Lettering', category: 'escritura' },
   { id: 'marcadores-cera', name: 'Marcadores de Cera', category: 'escritura' },
 
-  // Libretas
   { id: 'cuadernos-pro', name: 'Cuadernos Profesionales', category: 'libretas' },
   { id: 'cuadernos-forma-italiana', name: 'Cuadernos Forma Italiana', category: 'libretas' },
   { id: 'cuadernos-forma-francesa', name: 'Cuadernos Forma Francesa', category: 'libretas' },
   { id: 'carpeta-espiral', name: 'Carpeta con Espiral', category: 'libretas' },
 
-  // Manualidades
   { id: 'acuarelas', name: 'Acuarelas', category: 'manualidades' },
   { id: 'barras-silicon', name: 'Barras de Silicón', category: 'manualidades' },
   { id: 'bata-mandil', name: 'Bata y Mandil Infantil', category: 'manualidades' },
@@ -94,7 +93,6 @@ const ITEMS: SupplyItem[] = [
   { id: 'stickers-foamy', name: 'Stickers de Foamy', category: 'manualidades' },
   { id: 'estrellas-autoadheribles', name: 'Estrellas Autoadheribles', category: 'manualidades' },
 
-  // Archivo
   { id: 'archifuelles', name: 'Archifuelles', category: 'archivo' },
   { id: 'broches-archivo', name: 'Broches para Archivo', category: 'archivo' },
   { id: 'broches-latonados', name: 'Broches Latonados', category: 'archivo' },
@@ -105,7 +103,6 @@ const ITEMS: SupplyItem[] = [
   { id: 'tabla-clip', name: 'Tablas con Clip', category: 'archivo' },
   { id: 'protectores-hojas', name: 'Protectores de Hojas', category: 'archivo' },
 
-  // Oficina
   { id: 'aplicador-cinta', name: 'Aplicador de Cinta', category: 'oficina' },
   { id: 'cajas-dinero', name: 'Cajas Metálicas para Dinero', category: 'oficina' },
   { id: 'cinta-velcro', name: 'Cinta Velcro', category: 'oficina' },
@@ -124,7 +121,6 @@ const ITEMS: SupplyItem[] = [
   { id: 'sujetapapeles', name: 'Sujetapapeles', category: 'oficina' },
   { id: 'tinta-sello', name: 'Tinta para Cojines', category: 'oficina' },
 
-  // Geometria
   { id: 'compases', name: 'Compases', category: 'geometria' },
   { id: 'escalimetros', name: 'Escalímetros', category: 'geometria' },
   { id: 'escuadras', name: 'Escuadras', category: 'geometria' },
@@ -133,14 +129,12 @@ const ITEMS: SupplyItem[] = [
   { id: 'transportadores', name: 'Transportadores', category: 'geometria' },
   { id: 'geoplano', name: 'Geoplano', category: 'geometria' },
 
-  // Papel
   { id: 'papel-construccion', name: 'Block Papel Construcción', category: 'papel' },
   { id: 'papel-brillante', name: 'Papel Brillante/Fluorescente', category: 'papel' },
   { id: 'papel-crepe', name: 'Papel Crepé', category: 'papel' },
   { id: 'papel-contacto', name: 'Papel Contacto', category: 'papel' },
   { id: 'pelicula-autoadherible', name: 'Película Autoadherible', category: 'papel' },
 
-  // Corte
   { id: 'alicates', name: 'Alicates', category: 'corte' },
   { id: 'cutters', name: 'Cutters y Escariador', category: 'corte' },
   { id: 'redondeadora', name: 'Redondeadora de Esquinas', category: 'corte' },
@@ -153,21 +147,18 @@ const ITEMS: SupplyItem[] = [
   { id: 'tijeras-textil', name: 'Tijeras Textilera', category: 'corte' },
   { id: 'tijeras-cocina', name: 'Tijeras para Cocina', category: 'corte' },
 
-  // Didactico
   { id: 'barajas', name: 'Barajas', category: 'didactico' },
   { id: 'dados', name: 'Dados', category: 'didactico' },
   { id: 'flautas', name: 'Flautas', category: 'didactico' },
   { id: 'globos-terraqueos', name: 'Globos Terráqueos', category: 'didactico' },
   { id: 'lupas', name: 'Lupas', category: 'didactico' },
 
-  // Pintura
   { id: 'pinceles', name: 'Pinceles', category: 'pintura' },
   { id: 'pintura-acrilica', name: 'Pintura Acrílica', category: 'pintura' },
   { id: 'godetes', name: 'Godetes', category: 'pintura' },
   { id: 'pizarrones', name: 'Pizarrones', category: 'pintura' },
   { id: 'esponjas-pintar', name: 'Esponjas para Pintar', category: 'pintura' },
 
-  // Otros
   { id: 'gomas', name: 'Gomas', category: 'otros' },
   { id: 'sacapuntas', name: 'Sacapuntas', category: 'otros' },
   { id: 'pegamento-blanco', name: 'Pegamento Blanco', category: 'otros' },
@@ -185,19 +176,31 @@ const ITEMS: SupplyItem[] = [
 ];
 
 const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems = [] }) => {
-  const [selectedItems, setSelectedItems] = useState<Record<string, { qty: number; note: string; name?: string }>>({});
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [noteOpenId, setNoteOpenId] = useState<string | null>(null);
-  const [scannedSection, setScannedSection] = useState<{ id: string; name: string; note: string; selected: boolean }[]>([]);
-  const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const {
+    selectedItems,
+    activeCategory,
+    setActiveCategory,
+    searchQuery,
+    setSearchQuery,
+    isCompleted,
+    setIsCompleted,
+    noteOpenId,
+    setNoteOpenId,
+    scannedSection,
+    setScannedSection,
+    updateQuantity,
+    updateNote,
+    importScanned,
+    totalItemCount,
+    selectedCount
+  } = useBackpack(isOpen, scannedItems);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
   const catScrollRef = useRef<HTMLDivElement>(null);
+  const [isScannerOpen, setIsScannerOpen] = React.useState(false);
 
-  const filteredItems = useMemo(() => {
+  const filteredItems = React.useMemo(() => {
     return ITEMS.filter(item => {
       const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
       const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -205,16 +208,9 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
     });
   }, [activeCategory, searchQuery]);
 
-  const totalItemCount = useMemo(() => {
-    return Object.values(selectedItems).reduce((acc, item) => acc + item.qty, 0);
-  }, [selectedItems]);
-
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      if (scannedItems.length > 0) {
-        setScannedSection(scannedItems);
-      }
       const tl = gsap.timeline();
       tl.to(backdropRef.current, { opacity: 1, duration: 0.25 })
         .fromTo(modalRef.current,
@@ -224,14 +220,8 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
         );
     } else {
       document.body.style.overflow = 'unset';
-      setSelectedItems({});
-      setIsCompleted(false);
-      setSearchQuery('');
-      setActiveCategory('all');
-      setNoteOpenId(null);
-      setScannedSection([]);
     }
-  }, [isOpen, scannedItems]);
+  }, [isOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -247,59 +237,29 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
       .to(backdropRef.current, { opacity: 0, duration: 0.25 }, '-=0.15');
   };
 
-  const updateQuantity = (id: string, delta: number) => {
-    if (delta > 0) {
-      window.dispatchEvent(new CustomEvent('schoolify-mission-progress', {
-        detail: { missionId: 'backpack_items', increment: 1 }
-      }));
-    }
-    setSelectedItems(prev => {
-      const current = prev[id]?.qty || 0;
-      const next = Math.max(0, current + delta);
-      if (next === 0) {
-        const { [id]: _, ...rest } = prev;
-        return rest;
-      }
-      return {
-        ...prev,
-        [id]: { qty: next, note: prev[id]?.note || '' }
-      };
-    });
-  };
-
-  const updateNote = (id: string, note: string) => {
-    setSelectedItems(prev => ({
-      ...prev,
-      [id]: { ...prev[id], note }
-    }));
-  };
-
-  const finalize = () => {
+  const handleFinalize = () => {
     setIsCompleted(true);
     setTimeout(() => {
       gsap.from('.complete-check', { scale: 0, rotation: -45, duration: 0.5, ease: 'back.out(2)' });
     }, 50);
   };
 
-  if (!isOpen) return null;
-
-  const getWhatsAppMsg = () => {
-    const list = Object.entries(selectedItems)
-      .map(([id, info]) => {
-        const item = ITEMS.find(i => i.id === id);
-        const name = info.name || item?.name || 'Artículo desconocido';
-        return `• ${info.qty}x ${name}${info.note ? ` (${info.note})` : ''}`;
-      })
-      .join('\n');
-
-    return `¡Hola Schoolify! 👋 He creado mi lista escolar.\n\n📚 Mi lista incluye:\n${list}`;
+  const handleWhatsAppSend = () => {
+    const items = Object.entries(selectedItems).map(([id, info]) => {
+      const item = ITEMS.find(i => i.id === id);
+      return {
+        name: info.name || item?.name || 'Artículo',
+        qty: info.qty,
+        note: info.note
+      };
+    });
+    WhatsAppService.sendBackpackQuote(items);
   };
 
-  const waLink = getWhatsappLink(getWhatsAppMsg());
-  const selectedCount = Object.keys(selectedItems).length;
+  if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[1001] flex items-end sm:items-center justify-center sm:p-4 md:p-6">
+    <div className="fixed inset-0 z-[1001] flex items-center sm:items-center justify-center sm:p-4 md:p-6">
       {/* Backdrop */}
       <div
         ref={backdropRef}
@@ -324,7 +284,7 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
 
         {/* ── LEFT PANEL: Summary ──────────────────────────────── */}
         <div className="hidden md:flex flex-col w-72 lg:w-80 bg-gray-50 dark:bg-dark-bg border-r border-gray-200 dark:border-white/10 rounded-l-[2rem]">
-          {/* Backpack visual header */}
+          {/* Header */}
           <div className="p-6 pb-4 border-b border-gray-200 dark:border-white/10">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-yellow animate-float flex-shrink-0">
@@ -339,30 +299,19 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
             </div>
           </div>
 
-          {/* Scanned items from ListScanner */}
+          {/* Scanned items section */}
           {scannedSection.length > 0 && (
             <div className="px-4 pt-3 pb-2 border-b border-gray-200 dark:border-white/10">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">📋 Lista Escaneada</p>
                 <button
-                  onClick={() => {
-                    // Import all scanned items into manual list
-                    setSelectedItems(prev => {
-                      const next = { ...prev };
-                      scannedSection.filter(i => i.selected).forEach(item => {
-                        const key = `scanned-${item.id}`;
-                        if (!next[key]) next[key] = { qty: 1, note: item.note, name: item.name };
-                      });
-                      return next;
-                    });
-                    setScannedSection([]);
-                  }}
+                  onClick={importScanned}
                   className="text-[10px] text-secondary dark:text-primary font-bold hover:underline"
                 >
                   Importar todo
                 </button>
               </div>
-              <div className="max-h-36 overflow-y-auto space-y-1" style={{ scrollbarWidth: 'thin' }}>
+              <div className="max-h-36 overflow-y-auto space-y-1">
                 {scannedSection.map(item => (
                   <div key={item.id} className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-white dark:hover:bg-white/5 group">
                     <input
@@ -378,8 +327,8 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
             </div>
           )}
 
-          {/* Items list */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-2" style={{ scrollbarWidth: 'thin' }}>
+          {/* Selected Items List */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-2">
             {selectedCount === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center gap-3 opacity-40 select-none py-8">
                 <Archive className="w-10 h-10 text-gray-400" />
@@ -390,94 +339,58 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
             ) : (
               Object.entries(selectedItems).map(([id, info]) => {
                 const item = ITEMS.find(i => i.id === id);
-                const itemName = info.name || item?.name;
-                if (!itemName) return null;
-                const catName = item ? CATEGORIES.find(c => c.id === item.category)?.name : 'Escaneado';
                 return (
-                  <div key={id} className="bg-white dark:bg-white/5 rounded-xl p-3 border border-gray-100 dark:border-white/10">
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-xs text-gray-900 dark:text-white leading-tight truncate">{itemName}</p>
-                        <p className="text-[10px] text-gray-400 mt-0.5">{catName}</p>
-                      </div>
-                      {/* Inline qty controls */}
-                      <div className="flex items-center gap-1 bg-gray-100 dark:bg-white/10 rounded-lg p-0.5 flex-shrink-0">
-                        <button
-                          onClick={() => updateQuantity(id, -1)}
-                          className="w-6 h-6 rounded-md flex items-center justify-center bg-white dark:bg-white/20 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-500 transition-all active:scale-90 shadow-sm"
-                        >
-                          <Minus className="w-3 h-3" />
-                        </button>
-                        <span className="font-bold text-xs text-gray-900 dark:text-white min-w-[18px] text-center">{info.qty}</span>
-                        <button
-                          onClick={() => updateQuantity(id, 1)}
-                          className="w-6 h-6 rounded-md flex items-center justify-center bg-primary text-gray-900 hover:scale-105 active:scale-90 transition-all shadow-sm"
-                        >
-                          <Plus className="w-3 h-3" />
-                        </button>
-                      </div>
-                    </div>
-                    {/* Note input */}
-                    <input
-                      type="text"
-                      placeholder="Incluir nota (marca, color…)"
-                      value={info.note}
-                      onChange={(e) => updateNote(id, e.target.value)}
-                      className="w-full text-[10px] bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-lg px-2 py-1 outline-none text-gray-500 dark:text-gray-400 placeholder:text-gray-400 dark:placeholder:text-white/50 focus:border-primary/50 transition-colors"
-                    />
-                  </div>
+                  <SummaryItem
+                    key={id}
+                    id={id}
+                    name={info.name || item?.name || 'Artículo'}
+                    qty={info.qty}
+                    note={info.note}
+                    categoryName={item ? CATEGORIES.find(c => c.id === item.category)?.name : 'Escaneado'}
+                    onUpdateQuantity={(delta) => updateQuantity(id, delta)}
+                    onUpdateNote={(note) => updateNote(id, note)}
+                  />
                 );
               })
             )}
           </div>
 
-          {/* Confirm button */}
           <div className="p-4 border-t border-gray-200 dark:border-white/10">
-            <button
-              onClick={finalize}
+            <Button
+              variant="secondary"
+              className="w-full py-3 dark:bg-primary dark:text-gray-900"
               disabled={selectedCount === 0}
-              className="w-full py-3 bg-secondary dark:bg-primary text-white dark:text-gray-900 font-bold text-sm rounded-xl transition-all hover:-translate-y-0.5 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 shadow-lg"
+              onClick={handleFinalize}
             >
               {selectedCount === 0 ? 'Selecciona artículos' : `Confirmar Lista (${totalItemCount})`}
-            </button>
+            </Button>
           </div>
         </div>
 
-        {/* ── RIGHT PANEL: Item Selector ───────────────────────── */}
+        {/* ── RIGHT PANEL: Selector ───────────────────────────── */}
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
           {!isCompleted ? (
             <>
-              {/* Header */}
               <div className="px-5 pt-5 pb-0 space-y-3">
-                <div className="flex items-center justify-between pr-8">
-                  <div>
-                    <h2 className="text-xl text-gray-900 dark:text-white tracking-tight">Crea tu lista escolar</h2>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Toca un artículo para agregarlo a tu lista, también puedes incluir una nota descriptiva.</p>
-                  </div>
-                </div>
+                <h2 className="text-xl text-gray-900 dark:text-white tracking-tight">Crea tu lista escolar</h2>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Toca un artículo para agregarlo a tu lista, también puedes incluir una nota descriptiva.</p>
+                <SearchBar
+                  value={searchQuery}
+                  onChange={setSearchQuery}
+                  placeholder="Buscar artículos..."
+                  rightElement={
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsScannerOpen(true)}
+                      className="px-4 py-2 border-primary bg-primary/20 text-text-main dark:text-white"
+                      leftIcon={<Camera className="w-4 h-4" />}
+                    >
+                      <span className="hidden sm:inline">Escanear</span>
+                    </Button>
+                  }
+                />
 
-                {/* Search & Scan */}
-                <div className="flex gap-2">
-                  <div className="relative flex-1">
-                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="Buscar artículos..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-white/10 rounded-xl border border-transparent focus:border-primary/50 focus:bg-white dark:focus:bg-white/15 transition-all outline-none text-sm text-gray-800 dark:text-white placeholder:text-gray-400"
-                    />
-                  </div>
-                  <button
-                    onClick={() => setIsScannerOpen(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-primary/20 border border-primary text-text-main dark:text-dark-text hover:bg-primary rounded-xl transition-all duration-300 font-heading font-700 text-[10px] tracking-wider uppercase shadow-sm hover:shadow-yellow"
-                  >
-                    <Camera className="w-4 h-4" />
-                    <span className="hidden sm:inline">Escanear</span>
-                  </button>
-                </div>
-
-                {/* Categories horizontal scroll */}
                 <div
                   ref={catScrollRef}
                   className="flex gap-2 overflow-x-auto pb-3"
@@ -499,121 +412,32 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
                 </div>
               </div>
 
-              {/* Item Grid */}
-              <div
-                className="flex-1 overflow-y-auto px-5 pb-5 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 content-start"
-                style={{ scrollbarWidth: 'thin' }}
-              >
-                {filteredItems.length === 0 ? (
-                  <div className="col-span-full py-12 flex flex-col items-center gap-2 text-gray-400">
-                    <Search className="w-8 h-8 opacity-40" />
-                    <p className="text-sm">Sin resultados para "{searchQuery}"</p>
-                  </div>
-                ) : (
-                  filteredItems.map(item => {
-                    const itemData = selectedItems[item.id];
-                    const qty = itemData?.qty || 0;
-                    const isSelected = qty > 0;
-
-                    return (
-                      <div
-                        key={item.id}
-                        className={`relative rounded-2xl border-2 transition-all duration-200 ${isSelected
-                          ? 'border-primary bg-primary/5 dark:bg-primary/10 shadow-yellow'
-                          : 'border-gray-100 dark:border-white/10 bg-white dark:bg-white/5 hover:border-primary/40 hover:bg-primary/5'
-                          }`}
-                      >
-                        {/* Selected badge */}
-                        {isSelected && (
-                          <div className="absolute top-2 right-2 w-5 h-5 bg-primary rounded-full flex items-center justify-center shadow-sm">
-                            <Check className="w-3 h-3 text-gray-900" />
-                          </div>
-                        )}
-
-                        {/* Main card content — click to add/increment */}
-                        <button
-                          onClick={() => updateQuantity(item.id, 1)}
-                          className="w-full text-left p-3 pb-2"
-                          aria-label={`Agregar ${item.name}`}
-                        >
-                          <p className={`font-semibold text-xs leading-tight pr-5 ${isSelected ? 'text-gray-900 dark:text-white' : 'text-gray-700 dark:text-gray-200'}`}>
-                            {item.name}
-                          </p>
-                          <p className="text-[8px] text-gray-400 mt-1 tracking-wide">
-                            {CATEGORIES.find(c => c.id === item.category)?.name}
-                          </p>
-                        </button>
-
-                        {/* Controls row */}
-                        <div className="px-3 pb-3">
-                          {isSelected ? (
-                            <div className="flex items-center gap-2">
-                              <button
-                                onClick={(e) => { e.stopPropagation(); updateQuantity(item.id, -1); }}
-                                className="h-7 w-7 rounded-lg bg-gray-100 dark:bg-white/20 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/40 hover:text-red-600 transition-all active:scale-90 flex-shrink-0"
-                                aria-label="Quitar uno"
-                              >
-                                <Minus className="w-3.5 h-3.5" />
-                              </button>
-                              <span className="flex-1 text-center font-bold text-sm text-gray-900 dark:text-white">
-                                {qty}
-                              </span>
-                              <button
-                                onClick={(e) => { e.stopPropagation(); updateQuantity(item.id, 1); }}
-                                className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center hover:scale-105 active:scale-90 transition-all flex-shrink-0 shadow-sm"
-                                aria-label="Agregar uno más"
-                              >
-                                <Plus className="w-3.5 h-3.5 text-gray-900" />
-                              </button>
-                              <button
-                                onClick={(e) => { e.stopPropagation(); setNoteOpenId(noteOpenId === item.id ? null : item.id); }}
-                                className={`h-7 w-7 rounded-lg flex items-center justify-center transition-all active:scale-90 flex-shrink-0 ${itemData?.note ? 'bg-secondary/10 text-secondary' : 'bg-gray-100 dark:bg-white/20 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
-                                  }`}
-                                aria-label="Agregar nota"
-                              >
-                                <StickyNote className="w-3 h-3" />
-                              </button>
-                            </div>
-                          ) : (
-                            <button
-                              onClick={() => updateQuantity(item.id, 1)}
-                              className="w-full h-7 rounded-lg bg-primary/10 dark:bg-primary/20 hover:bg-primary text-gray-700 dark:text-gray-200 hover:text-gray-900 text-[10px] flex items-center justify-center gap-1 transition-all active:scale-95"
-                            >
-                              <Plus className="w-3 h-3" />
-                              Agregar
-                            </button>
-                          )}
-
-                          {/* Note input (inline, toggleable) */}
-                          {isSelected && noteOpenId === item.id && (
-                            <input
-                              type="text"
-                              autoFocus
-                              placeholder="Incluir nota (marca, color…)"
-                              value={itemData?.note || ''}
-                              onChange={(e) => updateNote(item.id, e.target.value)}
-                              onClick={(e) => e.stopPropagation()}
-                              className="mt-2 w-full text-[10px] bg-white dark:bg-white/10 border border-primary/30 rounded-lg px-2.5 py-1.5 outline-none text-gray-700 dark:text-gray-200 placeholder:text-gray-300 focus:border-primary transition-colors"
-                            />
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })
-                )}
+              <div className="flex-1 overflow-y-auto px-5 pb-5 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 content-start">
+                {filteredItems.map(item => (
+                  <ItemCard
+                    key={item.id}
+                    item={item}
+                    qty={selectedItems[item.id]?.qty || 0}
+                    onUpdateQuantity={(delta) => updateQuantity(item.id, delta)}
+                    onUpdateNote={(note) => updateNote(item.id, note)}
+                    isNoteOpen={noteOpenId === item.id}
+                    onToggleNote={() => setNoteOpenId(noteOpenId === item.id ? null : item.id)}
+                    noteValue={selectedItems[item.id]?.note || ''}
+                    categoryName={CATEGORIES.find(c => c.id === item.category)?.name}
+                  />
+                ))}
               </div>
 
               {/* Mobile bottom bar */}
               <div className="md:hidden px-4 py-3 border-t border-gray-100 dark:border-white/10 bg-white dark:bg-[#1a1f2e] flex gap-3">
-                <div className="flex-1">
-                  <button
-                    onClick={finalize}
-                    disabled={selectedCount === 0}
-                    className="w-full py-3 bg-secondary dark:bg-primary text-white dark:text-gray-900 font-bold text-sm rounded-xl transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
-                  >
-                    {selectedCount === 0 ? 'Selecciona artículos' : `Confirmar lista (${totalItemCount})`}
-                  </button>
-                </div>
+                <Button
+                  variant="secondary"
+                  className="flex-1 dark:bg-primary dark:text-gray-900"
+                  disabled={selectedCount === 0}
+                  onClick={handleFinalize}
+                >
+                  {selectedCount === 0 ? 'Selecciona artículos' : `Confirmar lista (${totalItemCount})`}
+                </Button>
                 {selectedCount > 0 && (
                   <div className="flex items-center justify-center w-12 h-12 bg-gray-100 dark:bg-white/10 rounded-xl relative flex-shrink-0">
                     <Backpack className="w-5 h-5 text-gray-600 dark:text-gray-300" />
@@ -625,38 +449,31 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
               </div>
             </>
           ) : (
-            /* ── SUCCESS STATE ───────────────────────────────────── */
-            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 gap-6">
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 gap-4">
               <div className="complete-check w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
                 <Check className="w-8 h-8 text-green-500 stroke-[2.5]" />
               </div>
-
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">¡Lista Armada!</h2>
                 <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 max-w-xs mx-auto">
-                  {totalItemCount} {totalItemCount === 1 ? 'artículo' : 'artículos'} en {selectedCount} {selectedCount === 1 ? 'categoría' : 'categorías'}.
-                  Envía la solicitud de cotización por WhatsApp.
+                  {totalItemCount} artículos en {selectedCount} categorías. Envía la cotización por WhatsApp.
                 </p>
               </div>
-
-              <div className="w-full max-w-sm space-y-3">
-                <a
-                  href={waLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-3 bg-[#25D366] text-white font-bold text-base py-4 rounded-2xl shadow-lg hover:-translate-y-1 active:scale-95 transition-all duration-200 group"
-                >
-                  <WhatsApp className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  Enviar por WhatsApp
-                </a>
-                <button
-                  onClick={() => setIsCompleted(false)}
-                  className="w-full py-3 bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-300 font-semibold text-sm rounded-2xl hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-95"
-                >
-                  Seguir editando
-                </button>
-              </div>
-
+              <Button
+                variant="success"
+                className="w-full max-w-sm text-white py-4 text-base"
+                onClick={handleWhatsAppSend}
+                leftIcon={<WhatsApp className="w-5 h-5" />}
+              >
+                Enviar lista
+              </Button>
+              <Button
+                variant="thirdary"
+                className="w-full max-w-sm"
+                onClick={() => setIsCompleted(false)}
+              >
+                Seguir editando
+              </Button>
               <div className="grid grid-cols-1 gap-3 w-full max-w-sm pt-2">
                 <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/30 p-3 rounded-xl text-left">
                   <p className="text-xs font-semibold text-blue-800 dark:text-blue-300 mb-1">👨‍🏫 Maestro</p>

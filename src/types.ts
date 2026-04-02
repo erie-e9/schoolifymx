@@ -1,5 +1,38 @@
 export type ServiceType = 'uniforms' | 'supplies' | 'didactic';
 
+// Supply item categories
+export type SupplyCategory =
+  | 'escritura'
+  | 'libretas'
+  | 'manualidades'
+  | 'archivo'
+  | 'oficina'
+  | 'geometria'
+  | 'papel'
+  | 'corte'
+  | 'pintura'
+  | 'didactico'
+  | 'otros';
+
+export interface SupplyItem {
+  id: string;
+  name: string;
+  category: SupplyCategory;
+}
+
+export interface SelectedItem {
+  qty: number;
+  note: string;
+  name?: string;
+}
+
+export interface ScannedSectionItem {
+  id: string;
+  name: string;
+  note: string;
+  selected: boolean;
+}
+
 export interface ServiceStat {
   value: number;
   suffix: string;
@@ -55,12 +88,12 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     image: 'https://www.unicef.org/honduras/sites/unicef.org.honduras/files/styles/hero_extended/public/WhatsApp%20Image%202023-06-08%20at%204.36.48%20PM_0.jpeg.webp?itok=VETTkvVL',
     whatsappMessage: 'Hola, me interesa el servicio de Uniformes Escolares.',
     trustEmojis: ['🧑‍🏫', '👩‍👧', '👨‍👩‍👦', '👩‍🎓', '🧑‍💼'],
-    trustText: '+1,000 familias ya confían en nosotros',
+    trustText: '+500 familias ya confían en nosotros',
     stats: [
       { value: 3, suffix: ' días', prefix: '<', label: 'Tiempo de elaboración', description: 'Promedio de confección por uniforme completo', emoji: '📦' },
       { value: 100, suffix: '%', prefix: '', label: 'Personalizado', description: 'Siguiendo manual de identidad', emoji: '🎨' },
       { value: 10, suffix: ' años', prefix: '+', label: 'Experiencia', description: 'En el sector textil escolar', emoji: '🧵' },
-      { value: 10, suffix: ' mil', prefix: '+', label: 'Prendas', description: 'Entregadas con éxito', emoji: '👕' },
+      { value: 5, suffix: ' mil', prefix: '+', label: 'Prendas', description: 'Entregadas con éxito', emoji: '👕' },
     ],
     ctaCarousel: [
       {

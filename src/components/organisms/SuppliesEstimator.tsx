@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
 import { Clock, TrendingDown, ChevronRight, Check, Camera, Calculator, X } from 'lucide-react';
-import { formatNumbers } from '../utils/numbers';
-
-type Grade = 'Preescolar' | 'Primaria' | 'Secundaria';
-type Bundle = 'Esencial' | 'Selecto';
+import { formatNumbers } from '../../utils/numbers';
+import { useSuppliesEstimation, type Grade, type Bundle } from '../../hooks/useSuppliesEstimation';
+import Button from '../atoms/Button';
+import Badge from '../atoms/Badge';
 
 interface SuppliesEstimatorProps {
   isOpen: boolean;
@@ -13,29 +13,18 @@ interface SuppliesEstimatorProps {
   onOpenScanner: () => void;
 }
 
-const SUPPLIES_DATA = {
-  Preescolar: {
-    Esencial: { min: 800, max: 1200, time: 4 },
-    Selecto: { min: 1200, max: 1800, time: 5 },
-  },
-  Primaria: {
-    Esencial: { min: 1080, max: 1300, time: 5 },
-    Selecto: { min: 1300, max: 1630, time: 6 },
-  },
-  Secundaria: {
-    Esencial: { min: 1300, max: 1400, time: 6 },
-    Selecto: { min: 1500, max: 2000, time: 7 },
-  },
-};
-
 const GRADES: Grade[] = ['Preescolar', 'Primaria', 'Secundaria'];
 const BUNDLES: Bundle[] = ['Esencial', 'Selecto'];
 
 const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, onOpenScanner }) => {
-  const [grade, setGrade] = useState<Grade>('Primaria');
-  const [bundle, setBundle] = useState<Bundle>('Selecto');
-  const [range, setRange] = useState({ min: 1500, max: 2200 });
-  const [timeSaved, setTimeSaved] = useState(5);
+  const {
+    grade,
+    setGrade,
+    bundle,
+    setBundle,
+    range,
+    timeSaved
+  } = useSuppliesEstimation();
 
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -69,34 +58,16 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
       .to(backdropRef.current, { opacity: 0, duration: 0.2 }, "-=0.1");
   };
 
-  useEffect(() => {
-    const newStats = SUPPLIES_DATA[grade][bundle];
-    const targetMin = newStats.min;
-    const targetMax = newStats.max;
-
-    gsap.to(range, {
-      min: targetMin,
-      max: targetMax,
-      duration: 1,
-      ease: 'power2.out',
-      onUpdate: () => setRange({ min: Math.round(range.min), max: Math.round(range.max) }),
-    });
-
-    setTimeSaved(newStats.time);
-  }, [grade, bundle]);
-
   if (!isOpen) return null;
 
   return createPortal(
     <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-6 lg:p-12">
-      {/* Backdrop */}
       <div
         ref={backdropRef}
         className="absolute inset-0 bg-dark-bg/60 backdrop-blur-md opacity-0"
         onClick={handleClose}
       />
 
-      {/* Modal Content */}
       <div
         ref={modalRef}
         className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white dark:bg-dark-surface rounded-[2rem] shadow-2xl border border-primary/20 dark:border-primary/10 opacity-0"
@@ -104,14 +75,12 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
         <button
           onClick={handleClose}
           className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
-          aria-label="Cerrar"
         >
           <X className="w-4 h-4 text-gray-600 dark:text-gray-300" />
         </button>
 
         <div className="p-7 md:p-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
-            {/* Left Column: Interactive Controls */}
             <div className="space-y-8 py-2">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-yellow animate-float flex-shrink-0">
@@ -122,17 +91,15 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                     Calcula tu ahorro al <span className="text-secondary dark:text-primary">instante</span>.
                   </h2>
                   <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
-                    Selecciona el nivel educativo y tipo de surtido de útiles escolares para obtener una estimación inmediata basada en promedios de mercado.
+                    Selecciona el nivel educativo y tipo de surtido de útiles escolares para obtener una estimación inmediata.
                   </p>
                 </div>
               </div>
 
-              {/* Steps */}
               <div className="space-y-8">
-                {/* Step 1: Grade */}
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <span className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-text-main shadow-yellow">1</span>
+                    <Badge variant="primary" className="w-7 h-7 rounded-full px-0 justify-center">1</Badge>
                     <h4 className="font-heading font-800 text-text-main dark:text-dark-text text-base">¿Cuál es el nivel escolar?</h4>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -151,10 +118,9 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                   </div>
                 </div>
 
-                {/* Step 2: Bundle */}
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <span className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-text-main shadow-yellow">2</span>
+                    <Badge variant="primary" className="w-7 h-7 rounded-full px-0 justify-center">2</Badge>
                     <h4 className="font-heading font-800 text-text-main dark:text-dark-text text-base">¿Qué tipo de surtido prefieres?</h4>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -182,7 +148,6 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
               </div>
             </div>
 
-            {/* Right Column: Dynamic Results Dashboard */}
             <div className="bg-gray-50/50 dark:bg-dark-bg/40 rounded-[2.5rem] p-7 md:p-7 border border-gray-200/50 dark:border-gray-800/50 flex flex-col justify-between space-y-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary/5 rounded-full blur-3xl pointer-events-none" />
@@ -193,16 +158,11 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                   <span className="text-5xl md:text-6xl font-heading font-900 text-text-main dark:text-dark-text tracking-tighter transition-all">
                     ~ ${formatNumbers(range.min)}
                   </span>
-                  {/* <span className="text-4xl text-text-main dark:text-dark-text font-heading font-300">-</span>
-                  <span className="text-5xl md:text-6xl font-heading font-900 text-text-main dark:text-dark-text tracking-tighter transition-all">
-                    ${formatNumbers(range.max)}
-                  </span>
-                  <span className="text-xl font-heading font-800 text-text-muted ml-1">MXN</span> */}
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4 relative z-10">
-                <div className="bg-white dark:bg-dark-surface p-4 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800/60 transition-transform active:scale-95">
+                <div className="bg-white dark:bg-dark-surface p-4 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800/60">
                   <div className="flex items-center gap-1 text-secondary dark:text-primary mb-1">
                     <Clock className="w-4 h-4" />
                     <span className="text-[9px] font-heading font-900 uppercase tracking-widest">Tiempo que ahorras</span>
@@ -213,7 +173,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-dark-surface p-4 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800/60 transition-transform active:scale-95">
+                <div className="bg-white dark:bg-dark-surface p-4 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800/60">
                   <div className="flex items-center gap-1 text-green-500 mb-1">
                     <TrendingDown className="w-4 h-4" />
                     <span className="text-[9px] font-heading font-900 uppercase tracking-widest">Ahorro</span>
@@ -226,15 +186,16 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
               </div>
 
               <div className="space-y-4 pt-4 relative z-10">
-                <button
+                <Button
+                  variant="primary"
+                  className="w-full py-5 text-base bg-secondary dark:bg-primary text-white dark:text-text-main"
                   onClick={onOpenScanner}
-                  className="w-full inline-flex items-center justify-center gap-3 bg-secondary dark:bg-primary text-white dark:text-text-main font-heading font-900 text-base py-5 rounded-2xl shadow-xl hover:shadow-primary/40 hover:-translate-y-1 active:scale-95 transition-all duration-300 group/btn"
+                  leftIcon={<Camera className="w-6 h-6" />}
+                  rightIcon={<ChevronRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />}
                 >
-                  <Camera className="w-6 h-6" />
                   <span className='hidden md:inline'>Subir imagen de mi lista</span>
                   <span className='inline md:hidden'>Subir mi lista</span>
-                  <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
-                </button>
+                </Button>
                 <p className="text-center text-[10px] text-text-muted dark:text-dark-muted font-body leading-relaxed max-w-[280px] mx-auto">
                   *Al subir tu lista, nuestros asistentes te podrán compartir precio actual de tu lista.
                 </p>
