@@ -10,13 +10,7 @@ export default defineConfig({
     cssCodeSplit: true,
     reportCompressedSize: false,
     rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          gsap: ['gsap'],
-          icons: ['lucide-react']
-        }
-      }
+      output: {}
     }
   }
 })
