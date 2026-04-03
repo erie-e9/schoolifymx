@@ -69,7 +69,7 @@ const CookieConsent: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10 relative">
           <div className="flex items-center gap-5 flex-1">
             <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center shrink-0 shadow-sm border border-primary/10 hidden md:flex">
-              <Cookie className="w-7 h-7 text-primary" />
+              <Cookie className="w-7 h-7 text-secondary dark:text-primary" />
             </div>
             <div className="space-y-1 text-center md:text-left">
               <h3 className="font-heading font-800 text-text-main dark:text-dark-text text-lg md:text-xl tracking-tight flex items-center justify-center md:justify-start gap-2">

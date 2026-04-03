@@ -133,7 +133,7 @@ const Process: React.FC<{ activeService: ServiceType }> = ({ activeService }) =>
   }, [activeService]);
 
   return (
-    <section id="process" className="py-16 md:py-28 bg-primary dark:bg-dark-bg transition-colors duration-300" ref={sectionRef}>
+    <section id="process" className="py-12 md:py-24 bg-primary dark:bg-dark-bg transition-colors duration-300" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16" ref={titleRef}>
           <Badge variant="tag" size="lg" className="mb-4">Cómo funciona</Badge>

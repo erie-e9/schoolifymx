@@ -56,10 +56,10 @@ const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = 
 
       {/* Challenges Card */}
       {localIsOpen && (
-        <div className="absolute bottom-16 right-0 w-80 bg-white dark:bg-dark-surface rounded-[2rem] shadow-3xl border border-gray-100 dark:border-primary/10 p-6 transform origin-bottom-right transition-all duration-300">
+        <div className="absolute bottom-16 right-0 w-80 bg-white dark:bg-dark-surface rounded-[2rem] shadow-3xl border border-gray-200 dark:border-primary/10 p-6 transform origin-bottom-right transition-all duration-300">
           <div className="flex items-center space-evenly mb-6">
             <div className="space-y-1 flex flex-row">
-              <div className="bg-gray-100 dark:bg-dark-bg px-3 py-1 rounded-full flex items-start gap-1">
+              <div className="px-3 py-1 rounded-full flex items-start gap-1">
                 <Zap className="w-3.5 h-3.5 text-secondary dark:text-primary" />
                 <span className="text-[10px] font-heading font-900 text-text-main dark:text-white">{completedCount}/{challenges.length}</span>
                 <div>
@@ -81,14 +81,14 @@ const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = 
             {challenges.map((challenge) => (
               <div key={challenge.id} className={`p-4 rounded-2xl border transition-all duration-300 ${challenge.completed ? 'bg-primary/5 border-primary/20 opacity-80' : 'bg-gray-50 dark:bg-dark-bg/50 border-transparent'}`}>
                 <div className="flex items-start gap-3">
-                  <div className={`mt-0.5 p-2 rounded-xl flex-shrink-0 ${challenge.completed ? 'bg-secondary dark:bg-primary text-white dark:text-text-main' : 'bg-white dark:bg-dark-surface'}`}>
+                  <div className={`mt-0.5 p-2 rounded-xl flex-shrink-0 ${challenge.completed ? 'bg-primary/30 dark:bg-white/10 text-white dark:text-text-main' : 'bg-white dark:bg-dark-surface'}`}>
                     {challenge.icon}
                   </div>
                   <div className="flex-1 space-y-2">
                     <div className="flex justify-between items-center">
                       <h4 className="text-[11px] font-heading font-800 text-text-main dark:text-white tracking-wide">{challenge.title}</h4>
                       {challenge.completed ? (
-                        <CheckCircle2 className="w-4 h-4 text-secondary dark:text-primary" />
+                        <CheckCircle2 className="w-4 h-4 text-success" />
                       ) : (
                         <Circle className="w-4 h-4 text-gray-200 dark:text-gray-700" />
                       )}
@@ -97,7 +97,7 @@ const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = 
                       {challenge.description}
                     </p>
                     <div className="space-y-1.5">
-                      <div className="flex justify-between text-[8px] font-heading font-700 text-text-muted tracking-widest uppercase">
+                      <div className="flex justify-between text-[8px] font-heading font-700 text-text-muted dark:text-dark-muted tracking-widest uppercase">
                         <span>Progreso</span>
                         <span>{challenge.current} / {challenge.target}</span>
                       </div>
@@ -130,4 +130,4 @@ const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = 
   );
 };
 
-export default DailyChallenges;
+export default React.memo(DailyChallenges);

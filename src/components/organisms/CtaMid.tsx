@@ -79,7 +79,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
   }, [currentIndex]);
 
   return (
-    <section id="galery" className="py-20 md:py-32 bg-surface dark:bg-dark-bg transition-colors duration-300 overflow-hidden">
+    <section id="galery" className="py-12 md:py-24 bg-surface dark:bg-dark-bg transition-colors duration-300 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-5 md:mb-5" ref={titleRef}>
           <Badge variant="tag" size="lg" className="mb-4">Algunos de nuestros trabajos</Badge>

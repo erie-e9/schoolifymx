@@ -31,7 +31,7 @@ const FAQ: React.FC<FAQProps> = ({ activeService }) => {
   }, [activeService]);
 
   return (
-    <section id="faq" className="py-16 md:py-28 bg-surface dark:bg-dark-bg transition-colors duration-300 px-4 md:px-6" ref={sectionRef}>
+    <section id="faq" className="py-12 md:py-24 bg-surface dark:bg-dark-bg transition-colors duration-300 px-4 md:px-6" ref={sectionRef}>
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-10 md:mb-14" ref={titleRef}>
           <Badge variant="tag" size='lg' className="mb-4">Preguntas frecuentes</Badge>

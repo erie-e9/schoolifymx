@@ -82,7 +82,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChall
             aria-label="Daily challenges"
             className="hidden lg:flex"
           >
-            <Trophy className="w-5 h-5 text-secondary dark:text-primary" />
+            <Trophy className="w-5 h-5 text-secondary dark:text-white/90" />
           </Button>
 
           <Button
