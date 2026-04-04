@@ -74,6 +74,7 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
             variant="primary"
             size="md"
             onClick={handleCtaClick}
+            className="w-full sm:w-auto text-lg bg-text-main dark:bg-primary text-white dark:text-dark-bg"
             leftIcon={<WhatsApp />}
           >
             Escríbenos ahora
@@ -83,9 +84,10 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
             variant="outline"
             size="md"
             onClick={handleInstitutionClick}
+            className="w-full sm:w-auto text-lg bg-white/30 dark:bg-dark-surface/50 backdrop-blur-md border-2 border-white/60 dark:border-primary/30"
             leftIcon={<Building2 className="w-6 h-6 text-secondary dark:text-white" />}
           >
-            Soy de una institucións
+            Soy de una institución
           </Button>
         </div>
 
