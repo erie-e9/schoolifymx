@@ -188,7 +188,8 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
               <div className="space-y-4 pt-4 relative z-10">
                 <Button
                   variant="primary"
-                  className="w-full py-5 text-base bg-secondary dark:bg-primary text-white dark:text-text-main"
+                  size='md'
+                  className="w-full text-base bg-secondary dark:bg-primary text-white dark:text-text-main"
                   onClick={onOpenScanner}
                   leftIcon={<Camera className="w-6 h-6" />}
                   rightIcon={<ChevronRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />}

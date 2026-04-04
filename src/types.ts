@@ -86,7 +86,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
       'Entrega directa en tu escuela o domicilio',
     ],
     image: 'https://www.unicef.org/honduras/sites/unicef.org.honduras/files/styles/hero_extended/public/WhatsApp%20Image%202023-06-08%20at%204.36.48%20PM_0.jpeg.webp?itok=VETTkvVL',
-    whatsappMessage: 'Hola, me interesa el servicio de Uniformes Escolares.',
+    whatsappMessage: '¡Hola Schoolify! 👋, me interesa el servicio de Uniformes Escolares.',
     trustEmojis: ['🧑‍🏫', '👩‍👧', '👨‍👩‍👦', '👩‍🎓', '🧑‍💼'],
     trustText: '+500 familias ya confían en nosotros',
     stats: [
@@ -142,7 +142,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
       'Entrega directa y confiable en tu escuela o domicilio',
     ],
     image: 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&q=80&w=1200',
-    whatsappMessage: 'Hola, me interesa el servicio de Útiles Escolares.',
+    whatsappMessage: '¡Hola Schoolify! 👋, me interesa el servicio de Útiles Escolares.',
     trustEmojis: ['✏️', '📓', '🎨', '🎒', '📏'],
     trustText: 'Surtimos más de 500 listas escolares cada año',
     stats: [
@@ -191,7 +191,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
       'Organización total para el ciclo escolar',
     ],
     image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=1200',
-    whatsappMessage: 'Hola, me interesa el servicio de Material Didáctico.',
+    whatsappMessage: '¡Hola Schoolify! 👋, me interesa el servicio de Material Didáctico.',
     trustEmojis: ['📚', '🧩', '🧪', '🌍', '♟️'],
     trustText: 'Próximamente: Material personalizado para cada grado',
     stats: [

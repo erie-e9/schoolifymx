@@ -77,8 +77,9 @@ const ItemCard: React.FC<ItemCardProps> = ({
         ) : (
           <Button
             variant="ghost"
+            size='sm'
             onClick={() => onUpdateQuantity(1)}
-            className="w-full h-7 rounded-lg bg-primary/10 dark:bg-primary/20 hover:bg-primary text-gray-700 dark:text-gray-200 hover:text-gray-900 text-[11px] py-1 shadow-none"
+            className="w-full h-7 rounded-lg bg-primary/10 dark:bg-primary/20 hover:bg-primary text-gray-700 dark:text-gray-200 hover:text-gray-900 py-1 shadow-none"
             leftIcon={<Plus className="w-3 h-3" />}
           >
             Agregar

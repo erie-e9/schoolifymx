@@ -65,30 +65,27 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
 
         {/* Subtext */}
         <p className="text-text-main/80 dark:text-dark-muted text-lg md:text-xl font-body mb-12 max-w-2xl mx-auto leading-relaxed">
-          Soluciones escolares completas para <span className="font-800 underline decoration-secondary dark:decoration-primary decoration-2 underline-offset-4">{content.tag.split(' ')[0]}</span> y más. Sin estrés, desde el primer día.
+          Soluciones escolares completas para <span className="font-800 text-secondary dark:text-primary lowercase">{content.tag.split(' ')[0]}</span> y más. Sin estrés, desde el primer día.
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center sm:items-center mt-2">
           <Button
             variant="primary"
-            size="lg"
-            className="w-full sm:w-auto text-lg px-10 py-5 bg-text-main dark:bg-primary text-white dark:text-dark-bg"
+            size="md"
             onClick={handleCtaClick}
             leftIcon={<WhatsApp />}
-            rightIcon={<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
           >
             Escríbenos ahora
           </Button>
 
           <Button
             variant="outline"
-            size="lg"
-            className="w-full sm:w-auto text-lg px-10 py-5 bg-white/30 dark:bg-dark-surface/50 backdrop-blur-md border-2 border-white/60 dark:border-primary/30"
+            size="md"
             onClick={handleInstitutionClick}
-            leftIcon={<Building2 className="w-6 h-6 text-secondary dark:text-primary" />}
+            leftIcon={<Building2 className="w-6 h-6 text-secondary dark:text-white" />}
           >
-            Soy de una institución
+            Soy de una institucións
           </Button>
         </div>
 

@@ -313,7 +313,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                   {/* Specialized Selection based on Tab */}
                   {activeTab === 'shirt' && (
                     <div className="col-span-1 md:col-span-2 space-y-3">
-                      <label className="text-[10px] uppercase font-heading font-800 tracking-widest text-text-muted dark:text-dark-muted block">Elige una o más prendas</label>
+                      <label className="text-[9px] font-heading font-900 tracking-widest text-text-muted uppercase">Elige una o más prendas</label>
                       <div className="flex flex-wrap gap-2">
                         {['Camisa', 'Suéter', 'Saco', 'Chamarra'].map(type => {
                           return (
@@ -517,12 +517,13 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
               {/* Multi-Student Section */}
               <div className="space-y-4 pt-4 border-t border-gray-100 dark:border-primary/10">
                 {(!isMultiMode && students.length === 0) ? (
-                  <button
+                  <Button
                     onClick={() => setIsMultiMode(true)}
-                    className="w-full py-3 bg-gray-50 hover:bg-gray-100 dark:bg-dark-bg/50 dark:hover:bg-dark-bg/80 text-secondary dark:text-primary rounded-xl font-heading font-800 text-sm transition-colors flex items-center justify-center gap-2 border border-primary/20"
+                    variant='ghost'
+                    className="w-full bg-gray-50 hover:bg-gray-100 dark:bg-dark-bg/50 dark:hover:bg-dark-bg/80 text-secondary dark:text-primary rounded-xl font-heading font-800 text-sm transition-colors flex items-center justify-center border border-primary/20"
                   >
                     <Plus className="w-5 h-5" /> Registrar múltiples estudiantes
-                  </button>
+                  </Button>
                 ) : (
                   <div className="space-y-4 animate-fade-in">
                     <div className="space-y-2">
@@ -609,14 +610,14 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                   </div>
                 )}
                 <div className="space-y-2.5 pt-1">
-                  <button
+                  <Button
                     onClick={handleWhatsAppSend}
-                    className="w-full inline-flex items-center justify-center gap-2.5 bg-secondary dark:bg-primary text-white dark:text-text-main font-heading font-900 text-base py-3.5 rounded-xl shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all duration-300 group"
+                    className="w-full inline-flex items-center justify-center gap-2.5 bg-secondary dark:bg-primary text-white dark:text-text-main font-heading font-900 text-base rounded-xl shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all duration-300 group"
                   >
                     <WhatsApp className="w-4 h-4 group-hover:rotate-12 transition-transform" />
                     {students.length > 0 ? `Pedir prenda${students.length > 1 ? 's' : ''}` : "Pedir esta talla"}
                     <ChevronRight className="w-4 h-4" />
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -634,13 +635,13 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
               <p className="text-xs text-text-muted dark:text-dark-muted mb-8 font-heading font-700">Has registrado con éxito la talla para su <span className="text-primary">{activeTab}</span>. ¿Qué deseas hacer ahora?</p>
 
               <div className="space-y-3">
-                <button
+                <Button
                   onClick={() => setShowNextStepModal(false)}
                   className="w-full py-4 bg-primary text-gray-900 rounded-2xl font-heading font-900 text-xs tracking-widest hover:scale-[1.02] transition-transform active:scale-95"
                 >
-                  REGISTRAR OTRA PRENDA
-                </button>
-                <button
+                  Registrar otra prenda
+                </Button>
+                <Button
                   onClick={() => {
                     setShowNextStepModal(false);
                     setCurrentStudentName('');
@@ -649,17 +650,17 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                   }}
                   className="w-full py-4 bg-gray-100 dark:bg-white/5 text-text-main dark:text-white rounded-2xl font-heading font-900 text-xs tracking-widest hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
                 >
-                  REGISTRAR OTRO ESTUDIANTE
-                </button>
-                <button
+                  Registrar otro estudiante
+                </Button>
+                <Button
                   onClick={() => {
                     setShowNextStepModal(false);
                     handleWhatsAppSend();
                   }}
                   className="w-full flex items-center justify-center gap-2 text-[10px] font-heading font-900 text-secondary dark:text-primary hover:underline mt-4 tracking-tighter"
                 >
-                  <WhatsApp className="w-4 h-4" /> ENVIAR LISTA COMPLETA A WHATSAPP
-                </button>
+                  <WhatsApp className="w-4 h-4" /> Enviar lista completa a WhatsApp
+                </Button>
               </div>
             </div>
           </div>

@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { gsap } from 'gsap';
-import { SERVICES_CONTENT, getWhatsappLink } from '../../types';
+import { SERVICES_CONTENT } from '../../types';
 import type { ServiceType } from '../../types';
 import WhatsApp from '../../assets/whatsapp.svg?react';
 import Badge from '../atoms/Badge';
+import Button from '../atoms/Button';
+import { WhatsAppService } from '../../services/WhatsAppService';
 
 interface CtaMidProps {
   activeService: ServiceType;
@@ -12,6 +14,7 @@ interface CtaMidProps {
 
 const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
   const leftContentRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -20,7 +23,11 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
   const content = SERVICES_CONTENT[activeService];
   const carouselItems = content.ctaCarousel;
   const currentItem = carouselItems[currentIndex];
-  const waLink = React.useMemo(() => getWhatsappLink(content.whatsappMessage), [content.whatsappMessage]);
+
+  const handleCtaClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    WhatsAppService.sendGenericContact(content?.whatsappMessage);
+  }
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
@@ -85,7 +92,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
           <Badge variant="tag" size="lg" className="mb-4">Algunos de nuestros trabajos</Badge>
         </div>
         <div className="bg-white dark:bg-dark-surface rounded-[2.5rem] shadow-xl dark:shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800">
-          <div className="flex flex-col lg:flex-row min-h-[600px]">
+          <div className="flex flex-col lg:flex-row min-h-[525px]">
             {/* Left Column: Info synced with image */}
             <div className="lg:w-1/2 p-10 md:p-16 flex flex-col justify-center relative bg-gradient-to-br from-white to-gray-50 dark:from-dark-surface dark:to-dark-bg/20" ref={leftContentRef}>
               <div className="absolute top-0 left-0 w-32 h-32 bg-primary/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-2xl" />
@@ -94,7 +101,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
                 {currentItem?.type && <span className="tag mb-4">{currentItem.type}</span>}
                 <h2
                   ref={titleRef}
-                  className="font-heading font-900 text-4xl md:text-5xl text-text-main dark:text-dark-text leading-[1.1]"
+                  className="font-heading font-900 text-4xl md:text-3xl text-text-main dark:text-dark-text leading-[1.1]"
                 >
                   {currentItem?.title}
                   <span className="text-secondary dark:text-primary">.</span>
@@ -108,15 +115,15 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
                 {currentItem?.description}
               </p>
 
-              <div className="flex flex-wrap gap-4 mt-auto">
-                <a
-                  href={waLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 font-heading font-700 transition-all duration-300 active:scale-95 bg-primary text-text-main shadow-yellow hover:shadow-yellow-lg hover:scale-105 hover:bg-primary/90 px-8 py-4 text-base rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed group"
+              <div className="flex flex-wrap gap-2 mt-4">
+                <Button
+                  variant="primary"
+                  size="md"
+                  onClick={handleCtaClick}
+                  leftIcon={<WhatsApp className="w-5 h-5 text-black" />}
                 >
-                  <span className="flex-shrink-0"><WhatsApp className="w-5 h-5 text-black" /></span> Escríbenos ahora
-                </a>
+                  Escríbenos ahora
+                </Button>
               </div>
             </div>
 
@@ -131,17 +138,20 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
                   {carouselItems.map((item, i) => (
                     <div
                       key={i}
-                      className="carousel-slide h-full relative"
+                      className="carousel-slide h-full relative border-none cursor-pointer group/slide"
                       style={{ width: `${100 / carouselItems.length}%` }}
+                      onClick={() => setIsImageModalOpen(true)}
                     >
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="absolute inset-0 w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-x-0 bottom-0 p-8 md:p-10 bg-gradient-to-t from-black/95 via-black/40 to-transparent text-white">
-                        <h4 className="font-heading font-800 text-xl md:text-2xl mb-1 md:mb-2">{item.title}</h4>
+                      {/* Blurred backdrop + Contained Image for best visibility */}
+                      <div className="absolute inset-0 bg-black/5 overflow-hidden">
+                        <img
+                          src={item.image}
+                          alt={item.title || "Evidencia del trabajo de Schoolify.mx"}
+                          loading="lazy"
+                          decoding="async"
+                        />
                       </div>
+
                     </div>
                   ))}
                 </div>
@@ -181,6 +191,38 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
           </div>
         </div>
       </div>
+
+      {/* Image Modal Fullscreen */}
+      {isImageModalOpen && (
+        <div className="fixed inset-0 z-[1002] flex items-center justify-center bg-black/95 backdrop-blur-lg animate-fade-in">
+          <button
+            onClick={() => setIsImageModalOpen(false)}
+            className="absolute top-6 right-6 z-50 p-3.5 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white active:scale-90"
+          >
+            <X className="w-6 h-6" />
+          </button>
+
+          <div className="relative w-full h-full max-w-7xl flex flex-col items-center justify-center animate-scale-in">
+            <div className="absolute inset-0 overflow-hidden">
+              <img
+                src={currentItem.image}
+                alt={currentItem.title || "Evidencia del trabajo de Schoolify.mx"}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-contain rounded-xl"
+              />
+            </div>
+            <div className="absolute bottom-0 inset-x-0 p-8 md:p-12 bg-gradient-to-t from-black via-black/50 to-transparent rounded-b-xl text-white text-center flex flex-col items-center justify-end">
+              <h4 className="font-heading font-900 text-3xl md:text-4xl mb-4 text-shadow-sm">{currentItem.title}</h4>
+              {currentItem.description && (
+                <p className="text-white/90 max-w-3xl mx-auto font-body text-base md:text-lg leading-relaxed text-shadow-sm">
+                  {currentItem.description}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

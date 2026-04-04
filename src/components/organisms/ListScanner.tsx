@@ -297,6 +297,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <Button
                   variant="primary"
+                  size='md'
                   className="flex-[1.2] py-4 bg-secondary dark:bg-primary text-white dark:text-text-main"
                   onClick={handleWhatsAppSend}
                   leftIcon={<WhatsApp className="w-5 h-5" />}
@@ -308,6 +309,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
                 {onScanComplete && (
                   <Button
                     variant="thirdary"
+                    size='md'
                     className="flex-1 py-4 border-primary/30 dark:border-secondary/30 text-secondary dark:text-primary"
                     onClick={() => {
                       const selected = items.filter(i => i.selected);
@@ -319,7 +321,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
                     }}
                     leftIcon={<Backpack className="w-4 h-4" />}
                   >
-                    <span className="text-[10px] leading-tight">Integrar al Creador de listas</span>
+                    <span className="leading-tight">Integrar al Creador de listas</span>
                   </Button>
                 )}
               </div>

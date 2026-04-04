@@ -87,14 +87,14 @@ const CookieConsent: React.FC = () => {
               <Button
                 variant="outline"
                 onClick={handleDecline}
-                className="flex-1 md:flex-none py-3"
+                className="flex-1 md:flex-none py-3 text-xs"
               >
                 Rechazar
               </Button>
               <Button
                 variant="secondary"
                 onClick={handleAccept}
-                className="flex-[1] md:flex-none py-3 md:min-w-[160px]"
+                className="flex-1 md:flex-none py-3 text-xs"
               >
                 Aceptar todo
               </Button>

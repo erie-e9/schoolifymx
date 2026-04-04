@@ -112,7 +112,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChall
             size="icon"
             onClick={onOpenChallenges}
           >
-            <Trophy className="w-4 h-4 text-secondary dark:text-primary" />
+            <Trophy className="w-4 h-4 text-secondary dark:text-white/90" />
           </Button>
           <Button
             variant="ghost"
