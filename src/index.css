@@ -22,6 +22,15 @@
   h5 {
     @apply font-heading;
   }
+
+  /* Accessibility: Screen reader only utility */
+  .sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+  }
+
+  .focus\:not-sr-only:focus {
+    @apply not-sr-only static w-auto h-auto p-2 overflow-visible whitespace-normal;
+  }
 }
 
 @layer components {

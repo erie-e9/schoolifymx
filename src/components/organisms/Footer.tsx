@@ -44,7 +44,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-12 mb-16">
           {/* Brand & Mission */}
           <div className="xl:col-span-2">
-            <a href="#" className="flex items-center gap-2.5 mb-6 group">
+            <a href="#" className="flex items-center gap-2.5 mb-6 group" aria-label="Schoolify">
               <Schoolify className="h-9 w-auto md:h-11 group-hover:scale-105 transition-transform duration-300" />
             </a>
             <p className="text-text-muted dark:text-dark-muted text-sm leading-relaxed max-w-sm mb-2 opacity-90">
@@ -108,6 +108,7 @@ const Footer: React.FC = () => {
                     <a
                       href={item.href}
                       className="group flex items-center gap-1.5 text-text-muted dark:text-dark-muted hover:text-white dark:hover:text-primary transition-all duration-200 text-sm font-body font-500"
+                      aria-label={item.label}
                     >
                       {item.label}
                       {item.href.startsWith('http') && <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />}
@@ -121,10 +122,10 @@ const Footer: React.FC = () => {
 
         {/* Bottom bar */}
         <div className="pt-10 border-t border-gray-100 dark:border-gray-800 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-text-muted dark:text-dark-muted/70 text-xs md:text-sm font-body">
+          <p className="text-text-muted dark:text-dark-muted text-xs md:text-sm font-body">
             © {new Date().getFullYear()} <span className="font-700">Schoolify.mx</span> — Soluciones Escolares.
           </p>
-          <div className="flex items-center gap-2 text-text-muted dark:text-dark-muted/70 text-xs md:text-sm font-body">
+          <div className="flex items-center gap-2 text-text-muted dark:text-dark-muted text-xs md:text-sm font-body">
             <span>Hecho con</span>
             <Heart className="w-3.5 h-3.5 text-red-400 fill-red-400 animate-pulse" />
             <span>especialmente para las familias de México</span>

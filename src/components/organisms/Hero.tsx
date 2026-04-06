@@ -189,6 +189,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
                   ? 'bg-primary text-text-main shadow-yellow scale-105'
                   : 'text-text-muted dark:text-dark-muted hover:bg-primary/40 dark:hover:bg-secondary/40'
                   }`}
+                aria-label={s.label}
               >
                 <span>{s.icon}</span>
                 <span className="hidden md:block">{s.label}</span>

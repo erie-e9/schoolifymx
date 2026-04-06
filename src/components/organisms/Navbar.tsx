@@ -112,6 +112,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChall
             variant="ghost"
             size="icon"
             onClick={onOpenChallenges}
+            aria-label="Daily challenges"
           >
             <Trophy className="w-4 h-4 text-secondary dark:text-white/90" />
           </Button>
@@ -119,6 +120,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChall
             variant="ghost"
             size="icon"
             onClick={toggleDarkMode}
+            aria-label="Toggle dark mode"
           >
             {isDark ? <Sun className="w-4 h-4 text-primary" /> : <Moon className="w-4 h-4" />}
           </Button>
@@ -128,6 +130,8 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChall
             size="icon"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
@@ -136,7 +140,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChall
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 top-[102px] bg-white dark:bg-dark-bg px-6 py-8 flex flex-col gap-6 shadow-2xl animate-fade-in-down h-[calc(100vh-102px)] overflow-y-auto z-[99]">
+        <div id="mobile-menu" className="md:hidden fixed inset-0 top-[102px] bg-white dark:bg-dark-bg px-6 py-8 flex flex-col gap-6 shadow-2xl animate-fade-in-down h-[calc(100vh-102px)] overflow-y-auto z-[99]" role="dialog" aria-label="Menú de navegación">
           <div className="flex flex-col gap-2">
             {NAV_LINKS.map(l => (
               <a

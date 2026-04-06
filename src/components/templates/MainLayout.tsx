@@ -23,7 +23,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   return (
     <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
       <Navbar activeService={activeService} onOpenChallenges={onOpenChallenges} />
-      <main>{children}</main>
+      <main id="main-content" role="main">{children}</main>
       <Suspense fallback={null}>
         <ScrollToTop />
         <CookieConsent />
