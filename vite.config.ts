@@ -6,7 +6,7 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/schoolifymx/',
+  base: './',
   plugins: [
     react(),
     svgr({
