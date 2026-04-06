@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Calculator, Backpack } from 'lucide-react';
-import SuppliesEstimator from '../organisms/SuppliesEstimator';
-import ListScanner from '../organisms/ListScanner';
-import BackpackSim from '../organisms/BackpackSim';
+import SuppliesEstimator from '@components/organisms/SuppliesEstimator';
+import ListScanner from '@components/organisms/ListScanner';
+import BackpackSim from '@components/organisms/BackpackSim';
 
 const SUPPLIES_ROWS = [
   { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },

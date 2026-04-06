@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { formatNumbers } from '../../utils/numbers';
-import type { ServiceStat } from '../../types';
+import { formatNumbers } from '@utils/numbers';
+import type { ServiceStat } from '@types';
 
 interface StatCardProps {
   stat: ServiceStat;

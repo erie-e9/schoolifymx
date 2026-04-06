@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
 import { Clock, TrendingDown, ChevronRight, Check, Camera, Calculator, X } from 'lucide-react';
-import { formatNumbers } from '../../utils/numbers';
-import { useSuppliesEstimation, type Grade, type Bundle } from '../../hooks/useSuppliesEstimation';
-import Button from '../atoms/Button';
-import Badge from '../atoms/Badge';
+import { formatNumbers } from '@utils/numbers';
+import { useSuppliesEstimation, type Grade, type Bundle } from '@hooks/useSuppliesEstimation';
+import Button from '@components/atoms/Button';
+import Badge from '@components/atoms/Badge';
 
 interface SuppliesEstimatorProps {
   isOpen: boolean;
@@ -74,6 +74,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
       >
         <button
           onClick={handleClose}
+          aria-label="Cerrar"
           className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
         >
           <X className="w-4 h-4 text-gray-600 dark:text-gray-300" />

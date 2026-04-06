@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronRight, Building2 } from 'lucide-react';
-import WhatsApp from '../../assets/whatsapp.svg?react';
-import { SERVICES_CONTENT, getWhatsappLink } from '../../types';
-import type { ServiceType } from '../../types';
-import Button from '../atoms/Button';
-import Badge from '../atoms/Badge';
-import { WhatsAppService } from '../../services/WhatsAppService';
+import WhatsApp from '@assets/whatsapp.svg?react';
+import { SERVICES_CONTENT, getWhatsappLink } from '@types';
+import type { ServiceType } from '@types';
+import Button from '@components/atoms/Button';
+import Badge from '@components/atoms/Badge';
+import { WhatsAppService } from '@services/WhatsAppService';
 
 gsap.registerPlugin(ScrollTrigger);
 

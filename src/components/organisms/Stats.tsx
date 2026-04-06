@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SERVICES_CONTENT } from '../../types';
-import type { ServiceType } from '../../types';
-import StatCard from '../molecules/StatCard';
-import Badge from '../atoms/Badge';
+import { SERVICES_CONTENT } from '@types';
+import type { ServiceType } from '@types';
+import StatCard from '@components/molecules/StatCard';
+import Badge from '@components/atoms/Badge';
 
 gsap.registerPlugin(ScrollTrigger);
 

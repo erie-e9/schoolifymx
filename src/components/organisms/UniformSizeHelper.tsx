@@ -2,13 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import gsap from 'gsap';
 import { X, Check, Shirt, Plus, Info, Trash2, ChevronRight, Ruler } from 'lucide-react';
-import WhatsApp from '../../assets/whatsapp.svg?react';
-import { WhatsAppService } from '../../services/WhatsAppService';
-import { useUniformSize } from '../../hooks/useUniformSize';
-import Button from '../atoms/Button';
-import Badge from '../atoms/Badge';
-import MeasurementField from '../atoms/MeasurementField';
-import Tooltip from '../atoms/Tooltip';
+import WhatsApp from '@assets/whatsapp.svg?react';
+import { WhatsAppService } from '@services/WhatsAppService';
+import { useUniformSize } from '@hooks/useUniformSize';
+import Button from '@components/atoms/Button';
+import Badge from '@components/atoms/Badge';
+import MeasurementField from '@components/atoms/MeasurementField';
+import Tooltip from '@components/atoms/Tooltip';
 
 interface UniformSizeHelperProps {
   isOpen: boolean;
@@ -49,7 +49,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
     activeTab, setActiveTab,
     selectedTopTypes, setSelectedTopTypes,
     selectedPantsTypes, setSelectedPantsTypes,
-    students, setStudents,
+    students,
     currentStudentName, setCurrentStudentName,
     editingStudentId, setEditingStudentId,
     specialUniformType, setSpecialUniformType,
@@ -195,6 +195,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
           </button>
           <button
             onClick={handleClose}
+            aria-label="Cerrar"
             className="absolute top-6 right-6 p-2.5 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
           >
             <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
@@ -612,6 +613,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                 <div className="space-y-2.5 pt-1">
                   <Button
                     onClick={handleWhatsAppSend}
+                    data-testid="whatsapp-button"
                     className="w-full inline-flex items-center justify-center gap-2.5 bg-secondary dark:bg-primary text-white dark:text-text-main font-heading font-900 text-base rounded-xl shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all duration-300 group"
                   >
                     <WhatsApp className="w-4 h-4 group-hover:rotate-12 transition-transform" />

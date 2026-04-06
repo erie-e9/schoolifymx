@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Menu, X, Sun, Moon, GraduationCap, Trophy } from 'lucide-react';
-import Schoolify from '../../assets/Schoolify.svg?react';
-import SchoolifyLogo from '../../assets/logo.svg?react';
-import WhatsApp from '../../assets/whatsapp.svg?react';
-import BrandCarousel from '../molecules/BrandCarousel';
-import { WhatsAppService } from '../../services/WhatsAppService';
-import { useTheme } from '../../hooks/useTheme';
-import Button from '../atoms/Button';
-import type { ServiceType } from '../../types';
+import Schoolify from '@assets/Schoolify.svg?react';
+import SchoolifyLogo from '@assets/logo.svg?react';
+import WhatsApp from '@assets/whatsapp.svg?react';
+import BrandCarousel from '@components/molecules/BrandCarousel';
+import { WhatsAppService } from '@services/WhatsAppService';
+import { useTheme } from '@hooks/useTheme';
+import Button from '@components/atoms/Button';
+import type { ServiceType } from '@types';
 
 const NAV_LINKS = [
   { label: 'Servicios', href: '#features' },

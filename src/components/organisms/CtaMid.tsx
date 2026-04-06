@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { gsap } from 'gsap';
-import { SERVICES_CONTENT } from '../../types';
-import type { ServiceType } from '../../types';
-import WhatsApp from '../../assets/whatsapp.svg?react';
-import Badge from '../atoms/Badge';
-import Button from '../atoms/Button';
-import { WhatsAppService } from '../../services/WhatsAppService';
+import { SERVICES_CONTENT } from '@types';
+import type { ServiceType } from '@types';
+import WhatsApp from '@assets/whatsapp.svg?react';
+import Badge from '@components/atoms/Badge';
+import Button from '@components/atoms/Button';
+import { WhatsAppService } from '@services/WhatsAppService';
 
 interface CtaMidProps {
   activeService: ServiceType;
@@ -197,6 +197,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
         <div className="fixed inset-0 z-[1002] flex items-center justify-center bg-black/95 backdrop-blur-lg animate-fade-in">
           <button
             onClick={() => setIsImageModalOpen(false)}
+            aria-label="Close modal"
             className="absolute top-6 right-6 z-50 p-3.5 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white active:scale-90"
           >
             <X className="w-6 h-6" />

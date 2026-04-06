@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MessageCircle, PackageCheck, Truck, Ruler, ClipboardList, PenTool, BookOpen, Sparkles } from 'lucide-react';
-import type { ServiceType } from '../../types';
-import WhatsApp from '../../assets/whatsapp.svg?react';
-import ProcessStep from '../molecules/ProcessStep';
-import Badge from '../atoms/Badge';
+import type { ServiceType } from '@types';
+import WhatsApp from '@assets/whatsapp.svg?react';
+import ProcessStep from '@components/molecules/ProcessStep';
+import Badge from '@components/atoms/Badge';
 
 gsap.registerPlugin(ScrollTrigger);
 

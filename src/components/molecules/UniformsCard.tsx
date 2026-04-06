@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { Ruler } from 'lucide-react';
-import UniformSizeHelper from '../organisms/UniformSizeHelper';
+import UniformSizeHelper from '@components/organisms/UniformSizeHelper';
 
 const UNIFORM_DETAILS = [
   { icon: '📐', text: 'Confección a medida' },

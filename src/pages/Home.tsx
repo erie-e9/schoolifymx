@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
-import MainLayout from '../components/templates/MainLayout';
-import Hero from '../components/organisms/Hero';
-import { useTheme } from '../hooks/useTheme';
-import type { ServiceType } from '../types';
+import MainLayout from '@components/templates/MainLayout';
+import Hero from '@components/organisms/Hero';
+import { useTheme } from '@hooks/useTheme';
+import type { ServiceType } from '@types';
 
 const Process = React.lazy(() => import('../components/organisms/Process'));
 const CtaMid = React.lazy(() => import('../components/organisms/CtaMid'));

@@ -26,12 +26,14 @@ export interface SelectedItem {
   name?: string;
 }
 
-export interface ScannedSectionItem {
+export interface ScannedItem {
   id: string;
   name: string;
   note: string;
   selected: boolean;
 }
+
+export type ScannedSectionItem = ScannedItem;
 
 export interface ServiceStat {
   value: number;

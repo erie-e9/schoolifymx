@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ChevronDown } from 'lucide-react';
-import type { FAQItem as FAQItemType } from '../../types';
+import type { FAQItem as FAQItemType } from '@types';
 
 interface FAQItemProps {
   item: FAQItemType;

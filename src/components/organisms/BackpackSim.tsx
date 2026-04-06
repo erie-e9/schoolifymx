@@ -18,15 +18,15 @@ import {
   Ruler,
   Scissors,
 } from 'lucide-react';
-import WhatsApp from '../../assets/whatsapp.svg?react';
-import { WhatsAppService } from '../../services/WhatsAppService';
-import { useBackpack } from '../../hooks/useBackpack';
-import ListScanner from '../organisms/ListScanner';
-import Button from '../atoms/Button';
-import SearchBar from '../molecules/SearchBar';
-import ItemCard from '../molecules/ItemCard';
-import SummaryItem from '../molecules/SummaryItem';
-import type { SupplyItem, SupplyCategory, ScannedItem } from '../../types';
+import WhatsApp from '@assets/whatsapp.svg?react';
+import { WhatsAppService } from '@services/WhatsAppService';
+import { useBackpack } from '@hooks/useBackpack';
+import ListScanner from '@components/organisms/ListScanner';
+import Button from '@components/atoms/Button';
+import SearchBar from '@components/molecules/SearchBar';
+import ItemCard from '@components/molecules/ItemCard';
+import SummaryItem from '@components/molecules/SummaryItem';
+import type { SupplyItem, SupplyCategory, ScannedItem } from '@types';
 
 interface BackpackSimProps {
   isOpen: boolean;
@@ -468,7 +468,7 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
                 Enviar lista
               </Button>
               <Button
-                variant="thirdary"
+                variant="tertiary"
                 className="w-full max-w-sm"
                 onClick={() => setIsCompleted(false)}
               >

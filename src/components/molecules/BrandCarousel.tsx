@@ -1,21 +1,21 @@
 import React from 'react';
-import Scribe from '../../assets/scribe.svg?react';
-import Crayola from '../../assets/crayola1.svg?react';
-import Pritt from '../../assets/pritt.svg?react';
-import Maped from '../../assets/maped.svg?react';
-import Pelikan from '../../assets/pelikan.svg?react';
-import M3 from '../../assets/3m.svg?react';
-import Berol from '../../assets/berol.svg?react';
-import Bic from '../../assets/bic.svg?react';
-import Barrilito from '../../assets/barrilito2.svg?react';
-import Papermate from '../../assets/papermate1.svg?react';
-import Casio from '../../assets/casio.svg?react';
-import Parisina from '../../assets/parisina.svg?react';
-import Modatelas from '../../assets/modatelas.svg?react';
-import Nike from '../../assets/nike.svg?react';
-import Adidas from '../../assets/adidas.svg?react';
-import Flexi from '../../assets/flexi.svg?react';
-import type { ServiceType } from '../../types';
+import Scribe from '@assets/scribe.svg?react';
+import Crayola from '@assets/crayola1.svg?react';
+import Pritt from '@assets/pritt.svg?react';
+import Maped from '@assets/maped.svg?react';
+import Pelikan from '@assets/pelikan.svg?react';
+import M3 from '@assets/3m.svg?react';
+import Berol from '@assets/berol.svg?react';
+import Bic from '@assets/bic.svg?react';
+import Barrilito from '@assets/barrilito2.svg?react';
+import Papermate from '@assets/papermate1.svg?react';
+import Casio from '@assets/casio.svg?react';
+import Parisina from '@assets/parisina.svg?react';
+import Modatelas from '@assets/modatelas.svg?react';
+import Nike from '@assets/nike.svg?react';
+import Adidas from '@assets/adidas.svg?react';
+import Flexi from '@assets/flexi.svg?react';
+import type { ServiceType } from '@types';
 
 const STATIONERY_BRANDS = [
   { name: 'Scribe', logo: Scribe, link: 'https://www.scribe.com.mx' },

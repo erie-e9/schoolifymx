@@ -1,6 +1,6 @@
 import React from 'react';
 import { Search } from 'lucide-react';
-import Input from '../atoms/Input';
+import Input from '@components/atoms/Input';
 
 interface SearchBarProps {
   value: string;

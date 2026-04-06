@@ -1,7 +1,7 @@
 import React from 'react';
 import { CheckCircle2, Circle } from 'lucide-react';
-import type { Challenge } from '../../hooks/useChallenges';
-import Progress from '../atoms/Progress';
+import type { Challenge } from '@hooks/useChallenges';
+import Progress from '@components/atoms/Progress';
 
 interface ChallengeItemProps {
   challenge: Challenge;

@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
 import { Upload, CheckCircle, Zap, X, Loader2, FileDigit, Backpack, AlertCircle, RefreshCw } from 'lucide-react';
-import WhatsApp from '../../assets/whatsapp.svg?react';
-import { WhatsAppService } from '../../services/WhatsAppService';
-import { useScanner } from '../../hooks/useScanner';
-import Button from '../atoms/Button';
-import type { ScannedItem } from '../../types';
+import WhatsApp from '@assets/whatsapp.svg?react';
+import { WhatsAppService } from '@services/WhatsAppService';
+import { useScanner } from '@hooks/useScanner';
+import Button from '@components/atoms/Button';
+import type { ScannedItem } from '@types';
 
 interface ListScannerProps {
   isOpen: boolean;
@@ -102,6 +102,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
       >
         <button
           onClick={handleClose}
+          aria-label="Cerrar"
           className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
         >
           <X className="w-5 h-5 text-text-muted" />
@@ -308,7 +309,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
 
                 {onScanComplete && (
                   <Button
-                    variant="thirdary"
+                    variant="tertiary"
                     size='md'
                     className="flex-1 py-4 border-primary/30 dark:border-secondary/30 text-secondary dark:text-primary"
                     onClick={() => {

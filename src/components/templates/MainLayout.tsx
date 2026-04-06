@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
-import Navbar from '../organisms/Navbar';
-import ScrollToTop from '../atoms/ScrollToTop';
-import type { ServiceType } from '../../types';
+import Navbar from '@components/organisms/Navbar';
+import ScrollToTop from '@components/atoms/ScrollToTop';
+import type { ServiceType } from '@types';
 
 const Footer = React.lazy(() => import('../organisms/Footer'));
 const CookieConsent = React.lazy(() => import('../organisms/CookieConsent'));

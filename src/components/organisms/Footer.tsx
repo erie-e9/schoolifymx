@@ -1,10 +1,10 @@
 import React from 'react';
 import { Heart, Instagram, Facebook, MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
-import { getWhatsappLink } from '../../types';
-import Schoolify from '../../assets/Schoolify.svg?react';
-import WhatsApp from '../../assets/whatsapp.svg?react';
-import Youtube from '../../assets/youtube.svg?react';
-import Tiktok from '../../assets/tiktok.svg?react';
+import { getWhatsappLink } from '@types';
+import Schoolify from '@assets/Schoolify.svg?react';
+import WhatsApp from '@assets/whatsapp.svg?react';
+import Youtube from '@assets/youtube.svg?react';
+import Tiktok from '@assets/tiktok.svg?react';
 
 const Footer: React.FC = () => {
   const waLink = getWhatsappLink(import.meta.env.VITE_WHATSAPP_MESSAGE || 'Hola, soy una institución educativa y me gustaría conocer más sobre Schoolify.mx');

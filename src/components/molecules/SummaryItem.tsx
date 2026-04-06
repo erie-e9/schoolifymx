@@ -1,5 +1,5 @@
 import React from 'react';
-import Input from '../atoms/Input';
+import Input from '@components/atoms/Input';
 import QuantityControl from './QuantityControl';
 
 interface SummaryItemProps {

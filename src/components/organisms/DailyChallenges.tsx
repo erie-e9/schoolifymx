@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Trophy, CheckCircle2, Circle, Zap, ChevronRight, X } from 'lucide-react';
-import { useChallenges } from '../../hooks/useChallenges';
-import { WhatsAppService } from '../../services/WhatsAppService';
-import Button from '../atoms/Button';
+import { useChallenges } from '@hooks/useChallenges';
+import { WhatsAppService } from '@services/WhatsAppService';
+import Button from '@components/atoms/Button';
 
 interface DailyChallengesProps {
   isOpen?: boolean;
@@ -11,16 +11,18 @@ interface DailyChallengesProps {
 
 const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = false, onClose }) => {
   const { challenges, completedCount, hasNewCompletion, setHasNewCompletion } = useChallenges();
-  const [localIsOpen, setLocalIsOpen] = useState(false);
+  const [localIsOpen, setLocalIsOpen] = useState(propIsOpen);
+  const prevPropIsOpen = React.useRef(propIsOpen);
 
   useEffect(() => {
-    if (propIsOpen !== localIsOpen) {
+    if (prevPropIsOpen.current !== propIsOpen) {
       setLocalIsOpen(propIsOpen);
       if (propIsOpen) {
         setHasNewCompletion(false);
       }
+      prevPropIsOpen.current = propIsOpen;
     }
-  }, [propIsOpen, localIsOpen, setHasNewCompletion]);
+  }, [propIsOpen, setHasNewCompletion]);
 
   const handleToggle = () => {
     const nextState = !localIsOpen;

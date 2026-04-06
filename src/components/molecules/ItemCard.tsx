@@ -1,8 +1,8 @@
 import React from 'react';
 import { Check, Plus, StickyNote } from 'lucide-react';
-// import type { SupplyItem } from '../../types';
+// import type { SupplyItem } from '@types';
 import QuantityControl from './QuantityControl';
-import Button from '../atoms/Button';
+import Button from '@components/atoms/Button';
 
 interface ItemCardProps {
   item: any;

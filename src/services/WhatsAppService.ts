@@ -1,5 +1,5 @@
 import type { StudentMeasurement } from '../hooks/useUniformSize';
-import { getWhatsappLink } from '../types';
+import { getWhatsappLink } from '@types';
 
 export const WhatsAppService = {
   sendMissionRedemption: (completedMissions: { title: string }[]) => {
@@ -34,6 +34,15 @@ export const WhatsAppService = {
     students.forEach(s => {
       message += `👤 Estudiante: ${s.name}\n Prenda: ${s.garmentType}\n${s.advancedNote}\n✅ Talla Sugerida: ${s.suggestedSize}\n--------------------------------------------\n`;
     });
+    window.open(getWhatsappLink(message), '_blank');
+  },
+
+  sendScannedListQuote: (items: any[], tier: string) => {
+    const list = items
+      .map(item => `• ${item.name}${item.note ? ` (${item.note})` : ''}`)
+      .join('\n');
+
+    const message = `¡Hola Schoolify! 👋 He escaneado mi lista escolar y me interesa el Paquete ${tier}.\n\n📚 Mi lista incluye:\n${list}`;
     window.open(getWhatsappLink(message), '_blank');
   },
 };

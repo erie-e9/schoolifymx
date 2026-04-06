@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import useFileUpload from './customHooks/useFileUpload';
+import useFileUpload from '@customHooks/useFileUpload';
 
 export interface ScannedItem {
   id: string;

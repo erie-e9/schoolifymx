@@ -1,7 +1,9 @@
 import { useState, useMemo, useEffect } from 'react';
-import type { ScannedItem, SelectedItem, ScannedSectionItem } from '../types';
+import type { ScannedItem, SelectedItem, ScannedSectionItem } from '@types';
 
-export const useBackpack = (isOpen: boolean, scannedItems: ScannedItem[] = []) => {
+const EMPTY_SCANNED_ITEMS: ScannedItem[] = [];
+
+export const useBackpack = (isOpen: boolean, scannedItems: ScannedItem[] = EMPTY_SCANNED_ITEMS) => {
   const [selectedItems, setSelectedItems] = useState<Record<string, SelectedItem>>({});
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,7 +29,7 @@ export const useBackpack = (isOpen: boolean, scannedItems: ScannedItem[] = []) =
   const updateQuantity = (id: string, delta: number) => {
     if (delta > 0) {
       window.dispatchEvent(new CustomEvent('schoolify-mission-progress', {
-        detail: { missionId: 'backpack_items', increment: 1 }
+        detail: { missionId: 'backpack_items', increment: delta }
       }));
     }
     setSelectedItems(prev => {
@@ -47,7 +49,11 @@ export const useBackpack = (isOpen: boolean, scannedItems: ScannedItem[] = []) =
   const updateNote = (id: string, note: string) => {
     setSelectedItems(prev => ({
       ...prev,
-      [id]: { ...prev[id], note }
+      [id]: { 
+        qty: prev[id]?.qty || 1,
+        note,
+        name: prev[id]?.name || 'Artículo'
+      }
     }));
   };
 

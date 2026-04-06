@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { Cookie } from 'lucide-react';
-import Button from '../atoms/Button';
+import Button from '@components/atoms/Button';
 
 const CookieConsent: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
