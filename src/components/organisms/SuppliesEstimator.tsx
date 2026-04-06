@@ -112,6 +112,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                           ? 'bg-primary border-primary text-text-main shadow-yellow'
                           : 'bg-gray-50 dark:bg-dark-bg/30 border-gray-100 dark:border-gray-800 text-text-muted dark:text-dark-muted hover:border-primary/50'
                           }`}
+                        aria-label={`Seleccionar ${g}`}
                       >
                         {g}
                       </button>
@@ -133,6 +134,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                           ? 'bg-white dark:bg-dark-bg border-primary shadow-lg ring-1 ring-primary/20'
                           : 'bg-gray-50/50 dark:bg-dark-bg/20 border-gray-100 dark:border-gray-800 grayscale hover:grayscale-0 opacity-80 hover:opacity-100'
                           }`}
+                        aria-label={`Seleccionar ${b}`}
                       >
                         <div className={`text-[9px] font-heading font-900 uppercase tracking-widest mb-1 ${bundle === b ? 'text-secondary dark:text-primary' : 'dark:text-dark-muted'}`}>
                           {b}
@@ -194,6 +196,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                   onClick={onOpenScanner}
                   leftIcon={<Camera className="w-6 h-6" />}
                   rightIcon={<ChevronRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />}
+                  aria-label='Subir imagen de mi lista'
                 >
                   <span className='hidden md:inline'>Subir imagen de mi lista</span>
                   <span className='inline md:hidden'>Subir mi lista</span>

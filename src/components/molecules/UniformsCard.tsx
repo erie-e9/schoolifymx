@@ -44,13 +44,14 @@ const UniformsCard: React.FC<UniformsCardProps> = ({ active }) => {
         </div>
         <div className="flex-1">
           <div className="flex items-start justify-between">
-            <h3 className="font-heading font-800 text-2xl text-text-main dark:text-dark-text mt-1">Uniformes a la medida</h3>
+            <p className="font-heading font-800 text-2xl text-text-main dark:text-dark-text mt-1">Uniformes a la medida</p>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 setIsSizeHelperOpen(true);
               }}
               className="flex items-center justify-center bg-primary/20 border-primary text-text-main dark:text-dark-text hover:bg-primary p-2 rounded-xl transition-all duration-300 border hover:shadow-yellow hover:-translate-y-0.5 group/btn"
+              aria-label="Abrir asistente de tallas"
             >
               <Ruler className="w-5 h-5 transition-transform group-hover:rotate-12 dark:text-white animate-shake-icon" />
             </button>

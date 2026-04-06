@@ -48,11 +48,12 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
             onClick={() => setIsBackpackOpen(true)}
             className="p-2 bg-primary/20 border border-primary rounded-xl hover:bg-primary transition-all active:scale-95"
           >
-            <Backpack className="w-5 h-5 text-gray-900 dark:text-white/90 animate-shake-icon" />
+            <Backpack className="w-5 h-5 text-gray-900 dark:text-white/90 animate-shake-icon" aria-label="Abrir el creador de listas escolares" />
           </button>
           <button
             onClick={() => setIsEstimatorOpen(true)}
             className="p-2 bg-primary/20 border border-primary rounded-xl hover:bg-primary transition-all active:scale-95"
+            aria-label="Abrir calculadora de ahorro instantáneo"
           >
             <Calculator className="w-5 h-5 text-gray-900 dark:text-white/90 animate-shake-icon" />
           </button>

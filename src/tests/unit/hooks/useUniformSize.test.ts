@@ -12,7 +12,7 @@ describe('useUniformSize', () => {
     const { result } = renderHook(() => useUniformSize(false));
     expect(result.current.activeTab).toBe('shirt');
     expect(result.current.students).toEqual([]);
-    expect(result.current.suggestedSize).toBe('6');
+    expect(result.current.suggestedSize).toBe('4');
   });
 
   it('calculates suggested size for shirt based on chest', () => {

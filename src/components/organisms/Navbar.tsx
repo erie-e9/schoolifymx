@@ -49,7 +49,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChall
     >
       <BrandCarousel activeService={activeService} />
       <nav className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2.5 group">
+        <a href="#" className="flex items-center gap-2.5 group" aria-label="Schoolify">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-yellow group-hover:scale-110 transition-transform">
             <SchoolifyLogo className="w-9 h-9" />
           </div>
@@ -99,6 +99,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChall
             size="md"
             onClick={handleContactClick}
             leftIcon={<WhatsApp className="w-5 h-5 text-black" />}
+            aria-label="Contacto para escuelas"
           >
             <span className="hidden lg:inline">Contacto para escuelas</span>
             <GraduationCap className="w-5 h-5 text-black inline lg:hidden" />

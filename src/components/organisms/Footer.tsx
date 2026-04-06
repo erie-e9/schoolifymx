@@ -121,10 +121,10 @@ const Footer: React.FC = () => {
 
         {/* Bottom bar */}
         <div className="pt-10 border-t border-gray-100 dark:border-gray-800 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-text-muted/90 dark:text-dark-muted/50 text-xs md:text-sm font-body">
+          <p className="text-text-muted dark:text-dark-muted/70 text-xs md:text-sm font-body">
             © {new Date().getFullYear()} <span className="font-700">Schoolify.mx</span> — Soluciones Escolares.
           </p>
-          <div className="flex items-center gap-2 text-text-muted/90 dark:text-dark-muted/50 text-xs md:text-sm font-body">
+          <div className="flex items-center gap-2 text-text-muted dark:text-dark-muted/70 text-xs md:text-sm font-body">
             <span>Hecho con</span>
             <Heart className="w-3.5 h-3.5 text-red-400 fill-red-400 animate-pulse" />
             <span>especialmente para las familias de México</span>
