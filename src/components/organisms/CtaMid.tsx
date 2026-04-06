@@ -214,9 +214,9 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
               />
             </div>
             <div className="absolute bottom-0 inset-x-0 p-8 md:p-12 bg-gradient-to-t from-black via-black/50 to-transparent rounded-b-xl text-white text-center flex flex-col items-center justify-end">
-              <h4 className="font-heading font-900 text-3xl md:text-4xl mb-4 text-shadow-sm">{currentItem.title}</h4>
+              <h4 className="font-heading font-900 text-2xl md:text-3xl mb-4 text-shadow-sm">{currentItem.title}</h4>
               {currentItem.description && (
-                <p className="text-white/90 max-w-3xl mx-auto font-body text-base md:text-lg leading-relaxed text-shadow-sm">
+                <p className="text-white/90 max-w-3xl mx-auto font-body text-base md:text-sm leading-relaxed text-shadow-sm">
                   {currentItem.description}
                 </p>
               )}

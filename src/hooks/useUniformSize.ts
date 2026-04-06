@@ -27,40 +27,40 @@ export const useUniformSize = (isOpen: boolean) => {
   const [garmentNote, setGarmentNote] = useState<string>('');
 
   // Advanced A-F Measures (Shirt/Top)
-  const [neck, setNeck] = useState(30);
-  const [chest, setChest] = useState(70);
-  const [waist, setWaist] = useState(65);
-  const [shoulders, setShoulders] = useState(35);
-  const [shoulder, setShoulder] = useState(15);
-  const [totalLength, setTotalLength] = useState(55);
-  const [sleeveLength, setSleeveLength] = useState(45);
+  const [neck, setNeck] = useState(27);
+  const [chest, setChest] = useState(60);
+  const [waist, setWaist] = useState(56);
+  const [shoulders, setShoulders] = useState(27);
+  const [shoulder, setShoulder] = useState(8);
+  const [totalLength, setTotalLength] = useState(65);
+  const [sleeveLength, setSleeveLength] = useState(36);
   const [armWidth, setArmWidth] = useState(25);
-  const [cuffWidth, setCuffWidth] = useState(25);
+  const [cuffWidth, setCuffWidth] = useState(12);
 
   // Advanced Measures (Pants)
-  const [pWaist, setPWaist] = useState(70);
-  const [pHip, setPHip] = useState(85);
-  const [pRise, setPRise] = useState(28);
-  const [pLength, setPLength] = useState(90);
-  const [pCuff, setPCuff] = useState(18);
-  const [pRiseToCuff, setPRiseToCuff] = useState(65);
+  const [pWaist, setPWaist] = useState(56);
+  const [pHip, setPHip] = useState(60);
+  const [pRise, setPRise] = useState(15);
+  const [pLength, setPLength] = useState(60);
+  const [pRiseToCuff, setPRiseToCuff] = useState(45);
+  const [pCuff, setPCuff] = useState(15);
 
   // Advanced Measures (Skirt)
-  const [fWaist, setFWaist] = useState(65);
-  const [fHip, setFHip] = useState(85);
-  const [fLength, setFLength] = useState(45);
-  const [hHip, setWHip] = useState(20);
+  const [fWaist, setFWaist] = useState(56);
+  const [fHip, setFHip] = useState(60);
+  const [hHip, setWHip] = useState(15);
+  const [fLength, setFLength] = useState(35);
 
   // Advanced Measures (Jumper)
-  const [jTotalLength, setJTotalLength] = useState(75);
-  const [jChest, setJChest] = useState(70);
-  const [jWaist, setJWaist] = useState(68);
-  const [jNeck, setJNeck] = useState(30);
-  const [jShoulder, setJShoulder] = useState(12);
-  const [jSkirtLength, setJSkirtLength] = useState(40);
+  const [jTotalLength, setJTotalLength] = useState(70);
+  const [jChest, setJChest] = useState(60);
+  const [jWaist, setJWaist] = useState(56);
+  const [jNeck, setJNeck] = useState(27);
+  const [jShoulder, setJShoulder] = useState(8);
+  const [jSkirtLength, setJSkirtLength] = useState(35);
 
   // Advanced Measures (Shoes)
-  const [footLength, setFootLength] = useState(20);
+  const [footLength, setFootLength] = useState(15);
   const [shoeGender, setShoeGender] = useState<'Niño' | 'Niña'>('Niño');
   const [shoeType, setShoeType] = useState<'Escolar' | 'Deportivo'>('Escolar');
 

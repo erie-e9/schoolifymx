@@ -421,7 +421,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
                   {activeTab === 'shirt' && (
                     <>
-                      <MeasurementField label="Cuello (al rededor)" prefix="A" value={neck} min={20} max={60} onChange={setNeck} tooltipContent="Mide alrededor de la base del cuello, dejando un dedo de holgura." />
+                      <MeasurementField label="Cuello (al rededor)" prefix="A" value={neck} min={20} max={50} onChange={setNeck} tooltipContent="Mide alrededor de la base del cuello, dejando un dedo de holgura." />
                       <MeasurementField label="Pecho (contorno)" prefix="B" value={chest} min={50} max={140} onChange={setChest} tooltipContent="Mide alrededor de la parte más ancha del pecho." />
                       <MeasurementField label="Cintura (contorno)" prefix="C" value={waist} min={40} max={130} onChange={setWaist} tooltipContent="Mide alrededor de la cintura." />
                       <MeasurementField label="Ancho Hombros" prefix="D" value={shoulders} min={20} max={60} onChange={setShoulders} tooltipContent="Mide de costura a costura de los hombros por la espalda." />
@@ -429,7 +429,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                       <MeasurementField label="Largo Total" prefix="F" value={totalLength} min={30} max={100} onChange={setTotalLength} tooltipContent="Mide desde el hombro hasta el largo deseado." />
                       <MeasurementField label="Hombro a Manga" prefix="G" value={sleeveLength} min={10} max={80} onChange={setSleeveLength} tooltipContent="Con el brazo doblado, mide desde donde inicia el hombro hasta la muñeca." />
                       <MeasurementField label="Ancho Brazo (al rededor)" prefix="H" value={armWidth} min={15} max={50} onChange={setArmWidth} tooltipContent="Mide el contorno del brazo (bíceps)." />
-                      <MeasurementField label="Muñeca (al rededor)" prefix="I" value={cuffWidth} min={10} max={30} onChange={setCuffWidth} tooltipContent="Mide el contorno de la muñeca." />
+                      <MeasurementField label="Muñeca (al rededor)" prefix="I" value={cuffWidth} min={10} max={20} onChange={setCuffWidth} tooltipContent="Mide el contorno de la muñeca." />
                     </>
                   )}
 

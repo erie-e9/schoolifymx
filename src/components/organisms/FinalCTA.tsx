@@ -85,7 +85,7 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
             size="md"
             onClick={handleInstitutionClick}
             className="w-full sm:w-auto text-lg bg-white/30 dark:bg-dark-surface/50 backdrop-blur-md border-2 border-white/60 dark:border-primary/30"
-            leftIcon={<Building2 className="w-6 h-6 text-secondary dark:text-white" />}
+            leftIcon={<Building2 className="w-6 h-6 text-secondary dark:text-white/90" />}
           >
             Soy de una institución
           </Button>
