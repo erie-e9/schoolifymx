@@ -6,19 +6,10 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: './',
+  base: '/schoolifymx/',
   plugins: [
     react(),
-    svgr({
-      svgrOptions: {
-        memo: true,
-        // exportType: "default",
-        ref: true,
-        // svgo: false,
-        titleProp: true
-      },
-      include: "**/*.svg",
-    }),
+    svgr(),
     createHtmlPlugin({
       minify: true,
       inject: {
