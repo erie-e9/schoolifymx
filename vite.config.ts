@@ -12,9 +12,7 @@ export default defineConfig({
     svgr({
       svgrOptions: {
         memo: true,
-        exportType: "default", ref: true, svgo: false, titleProp: true
-      },
-      include: "**/*.svg",
+      }
     }),
     createHtmlPlugin({
       minify: true,
