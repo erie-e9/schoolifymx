@@ -39,6 +39,12 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+        env:
+          VITE_WHATSAPP_NUMBER: ${{ secrets.VITE_WHATSAPP_NUMBER }}
+          VITE_WHATSAPP_MESSAGE: ${{ secrets.VITE_WHATSAPP_MESSAGE }}
+          VITE_WHATSAPP_MESSAGE_SCHOOL: ${{ secrets.VITE_WHATSAPP_MESSAGE_SCHOOL }}
+          VITE_N8N_WEBHOOK_URL: ${{ secrets.VITE_N8N_WEBHOOK_URL }}
+          NGROK_AUTHTOKEN: ${{ secrets.NGROK_AUTHTOKEN }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
