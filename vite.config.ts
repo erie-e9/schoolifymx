@@ -12,10 +12,10 @@ export default defineConfig({
     svgr({
       svgrOptions: {
         memo: true,
-        exportType: "default",
+        // exportType: "default",
         ref: true,
         // svgo: false,
-        // titleProp: true
+        titleProp: true
       },
       include: "**/*.svg",
     }),
