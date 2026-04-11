@@ -51,7 +51,7 @@ const Footer: React.FC = () => {
               Transformamos la experiencia del regreso a clases con soluciones y logísticas inteligentes 📦✨.
             </p>
             <p className="text-text-muted dark:text-dark-muted text-sm leading-relaxed max-w-sm mb-4 opacity-90">
-              Ahorra tiempo, dinero y evita filas en la adquisición de uniformes y útiles escolares sin estrés.
+              Ahorra tiempo, dinero y evita filas en la adquisición de uniformes y útiles escolares, sin estrés.
             </p>
 
             <div className="flex gap-3">
@@ -60,10 +60,10 @@ const Footer: React.FC = () => {
                   key={s.label}
                   href={s.href}
                   target='_blank'
-                  className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-dark-surface border border-gray-100 dark:border-gray-800 flex items-center justify-center text-text-muted dark:text-dark-muted hover:bg-primary/20 hover:text-text-main dark:hover:text-primary transition-all duration-300"
+                  className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-dark-surface flex items-center justify-center text-text-muted dark:text-dark-muted hover:bg-primary hover:text-text-main dark:hover:text-primary transition-all duration-300"
                   aria-label={s.label}
                 >
-                  <s.icon className="w-5 h-5 dark:text-dark-muted" />
+                  <s.icon className="w-5 h-5 dark:text-dark-muted dark:hover:text-primary" />
                 </a>
               ))}
             </div>

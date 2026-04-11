@@ -454,7 +454,7 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
                 <Check className="w-8 h-8 text-green-500 stroke-[2.5]" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">¡Lista Armada!</h2>
+                <h2 className="text-3xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight">¡Lista Armada!</h2>
                 <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 max-w-xs mx-auto">
                   {totalItemCount} artículos en {selectedCount} categorías. Envía la cotización por WhatsApp.
                 </p>

@@ -37,13 +37,14 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
     setCurrentIndex((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
   };
 
-  // Auto-slide effect
+  // Auto-slide effect — paused while modal is open so the selected image stays fixed
   useEffect(() => {
+    if (isImageModalOpen) return;
     const timer = setInterval(() => {
       nextSlide();
     }, 12000);
     return () => clearInterval(timer);
-  }, [currentIndex, carouselItems.length]);
+  }, [currentIndex, carouselItems.length, isImageModalOpen]);
 
   // Reset index when service changes
   useEffect(() => {

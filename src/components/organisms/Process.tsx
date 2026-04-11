@@ -45,7 +45,7 @@ const PROCESS_STEPS: Record<ServiceType, any[]> = {
       icon: MessageCircle,
       number: '01',
       title: 'Envías tu Lista',
-      description: 'Mándanos una foto o PDF de la lista de útiles de tu escuela.',
+      description: 'Mándanos una foto o PDF de la lista de tus útiles escolares.',
       color: 'bg-primary',
     },
     {

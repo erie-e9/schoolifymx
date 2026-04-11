@@ -399,7 +399,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                   {activeTab === 'skirt' && (
                     <>
                       <MeasurementField label="Cintura (contorno)" prefix="A" value={fWaist} min={40} max={120} onChange={setFWaist} tooltipContent="Mide alrededor de la cintura." />
-                      <MeasurementField label="Cadera (contorno)" prefix="B" value={fHip} min={50} max={140} onChange={setFHip} tooltipContent="Mide alrededor de la parte más ancha." />
+                      <MeasurementField label="Cadera (contorno)" prefix="B" value={fHip} min={50} max={140} onChange={setFHip} tooltipContent="Mide alrededor de la parte más ancha de la cadera." />
                       <MeasurementField label="Bajada Cadera" prefix="C" value={hHip} min={10} max={30} onChange={setWHip} tooltipContent="Mide la distancia de la cintura a la parte más ancha de la cadera." />
                       <MeasurementField label="Largo Total" prefix="D" value={fLength} min={20} max={80} onChange={setFLength} tooltipContent="Mide desde la cintura hasta el largo deseado." />
                     </>
@@ -408,11 +408,11 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                   {activeTab === 'jumper' && (
                     <>
                       <MeasurementField label="Largo Total" prefix="A" value={jTotalLength} min={40} max={120} onChange={setJTotalLength} tooltipContent="Mide desde el hombro a largo total deseado." />
-                      <MeasurementField label="Ancho Pecho" prefix="B" value={jChest} min={40} max={120} onChange={setJChest} tooltipContent="Mide contorno de pecho." />
-                      <MeasurementField label="Cintura" prefix="C" value={jWaist} min={40} max={120} onChange={setJWaist} tooltipContent="Mide contorno de cintura." />
-                      <MeasurementField label="Cuello" prefix="D" value={jNeck} min={20} max={60} onChange={setJNeck} />
-                      <MeasurementField label="Hombro" prefix="E" value={jShoulder} min={5} max={20} onChange={setJShoulder} />
-                      <MeasurementField label="Largo Falda" prefix="F" value={jSkirtLength} min={20} max={70} onChange={setJSkirtLength} />
+                      <MeasurementField label="Ancho Pecho" prefix="B" value={jChest} min={40} max={120} onChange={setJChest} tooltipContent="Mide alrededor de la parte más ancha del pecho." />
+                      <MeasurementField label="Cintura" prefix="C" value={jWaist} min={40} max={120} onChange={setJWaist} tooltipContent="Mide alrededor de la cintura." />
+                      <MeasurementField label="Cuello" prefix="D" value={jNeck} min={20} max={60} onChange={setJNeck} tooltipContent="Mide alrededor de la base del cuello, dejando un dedo de holgura." />
+                      <MeasurementField label="Hombro" prefix="E" value={jShoulder} min={5} max={20} onChange={setJShoulder} tooltipContent="Mide desde la base del cuello hasta el inicio del brazo." />
+                      <MeasurementField label="Largo Falda" prefix="F" value={jSkirtLength} min={20} max={70} onChange={setJSkirtLength} tooltipContent="Mide desde la cintura hasta el largo deseado." />
                     </>
                   )}
 
