@@ -24,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({
   const variants = {
     primary: 'bg-primary text-text-main shadow-yellow hover:shadow-yellow-lg hover:scale-105 hover:bg-primary/90',
     secondary: 'bg-secondary dark:bg-primary text-white dark:text-text-main hover:bg-secondary/90 shadow-lg hover:scale-105',
-    tertiary: 'bg-gray-100 dark:bg-white/10 text-white hover:bg-gray-50 dark:hover:bg-white/5 shadow-lg hover:scale-105',
+    tertiary: 'bg-gray-100 dark:bg-white/10 text-secondary dark:text-white/90 hover:bg-gray-50 dark:hover:bg-white/5 shadow-lg hover:scale-105',
     outline: 'bg-gray-50 hover:bg-gray-100 dark:bg-dark-bg/50 dark:hover:bg-primary/20 text-secondary dark:text-white/90 rounded-xl font-heading font-800 transition-colors items-center justify-center border-[1px] border-secondary/70 dark:border-primary/70 dark:bg-primary/10',
     ghost: 'text-text-muted dark:text-dark-muted hover:bg-gray-100 dark:hover:bg-primary/10 transition-colors',
     danger: 'bg-red-500 text-white hover:bg-red-600 shadow-md hover:scale-105',
@@ -34,7 +34,7 @@ const Button: React.FC<ButtonProps> = ({
   const sizes = {
     xs: 'px-2 py-1 text-[8px] rounded-lg',
     sm: 'px-4 py-1.5 text-xs rounded-lg',
-    md: 'px-5 py-2.5 text-sm rounded-xl',
+    md: 'px-5 py-2.5 text-[13px] rounded-xl',
     lg: 'px-6 py-4 text-base rounded-2xl',
     icon: 'p-2.5 rounded-xl',
   };

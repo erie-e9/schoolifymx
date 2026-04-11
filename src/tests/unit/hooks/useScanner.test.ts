@@ -96,7 +96,7 @@ describe('useScanner', () => {
     expect(result.current.status).toBe('scanning');
 
     act(() => {
-      vi.advanceTimersByTime(4500); // simulation interval
+      vi.advanceTimersByTime(10000); // full simulation: 99 ticks × 100ms
     });
 
     expect(result.current.progress).toBe(100);

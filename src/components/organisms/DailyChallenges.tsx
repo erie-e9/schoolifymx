@@ -44,11 +44,11 @@ const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = 
   };
 
   return (
-    <div className="fixed bottom-24 md:right-8 right-5 z-[200]">
+    <div className="fixed top-14 md:top-[72px] right-4 md:right-8 z-[200]">
       {/* Balloon Notification */}
       {hasNewCompletion && !localIsOpen && (
         <div
-          className="absolute -top-12 right-0 bg-secondary dark:bg-primary text-white dark:text-text-main px-4 py-2 rounded-2xl shadow-2xl flex items-center gap-2 animate-bounce cursor-pointer whitespace-nowrap"
+          className="absolute top-0 right-0 bg-secondary dark:bg-primary text-white dark:text-text-main px-4 py-2 rounded-2xl shadow-2xl flex items-center gap-2 animate-bounce cursor-pointer whitespace-nowrap"
           onClick={() => { setLocalIsOpen(true); setHasNewCompletion(false); }}
         >
           <Trophy className="w-5 h-5" />
@@ -58,7 +58,7 @@ const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = 
 
       {/* Challenges Card */}
       {localIsOpen && (
-        <div className="absolute bottom-16 right-0 w-80 bg-white dark:bg-dark-surface rounded-[2rem] shadow-3xl border border-gray-200 dark:border-primary/10 p-6 transform origin-bottom-right transition-all duration-300">
+        <div className="absolute top-0 right-0 w-[calc(100vw-2rem)] md:w-80 bg-white dark:bg-dark-surface rounded-[2rem] shadow-3xl border border-gray-200 dark:border-primary/10 p-6 transform origin-top-right transition-all duration-300">
           <div className="flex items-center space-evenly mb-6">
             <div className="space-y-1 flex flex-row">
               <div className="px-3 py-1 rounded-full flex items-start gap-1">
@@ -75,7 +75,7 @@ const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = 
               className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
               aria-label="Cerrar"
             >
-              <X className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+              <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             </button>
           </div>
 
@@ -121,6 +121,7 @@ const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = 
               onClick={handleClaimReward}
               className="w-full py-2.5 items-center justify-center group"
               variant="success"
+              size='sm'
             >
               Canjear recompensas
               <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />

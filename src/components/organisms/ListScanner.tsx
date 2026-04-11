@@ -19,6 +19,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
     status,
     progress,
     scanningText,
+    requestID,
     items,
     setItems,
     selectedFile,
@@ -52,12 +53,17 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
   }, [isOpen]);
 
   useEffect(() => {
+    let ctx: ReturnType<typeof gsap.context> | undefined;
     if (status === 'scanning') {
-      gsap.fromTo(laserRef.current,
-        { top: '0%' },
-        { top: '95%', duration: 1.5, repeat: 4, yoyo: true, ease: "power1.inOut" }
-      );
+      ctx = gsap.context(() => {
+        gsap.fromTo(
+          laserRef.current,
+          { top: '0%' },
+          { top: '95%', duration: 1.5, repeat: -1, yoyo: true, ease: 'power1.inOut' }
+        );
+      });
     }
+    return () => ctx?.revert();
   }, [status]);
 
   useEffect(() => {
@@ -83,7 +89,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
 
   const handleWhatsAppSend = () => {
     const selected = items.filter(i => i.selected);
-    WhatsAppService.sendScannedListQuote(selected, tier); // pendiente
+    WhatsAppService.sendScannedListQuote(selected, tier, requestID); // pendiente
   };
 
   if (!isOpen) return null;
@@ -105,7 +111,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
           aria-label="Cerrar"
           className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
         >
-          <X className="w-5 h-5 text-text-muted" />
+          <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
         </button>
 
         <div className="p-8 md:p-12">
@@ -116,7 +122,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
               </div>
               <div className="space-y-3">
                 <h2 className="text-3xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight">Escáner de Lista Smart</h2>
-                <p className="text-text-muted dark:text-dark-muted font-body">Sube una imagen de tu lista y nuestra IA la procesará para darte la mejor cotización.</p>
+                <p className="text-text-muted dark:text-dark-muted font-body">Sube tu lista y nuestra IA la procesará para darte la mejor cotización.</p>
               </div>
 
               <div
@@ -142,15 +148,15 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
                   onChange={handleFileChange}
                 />
                 <div className="flex flex-col items-center gap-4">
-                  <div className={`w-12 h-12 rounded-full shadow-sm flex items-center justify-center transition-all ${isDraggingOver ? 'bg-primary scale-125' : 'bg-primary dark:bg-dark-surface group-hover:scale-110'}`}>
+                  <div className={`w-12 h-12 dark:bg-white/10 rounded-full shadow-sm flex items-center justify-center transition-all ${isDraggingOver ? 'bg-primary scale-125' : 'bg-primary dark:bg-dark-surface group-hover:scale-110'}`}>
                     <Upload className="w-6 h-6 text-secondary dark:text-primary" />
                   </div>
                   {isDraggingOver ? (
-                    <span className="font-heading font-800 text-primary dark:text-primary text-lg">¡Suelta aquí tu archivo!</span>
+                    <span className="font-heading  font-700 text-primary dark:text-primary">¡Suelta aquí tu archivo!</span>
                   ) : (
                     <>
                       <span className="font-heading font-700 text-text-main dark:text-dark-text">Arrastra tu lista o haz clic para subir</span>
-                      <span className="text-xs text-text-muted">Imagen o documento PDF • Arrastra y suelta aquí</span>
+                      <span className="text-xs text-text-muted">Selecciona una imagen o documento PDF • Arrastra y suelta aquí</span>
                     </>
                   )}
                 </div>
@@ -234,10 +240,10 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
               <div className="space-y-3">
                 <h2 className="text-3xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight">¡Análisis Exitoso!</h2>
                 <p className="text-text-muted dark:text-dark-muted font-body text-sm">
-                  Hemos identificado <span className="text-secondary dark:text-primary font-bold">{items.length} artículos</span>. Resumen de lista procesada.
+                  Lista escaneada. Se han identificado <span className="text-secondary dark:text-primary font-bold">{items.length} artículos</span>.
                 </p>
                 <div className="bg-gray-50 dark:bg-dark-bg/30 p-4 rounded-2xl border border-gray-100 dark:border-gray-800 text-left">
-                  <p className="text-[9px] uppercase font-bold text-text-muted tracking-widest mb-3">Selecciona los que deseas cotizar:</p>
+                  <p className="text-[9px] uppercase font-bold text-text-muted tracking-widest mb-3">Selecciona los artículos deseados:</p>
                   <div className="max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
                     <ul className="space-y-2">
                       {items.map((item) => (
@@ -255,7 +261,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
                               />
                               <CheckCircle className="absolute h-4 w-4 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none p-0.5" />
                             </label>
-                            <span className={`text-[11px] font-body font-600 transition-colors ${item.selected ? 'text-text-main dark:text-dark-text' : 'text-text-muted line-through opacity-90'}`}>
+                            <span className={`text-[11px] font-body font-600 transition-colors lowercase ${item.selected ? 'text-text-main dark:text-dark-text' : 'text-text-muted line-through opacity-90'}`}>
                               {item.name}
                             </span>
                           </div>
@@ -279,39 +285,43 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
                   </div>
                 </div>
               </div>
-
-              <div className="w-full flex bg-gray-100 dark:bg-dark-bg/50 p-1 rounded-2xl max-w-sm mx-auto shadow-inner border border-gray-200 dark:border-primary/10">
-                <button
-                  onClick={() => setTier('Esencial')}
-                  className={`flex-1 py-2.5 text-xs font-heading font-900 tracking-wider rounded-xl transition-all duration-300 ${tier === 'Esencial' ? 'dark:bg-dark-primary bg-primary shadow-md text-text-main dark:text-text-main scale-100 border border-primary/10' : 'text-text-muted dark:hover:text-white hover:text-text-main'}`}
-                >
-                  📦 Paquete Esencial
-                </button>
-                <button
-                  onClick={() => setTier('Selecto')}
-                  className={`flex-1 py-2.5 text-xs font-heading font-900 tracking-wider rounded-xl transition-all duration-300 ${tier === 'Selecto' ? 'dark:bg-dark-primary bg-primary shadow-md text-text-main dark:text-text-main scale-100 border border-primary/10' : 'text-text-muted dark:hover:text-white hover:text-text-main'}`}
-                >
-                  ✨ Paquete Selecto
-                </button>
+              <div className="px-5 pt-4 space-y-3 shrink-0">
+                <div className="flex bg-gray-100 dark:bg-dark-bg p-1 rounded-2xl relative shadow-inner h-11">
+                  <div
+                    className="absolute inset-y-1 bg-primary dark:bg-primary dark:bg-dark-surface rounded-xl shadow-md transition-all duration-300 ease-out z-0"
+                    style={{
+                      width: 'calc(50% - 4px)',
+                      left: tier === 'Esencial' ? '0%' : '50%'
+                    }}
+                  />
+                  {['Esencial', 'Selecto'].map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setTier(tab as any)}
+                      className={`relative z-10 flex-1 flex items-center justify-center gap-2 tracking-widest transition-colors ${tier === tab ? 'text-text-main dark:text-text-main font-900' : 'text-text-main dark:text-white opacity-90 hover:opacity-100'}`}
+                    >
+                      <span className="text-[12px] font-heading font-900">{tab === 'Esencial' ? '📦 Paquete Esencial' : '❤️ Paquete Selecto'}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row gap-3 pt-2 px-4 max-w-7xl mx-auto">
                 <Button
                   variant="primary"
                   size='md'
-                  className="flex-[1.2] py-4 bg-secondary dark:bg-primary text-white dark:text-text-main"
+                  className="flex-[1.2] bg-secondary dark:bg-primary text-white dark:text-text-main"
                   onClick={handleWhatsAppSend}
                   leftIcon={<WhatsApp className="w-5 h-5" />}
                 >
-                  <span className="whitespace-nowrap hidden md:inline">Ver mi presupuesto en WhatsApp</span>
-                  <span className="whitespace-nowrap inline md:hidden">Ver mi presupuesto</span>
+                  <span className="whitespace-nowrap">Ver cotización</span>
                 </Button>
 
                 {onScanComplete && (
                   <Button
                     variant="tertiary"
                     size='md'
-                    className="flex-1 py-4 border-primary/30 dark:border-secondary/30 text-secondary dark:text-primary"
+                    className="flex-[1.2] border-primary/30 dark:border-secondary/30 dark:text-primary"
                     onClick={() => {
                       const selected = items.filter(i => i.selected);
                       onScanComplete(selected);
@@ -322,7 +332,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
                     }}
                     leftIcon={<Backpack className="w-4 h-4" />}
                   >
-                    <span className="leading-tight">Integrar al Creador de listas</span>
+                    <span className="leading-tight">Importar al Creador de listas</span>
                   </Button>
                 )}
               </div>

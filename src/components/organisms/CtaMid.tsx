@@ -193,7 +193,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
       </div>
 
       {/* Image Modal Fullscreen */}
-      {isImageModalOpen && (
+      {isImageModalOpen && ( // Only selected image: pending 
         <div className="fixed inset-0 z-[1002] flex items-center justify-center bg-black/95 backdrop-blur-lg animate-fade-in">
           <button
             onClick={() => setIsImageModalOpen(false)}

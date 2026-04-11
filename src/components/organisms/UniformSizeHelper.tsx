@@ -239,55 +239,6 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
             {/* Left Column: Guides and Result */}
             <div className="w-full md:w-[320px] lg:w-[380px] xl:w-[330px] bg-gray-50 dark:bg-dark-bg/30 p-8 border-l border-gray-100 dark:border-primary/5 relative shrink-0">
 
-              {/* Profile Selection (Multi-mode) */}
-              {/* <div className="bg-white dark:bg-dark-surface p-5 rounded-[1.5rem] shadow-sm border border-gray-100 dark:border-primary/5">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-[10px] font-heading font-900 tracking-widest text-text-muted dark:text-dark-muted flex items-center gap-1.5 uppercase">
-                    <User className="w-3.5 h-3.5 text-primary" /> Estudiante
-                  </h3>
-                  <button
-                    onClick={() => setIsMultiMode(!isMultiMode)}
-                    className={`text-[9px] font-bold px-2.5 py-1 rounded-full transition-all ${isMultiMode ? 'bg-primary/20 text-primary border border-primary/30' : 'bg-gray-100 dark:bg-white/5 text-gray-500'}`}
-                  >
-                    {isMultiMode ? 'Modo Familiar ON' : 'Activar Modo Familiar'}
-                  </button>
-                </div>
-
-                <div className="relative group">
-                  <input
-                    type="text"
-                    value={currentStudentName}
-                    onChange={(e) => setCurrentStudentName(e.target.value)}
-                    placeholder="Nombre completo..."
-                    className="w-full bg-gray-50 dark:bg-dark-bg/50 border-none rounded-xl px-4 py-3.5 text-sm font-heading font-700 outline-none focus:ring-2 ring-primary/30 transition-all dark:text-white"
-                  />
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-[10px] font-heading font-800 text-text-muted/40 uppercase tracking-tighter pointer-events-none group-focus-within:opacity-0 transition-opacity">
-                    Requerido
-                  </div>
-                </div>
-
-                {isMultiMode && students.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-gray-50 dark:border-white/5 space-y-2 max-h-[140px] overflow-y-auto pr-1">
-                    {students.map((student) => (
-                      <div key={student.id} className="flex items-center justify-between p-2.5 bg-gray-50 dark:bg-white/5 rounded-xl border border-transparent hover:border-primary/20 transition-all group">
-                        <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleEditStudent(student)}>
-                          <div className="w-7 h-7 bg-primary/10 rounded-lg flex items-center justify-center text-[10px] font-bold text-primary">
-                            {student.name.charAt(0)}
-                          </div>
-                          <div>
-                            <p className="text-[10px] font-heading font-800 text-text-main dark:text-dark-text leading-tight">{student.name}</p>
-                            <p className="text-[8px] text-text-muted uppercase tracking-widest">{student.activeTab} • Talla {student.suggestedSize}</p>
-                          </div>
-                        </div>
-                        <button onClick={() => handleRemoveStudent(student.id)} className="p-1.5 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div> */}
-
               {/* Guide Image Container */}
               <div className="flex flex items-center justify-center relative bg-white dark:bg-dark-surface rounded-[1rem] shadow-sm overflow-hidden group">
                 <div className="absolute top-1 left-2 z-10">
@@ -319,6 +270,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                         {['Camisa', 'Suéter', 'Saco', 'Chamarra'].map(type => {
                           return (
                             <Button
+                              key={type}
                               onClick={() => setSelectedTopTypes(prev => !prev.includes(type) ? [...prev, type] : prev.length === 1 ? prev : prev.filter(t => t !== type))}
                               size='xs'
                               variant={selectedTopTypes.includes(type) ? 'outline' : 'ghost'}
@@ -448,14 +400,14 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                     <>
                       <MeasurementField label="Cintura (contorno)" prefix="A" value={fWaist} min={40} max={120} onChange={setFWaist} tooltipContent="Mide alrededor de la cintura." />
                       <MeasurementField label="Cadera (contorno)" prefix="B" value={fHip} min={50} max={140} onChange={setFHip} tooltipContent="Mide alrededor de la parte más ancha." />
-                      <MeasurementField label="Bajada Cadera" prefix="C" value={hHip} min={10} max={30} onChange={setWHip} tooltipContent="Distancia de la cintura a la parte más ancha de la cadera." />
+                      <MeasurementField label="Bajada Cadera" prefix="C" value={hHip} min={10} max={30} onChange={setWHip} tooltipContent="Mide la distancia de la cintura a la parte más ancha de la cadera." />
                       <MeasurementField label="Largo Total" prefix="D" value={fLength} min={20} max={80} onChange={setFLength} tooltipContent="Mide desde la cintura hasta el largo deseado." />
                     </>
                   )}
 
                   {activeTab === 'jumper' && (
                     <>
-                      <MeasurementField label="Largo Total" prefix="A" value={jTotalLength} min={40} max={120} onChange={setJTotalLength} tooltipContent="De hombro a largo total deseado." />
+                      <MeasurementField label="Largo Total" prefix="A" value={jTotalLength} min={40} max={120} onChange={setJTotalLength} tooltipContent="Mide desde el hombro a largo total deseado." />
                       <MeasurementField label="Ancho Pecho" prefix="B" value={jChest} min={40} max={120} onChange={setJChest} tooltipContent="Mide contorno de pecho." />
                       <MeasurementField label="Cintura" prefix="C" value={jWaist} min={40} max={120} onChange={setJWaist} tooltipContent="Mide contorno de cintura." />
                       <MeasurementField label="Cuello" prefix="D" value={jNeck} min={20} max={60} onChange={setJNeck} />
@@ -479,7 +431,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                         />
                       </div>
                       <div className="mt-6 p-4 bg-primary/5 rounded-2xl border border-primary/20 flex gap-4 max-w-sm">
-                        <Info className="w-5 h-5 text-primary shrink-0" />
+                        <Info className="w-5 h-5 text-secondary/60 dark:text-primary/60 shrink-0" />
                         <p className="text-[10px] text-text-muted dark:text-dark-muted leading-relaxed font-heading font-700">
                           Recomendamos dejar <span className="text-secondary dark:text-primary">0.5cm - 1cm</span> de holgura adicional para mayor comodidad y crecimiento.
                         </p>
@@ -638,28 +590,34 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
 
               <div className="space-y-3">
                 <Button
+                  size='md'
+                  variant='primary'
                   onClick={() => setShowNextStepModal(false)}
-                  className="w-full py-4 bg-primary text-gray-900 rounded-2xl font-heading font-900 text-xs tracking-widest hover:scale-[1.02] transition-transform active:scale-95"
+                  className="w-full py-4 tracking-widest hover:scale-[1.02] transition-transform active:scale-95"
                 >
                   Registrar otra prenda
                 </Button>
                 <Button
+                  size='md'
+                  variant='outline'
                   onClick={() => {
                     setShowNextStepModal(false);
                     setCurrentStudentName('');
                     setSpecialUniformType('');
                     setGarmentNote('');
                   }}
-                  className="w-full py-4 bg-gray-100 dark:bg-white/5 text-text-main dark:text-white rounded-2xl font-heading font-900 text-xs tracking-widest hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
+                  className="w-full tracking-widest hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
                 >
                   Registrar otro estudiante
                 </Button>
                 <Button
+                  size='md'
+                  variant='ghost'
                   onClick={() => {
                     setShowNextStepModal(false);
                     handleWhatsAppSend();
                   }}
-                  className="w-full flex items-center justify-center gap-2 text-[10px] font-heading font-900 text-secondary dark:text-primary hover:underline mt-4 tracking-tighter"
+                  className="w-full flex items-center justify-center gap-2 hover:underline mt-4 tracking-tighter"
                 >
                   <WhatsApp className="w-4 h-4" /> Enviar lista completa a WhatsApp
                 </Button>

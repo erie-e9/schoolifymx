@@ -110,11 +110,6 @@ describe('Button', () => {
     expect(container.querySelector('button')).toHaveClass('text-xs');
   });
 
-  it('applies md size styles', () => {
-    const { container } = render(<Button size="md">MD</Button>);
-    expect(container.querySelector('button')).toHaveClass('text-sm');
-  });
-
   it('applies tertiary variant styles', () => {
     const { container } = render(<Button variant="tertiary">Third</Button>);
     expect(container.querySelector('button')).toHaveClass('bg-gray-100');

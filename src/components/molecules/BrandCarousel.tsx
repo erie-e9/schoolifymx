@@ -27,7 +27,7 @@ const STATIONERY_BRANDS = [
   { name: 'Casio', logo: Casio, link: 'https://www.casio.com/mx' },
   { name: 'Bic', logo: Bic, link: 'https://www.bicworld.com' },
   { name: 'Barrilito', logo: Barrilito, link: 'https://www.barrilito.com.mx' },
-  { name: 'Papermate', logo: Papermate, link: 'https://www.papermate.com' }, //isImg: true 
+  { name: 'Papermate', logo: Papermate, link: 'https://www.papermate.mx' }, //isImg: true 
   { name: 'Crayola', logo: Crayola, link: 'https://www.crayola.com' },
 ];
 

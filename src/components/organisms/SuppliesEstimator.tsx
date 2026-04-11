@@ -77,7 +77,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
           aria-label="Cerrar"
           className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
         >
-          <X className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+          <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
         </button>
 
         <div className="p-7 md:p-12">

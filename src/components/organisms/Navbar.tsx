@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Menu, X, Sun, Moon, GraduationCap, Trophy } from 'lucide-react';
+import { Menu, X, Sun, Moon, Building2, Trophy } from 'lucide-react';
 import Schoolify from '@assets/Schoolify.svg?react';
 import SchoolifyLogo from '@assets/logo.svg?react';
 import WhatsApp from '@assets/whatsapp.svg?react';
@@ -102,7 +102,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChall
             aria-label="Contacto para escuelas"
           >
             <span className="hidden lg:inline">Contacto para escuelas</span>
-            <GraduationCap className="w-5 h-5 text-black inline lg:hidden" />
+            <Building2 className="w-5 h-5 text-black inline lg:hidden" />
           </Button>
         </div>
 

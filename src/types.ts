@@ -86,6 +86,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
       'Confección a la medida y reparaciones',
       'Telas duraderas y selectas',
       'Entrega directa en tu escuela o domicilio',
+      'Sin artículos viejos o maltratados',
     ],
     image: 'https://www.unicef.org/honduras/sites/unicef.org.honduras/files/styles/hero_extended/public/WhatsApp%20Image%202023-06-08%20at%204.36.48%20PM_0.jpeg.webp?itok=VETTkvVL',
     whatsappMessage: '¡Hola Schoolify! 👋, me interesa el servicio de Uniformes Escolares.',
@@ -149,8 +150,8 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     trustText: 'Surtimos más de 500 listas escolares cada año',
     stats: [
       { value: 10, suffix: '%', prefix: 'hasta ', label: 'Ahorro real', description: 'Comparado con papelerías locales', emoji: '📉' },
-      { value: 5, suffix: ' horas', prefix: '~', label: 'Tiempo ganado', description: 'Por cada lista surtida', emoji: '⏰' },
-      { value: 50, suffix: '+', prefix: '', label: 'Marcas', description: 'Líderes en el mercado escolar', emoji: '📐' },
+      { value: 5, suffix: ' horas', prefix: '~', label: 'Tiempo ahorrado', description: 'Por cada lista surtida', emoji: '⏰' },
+      { value: 50, suffix: '+', prefix: '', label: 'Marcas', description: 'Reconocidas en el mercado escolar', emoji: '📐' },
       { value: 0, suffix: ' estrés', prefix: '', label: 'Sin filas', description: 'Todo llega a tiempo', emoji: '😌' },
     ],
     ctaCarousel: [
@@ -177,7 +178,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
       { q: '¿Qué pasa si un artículo está agotado?', a: 'Te entregamos el resto de la lista y te avisamos en cuanto el artículo faltante llegue, entregándolo en alguna de las sucursales o envío sin costo (según el caso).' },
       { q: '¿Tienen opciones de pago flexibles?', a: 'Contamos con un Plan de Apartado para que vayas pagando tu lista poco a poco antes del inicio de clases.' },
       { q: '¿Emiten factura fiscal?', a: 'Aún estamos en este proceso, pronto emitiremos facturas electrónicas de inmediato. Solo solicita tu comprobante al momento de realizar tu pedido vía WhatsApp.' },
-      { q: '¿Cuánto tiempo tarda la entrega?', a: 'Cualquiera de los servicios se realiza con tiempo de anticipación y se entregan en 7 días antes de la fecha designada por la escuela. Los uniformes a medida tienen un tiempo de producción de 5–7 días hábiles dependiendo de la complejidad.' },
+      { q: '¿Cuánto tiempo tarda la entrega?', a: 'Cualquiera de los servicios se realiza con tiempo de anticipación y se entregan en 7 días antes de la fecha designada por la escuela.' },
       { q: '¿Dónde realizan las entregas?', a: 'Nos estamos abriendo paso en el norte de México, esperando algún día alcanzar toda el Área Metropolitana. También tenemos días de "Entrega Gratuita" directamente en instituciones participantes.' },
       { q: '¿Pueden entregar los útiles ya etiquetados?', a: '¡Próximamente! Pronto ofreceremos el servicio de etiquetado personalizado para que cada lápiz, cuaderno y color lleve el nombre del estudiante.' },
       { q: '¿Surten material de arte o especializado para talleres?', a: 'Por supuesto, contamos con alianzas con los principales proveedores de arte, dibujo técnico y talleres. Solo sube tu foto a nuestro <a href="#escaner" class="text-primary hover:underline font-bold">Escáner de Lista Smart</a> y nosotros nos encargamos.' },

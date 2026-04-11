@@ -12,7 +12,7 @@ vi.mock('gsap', async (importOriginal) => {
     timeline: vi.fn((vars?: { onComplete?: () => void }) => {
       if (vars?.onComplete) vars.onComplete();
       const timeline = {
-        to: vi.fn().mockImplementation(function(this: any, _target: any, vars: any) {
+        to: vi.fn().mockImplementation(function (this: any, _target: any, vars: any) {
           if (vars?.onComplete) vars.onComplete();
           return this;
         }),
@@ -24,8 +24,13 @@ vi.mock('gsap', async (importOriginal) => {
       if (vars?.onComplete) vars.onComplete();
       return { then: vi.fn() };
     }),
+    fromTo: vi.fn(),
+    context: vi.fn((fn: () => void) => {
+      fn();
+      return { revert: vi.fn() };
+    }),
   };
-  
+
   return {
     ...(actual as any),
     default: mockGsap,
@@ -56,6 +61,7 @@ describe('ListScanner', () => {
     status: 'idle',
     progress: 0,
     scanningText: 'Escaneando...',
+    requestID: '',
     items: [],
     setItems: vi.fn(),
     selectedFile: null,
@@ -204,10 +210,10 @@ describe('ListScanner', () => {
     } as any);
 
     render(<ListScanner {...defaultProps} />);
-    const sendBtn = screen.getByText(/Ver mi presupuesto en WhatsApp/);
+    const sendBtn = screen.getByText(/Ver cotización/);
     fireEvent.click(sendBtn);
 
-    expect(WhatsAppService.sendScannedListQuote).toHaveBeenCalledWith(mockItems, 'Esencial');
+    expect(WhatsAppService.sendScannedListQuote).toHaveBeenCalledWith(mockItems, 'Esencial', '');
   });
 
   it('integrates scanning result to backpack', () => {
@@ -219,7 +225,7 @@ describe('ListScanner', () => {
     } as any);
 
     render(<ListScanner {...defaultProps} />);
-    const integrateBtn = screen.getByText(/Integrar al Creador de listas/);
+    const integrateBtn = screen.getByText(/Importar al Creador de listas/);
     fireEvent.click(integrateBtn);
 
     expect(defaultProps.onScanComplete).toHaveBeenCalledWith(mockItems);
@@ -258,7 +264,7 @@ describe('ListScanner', () => {
 
   it('triggers file selection when clicked', () => {
     render(<ListScanner {...defaultProps} />);
-    
+
     // We cannot easily test the click on the hidden input, but we check if input exists
     const input = document.querySelector('input[type="file"]') as HTMLInputElement;
     expect(input).toBeInTheDocument();

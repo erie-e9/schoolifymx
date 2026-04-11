@@ -37,12 +37,12 @@ export const WhatsAppService = {
     window.open(getWhatsappLink(message), '_blank');
   },
 
-  sendScannedListQuote: (items: any[], tier: string) => {
+  sendScannedListQuote: (items: any[], tier: string, requestID: string) => {
     const list = items
       .map(item => `• ${item.name}${item.note ? ` (${item.note})` : ''}`)
       .join('\n');
 
-    const message = `¡Hola Schoolify! 👋 He escaneado mi lista escolar y me interesa el Paquete ${tier}.\n\n📚 Mi lista incluye:\n${list}`;
+    const message = `¡Hola Schoolify! 👋 He escaneado mi lista escolar y mi código de cotización es ${requestID}. Me interesa el Paquete ${tier}.\n\n📚 Mi lista incluye:\n${list}`;
     window.open(getWhatsappLink(message), '_blank');
   },
 };

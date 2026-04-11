@@ -56,7 +56,7 @@ describe('Stats', () => {
 
   it('renders stats description for supplies', () => {
     render(<Stats activeService="supplies" />);
-    expect(screen.getByText(/Más de 2 años surtiendo listas escolares/)).toBeInTheDocument();
+    expect(screen.getByText(/Más de 7 años surtiendo listas escolares/)).toBeInTheDocument();
   });
 
   it('renders different description for uniforms', () => {

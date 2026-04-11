@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, Fragment } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
 import {
@@ -279,7 +279,7 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
           className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
           aria-label="Cerrar"
         >
-          <X className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+          <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
         </button>
 
         {/* ── LEFT PANEL: Summary ──────────────────────────────── */}
@@ -370,7 +370,7 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
         {/* ── RIGHT PANEL: Selector ───────────────────────────── */}
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
           {!isCompleted ? (
-            <>
+            <Fragment>
               <div className="px-5 pt-5 pb-0 space-y-3">
                 <h2 className="text-xl text-gray-900 dark:text-white tracking-tight">Crea tu lista escolar</h2>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Toca un artículo para agregarlo a tu lista, también puedes incluir una nota descriptiva.</p>
@@ -447,7 +447,7 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
                   </div>
                 )}
               </div>
-            </>
+            </Fragment>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center text-center p-8 gap-4">
               <div className="complete-check w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">

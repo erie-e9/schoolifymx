@@ -10,7 +10,7 @@ const SUPPLIES_ROWS = [
   { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
   { label: 'Entrega', bad: 'Tú lo transportas', good: 'Nosotros te lo llevamos' },
   { label: 'Sobrantes', bad: 'Con restos innecesarios', good: '✓ Sin sobrantes' },
-  { label: 'Garantía', bad: 'Dudosa procedencia', good: 'Original y con garantía' },
+  { label: 'Garantía', bad: 'En ocasiones dudosa procedencia', good: 'Original y con garantía' },
 ];
 
 interface SuppliesComparatorProps {
@@ -38,7 +38,7 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
           <div className="flex flex-col gap-0.5 mt-0.5">
             <h3 className="font-heading font-800 text-xl md:text-2xl text-text-main dark:text-dark-text leading-tight">Útiles Escolares</h3>
             <span className="text-[10px] md:text-xs font-heading font-600 text-accent dark:text-primary tracking-wider">
-              La solución definitiva al regreso a clases.
+              Una solución inteligente al regreso a clases para estudiantes y docentes.
             </span>
           </div>
         </div>
