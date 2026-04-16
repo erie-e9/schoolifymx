@@ -35,19 +35,48 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center gap-2 bg-primary text-text-main font-heading px-8 py-4 rounded-2xl shadow-yellow hover:shadow-yellow-lg transition-all duration-300 hover:scale-105 active:scale-95;
+    @apply inline-flex items-center gap-2 bg-primary text-text-main font-heading font-700 px-8 py-4 rounded-2xl shadow-yellow hover:shadow-yellow-lg transition-all duration-500 hover:scale-[1.02] active:scale-95 relative overflow-hidden;
+  }
+
+  .btn-primary::after {
+    content: '';
+    @apply absolute inset-0 bg-white/20 translate-x-[-100%] transition-transform duration-700 ease-in-out;
+  }
+
+  .btn-primary:hover::after {
+    @apply translate-x-[100%];
   }
 
   .btn-secondary {
-    @apply inline-flex items-center gap-2 border-2 border-secondary text-secondary font-heading font-600 px-8 py-4 rounded-2xl transition-all duration-300 hover:bg-secondary hover:text-white hover:scale-105 active:scale-95;
+    @apply inline-flex items-center gap-2 border-2 border-secondary text-secondary font-heading font-700 px-8 py-4 rounded-2xl transition-all duration-500 hover:bg-secondary hover:text-white hover:scale-[1.02] active:scale-95;
   }
 
   .card {
-    @apply bg-white rounded-3xl shadow-card border border-gray-100 hover:shadow-card-hover transition-all duration-300;
+    @apply bg-white dark:bg-dark-surface rounded-3xl shadow-card border border-gray-100 dark:border-gray-800 hover:shadow-card-hover transition-all duration-500 hover:-translate-y-2;
+  }
+
+  .glass {
+    @apply bg-white/70 dark:bg-dark-bg/70 backdrop-blur-xl border border-white/20 dark:border-gray-800/50;
+  }
+
+  .gradient-mesh {
+    background-color: #fff;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(255, 230, 0, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(255, 255, 255, 0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(45, 50, 119, 0.05) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(255, 255, 255, 0.1) 0px, transparent 50%);
+  }
+
+  .dark .gradient-mesh {
+    background-color: #0b101e;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(255, 230, 0, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(45, 50, 119, 0.2) 0px, transparent 50%);
   }
 
   .section-title {
-    @apply font-heading text-4xl md:text-5xl text-text-main leading-tight transition-colors duration-300;
+    @apply font-heading text-4xl md:text-5xl lg:text-6xl text-text-main leading-[1.1] tracking-tight transition-colors duration-300;
   }
 
   .dark .section-title {
@@ -55,7 +84,7 @@
   }
 
   .section-subtitle {
-    @apply text-text-muted text-lg font-body leading-relaxed transition-colors duration-300;
+    @apply text-text-muted text-lg font-body leading-relaxed transition-colors duration-300 max-w-2xl;
   }
 
   .dark .section-subtitle {
@@ -63,7 +92,7 @@
   }
 
   .tag {
-    @apply inline-flex items-center gap-1.5 text-sm font-bold bg-surface text-secondary px-4 py-1.5 rounded-full transition-colors duration-300;
+    @apply inline-flex items-center gap-1.5 text-xs tracking-wider bg-surface text-secondary px-4 py-1.5 rounded-full transition-colors duration-300 border border-secondary/10;
   }
 
   .dark .tag {

@@ -22,7 +22,7 @@ const Badge: React.FC<BadgeProps> = ({
     warning: 'bg-amber-100 text-amber-700 border border-amber-200',
     info: 'bg-blue-100 text-blue-700 border border-blue-200',
     outline: 'border border-gray-200 dark:border-gray-700 text-text-muted dark:text-white/90',
-    tag: 'tag shadow-sm font-200 p-12',
+    tag: 'tag bg-secondary dark:bg-primary/10 text-white/90 dark:text-white/90 shadow-sm font-200 p-12 border-secondary/70 dark:border-primary/50 capitalize',
   };
 
   const sizes = {

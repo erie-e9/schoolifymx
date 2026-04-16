@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({
     primary: 'bg-primary text-text-main shadow-yellow hover:shadow-yellow-lg hover:scale-105 hover:bg-primary/90',
     secondary: 'bg-secondary dark:bg-primary text-white dark:text-text-main hover:bg-secondary/90 shadow-lg hover:scale-105',
     tertiary: 'bg-gray-100 dark:bg-white/10 text-secondary dark:text-white/90 hover:bg-gray-50 dark:hover:bg-white/5 shadow-lg hover:scale-105',
-    outline: 'bg-gray-50 hover:bg-gray-100 dark:bg-dark-bg/50 dark:hover:bg-primary/20 text-secondary dark:text-white/90 rounded-xl font-heading font-800 transition-colors items-center justify-center border-[1px] border-secondary/70 dark:border-primary/70 dark:bg-primary/10',
+    outline: 'bg-gray-50 hover:bg-gray-100 dark:bg-dark-bg/50 dark:hover:bg-primary/20 dark:text-white/90 rounded-xl font-heading font-800 transition-colors items-center justify-center border-[1px] border-secondary/70 dark:border-primary/70 dark:bg-primary/10',
     ghost: 'text-text-muted dark:text-dark-muted hover:bg-gray-100 dark:hover:bg-primary/10 transition-colors',
     danger: 'bg-red-500 text-white hover:bg-red-600 shadow-md hover:scale-105',
     success: 'w-full inline-flex items-center justify-center bg-[#25D366] text-white font-bold text-base py-2 rounded-2xl shadow-lg hover:-translate-y-1 active:scale-95 transition-all duration-200 group',

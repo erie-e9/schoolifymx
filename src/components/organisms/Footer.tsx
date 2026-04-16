@@ -48,10 +48,10 @@ const Footer: React.FC = () => {
               <Schoolify className="h-9 w-auto md:h-11 group-hover:scale-105 transition-transform duration-300" />
             </a>
             <p className="text-text-muted dark:text-dark-muted text-sm leading-relaxed max-w-sm mb-2 opacity-90">
-              Transformamos la experiencia del regreso a clases con soluciones y logísticas inteligentes 📦✨.
+              Transformamos la experiencia escolar con soluciones y logísticas inteligentes 📦✨.
             </p>
             <p className="text-text-muted dark:text-dark-muted text-sm leading-relaxed max-w-sm mb-4 opacity-90">
-              Ahorra tiempo, dinero y evita filas en la adquisición de uniformes y útiles escolares, sin estrés.
+              Ahorra tiempo, dinero y evita filas en la adquisición de uniformes, útiles escolares y más, sin estrés.
             </p>
 
             <div className="flex gap-3">

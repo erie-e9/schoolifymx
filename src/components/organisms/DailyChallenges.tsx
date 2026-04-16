@@ -44,7 +44,7 @@ const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = 
   };
 
   return (
-    <div className="fixed top-14 md:top-[72px] right-4 md:right-8 z-[200]">
+    <div className="fixed top-[5.5rem] md:top-[100px] right-4 md:right-[11rem] z-[200]">
       {/* Balloon Notification */}
       {hasNewCompletion && !localIsOpen && (
         <div
@@ -58,7 +58,7 @@ const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = 
 
       {/* Challenges Card */}
       {localIsOpen && (
-        <div className="absolute top-0 right-0 w-[calc(100vw-2rem)] md:w-80 bg-white dark:bg-dark-surface rounded-[2rem] shadow-3xl border border-gray-200 dark:border-primary/10 p-6 transform origin-top-right transition-all duration-300">
+        <div className="absolute top-0 md:right-4 right-0 w-[calc(100vw-2rem)] md:w-80 bg-white dark:bg-dark-surface rounded-[2rem] shadow-3xl border border-gray-200 dark:border-primary/10 p-6 transform origin-top-right transition-all duration-300">
           <div className="flex items-center space-evenly mb-6">
             <div className="space-y-1 flex flex-row">
               <div className="px-3 py-1 rounded-full flex items-start gap-1">
@@ -79,7 +79,7 @@ const DailyChallenges: React.FC<DailyChallengesProps> = ({ isOpen: propIsOpen = 
             </button>
           </div>
 
-          <div className="space-y-4 max-h-60 overflow-y-auto pr-2">
+          <div className="space-y-4 md:max-h-80 sm:max-h-full overflow-y-auto pr-2">
             {challenges.map((challenge) => (
               <div key={challenge.id} className={`p-4 rounded-2xl border transition-all duration-300 ${challenge.completed ? 'bg-primary/5 border-primary/20 opacity-80' : 'bg-gray-50 dark:bg-dark-bg/50 border-transparent'}`}>
                 <div className="flex items-start gap-3">

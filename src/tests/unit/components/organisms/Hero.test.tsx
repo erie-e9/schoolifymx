@@ -90,7 +90,6 @@ describe('Hero', () => {
 
   it('renders section heading and initial service content', () => {
     render(<Hero {...defaultProps} />);
-    expect(screen.getByText('Soluciones Escolares')).toBeInTheDocument();
     expect(screen.getByText('Tu lista de útiles completa, en un solo lugar.')).toBeInTheDocument();
   });
 

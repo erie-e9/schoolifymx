@@ -52,7 +52,7 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center" ref={contentRef}>
         {/* Label */}
-        <Badge variant="tag" size='lg' className="mb-6 bg-white/20 dark:bg-primary/10 backdrop-blur-sm px-5 py-2">
+        <Badge variant="tag" size='lg' className="mb-6 dark:bg-primary/10 backdrop-blur-sm px-5 py-2">
           🚀 Empieza hoy mismo
         </Badge>
 
@@ -64,17 +64,19 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
         </h2>
 
         {/* Subtext */}
-        <p className="text-text-main/80 dark:text-dark-muted text-lg md:text-xl font-body mb-12 max-w-2xl mx-auto leading-relaxed">
-          Soluciones escolares completas para <span className="font-800 text-secondary dark:text-primary lowercase">{content.tag.split(' ')[0]}</span> y más. Sin estrés, desde el primer día.
+        <div className='mb-12'> <p className="text-text-main/80 dark:text-dark-muted text-lg md:text-xl font-body max-w-2xl mx-auto leading-relaxed">
+          Soluciones escolares completas para <span className="font-800 text-secondary dark:text-primary lowercase">{content.tag.split(' ')[0]}</span> y más.
         </p>
-
+          <p className="text-text-main/80 dark:text-dark-muted text-lg md:text-xl font-body leading-relaxed">
+            Sin estrés, desde el primer día.</p>
+        </div>
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center sm:items-center mt-2">
           <Button
             variant="primary"
             size="md"
             onClick={handleCtaClick}
-            className="w-full sm:w-auto text-lg bg-text-main dark:bg-primary text-white dark:text-dark-bg"
+            className="w-full sm:w-auto text-md bg-text-main hover:bg-text-main/90 dark:bg-primary text-white dark:text-dark-bg"
             leftIcon={<WhatsApp />}
           >
             Escríbenos ahora
@@ -84,8 +86,8 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ activeService }) => {
             variant="outline"
             size="md"
             onClick={handleInstitutionClick}
-            className="w-full sm:w-auto text-lg bg-white/30 dark:bg-dark-surface/50 backdrop-blur-md border-2 border-white/60 dark:border-primary/30"
-            leftIcon={<Building2 className="w-6 h-6 text-secondary dark:text-white/90" />}
+            className="w-full sm:w-auto text-md bg-white/30 dark:bg-dark-surface/50 backdrop-blur-md border-2 border-white/60 dark:border-primary/30"
+            leftIcon={<Building2 className="w-6 h-6 dark:text-white/90" />}
           >
             Soy de una institución
           </Button>

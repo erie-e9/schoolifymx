@@ -20,7 +20,7 @@ describe('Footer', () => {
 
   it('renders mission statement', () => {
     render(<Footer />);
-    expect(screen.getByText(/Transformamos la experiencia del regreso a clases/)).toBeInTheDocument();
+    expect(screen.getByText(/Transformamos la experiencia escolar con soluciones/)).toBeInTheDocument();
   });
 
   it('renders contact section', () => {

@@ -166,21 +166,16 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
     <section
       ref={heroRef}
       id="features"
-      className="relative min-h-[85vh] lg:min-h-screen flex items-center bg-white dark:bg-dark-bg overflow-hidden pt-28 pb-16 lg:pt-24 lg:pb-12 transition-colors duration-300"
+      className="relative min-h-[85vh] lg:min-h-screen flex items-center bg-white dark:bg-dark-bg overflow-hidden pt-28 pb-16 lg:pt-24 lg:pb-12 transition-colors duration-300 gradient-mesh"
     >
       {/* Background decorative blobs */}
       <div className="hero-blob-1 absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary/10 dark:bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="hero-blob-2 absolute bottom-0 left-0 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-primary/5 dark:bg-primary/3 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
+      <div className="max-w-7xl mx-auto px-6 md:py-9 py-4 grid lg:grid-cols-2 gap-12 lg:gap-14 items-center relative z-10">
         {/* LEFT — Content */}
-        <div className="hero-content-wrap flex flex-col gap-4">
-          <h2 className="mb-1 dark:text-dark-text text-1xl md:text-1xl">
-            Soluciones Escolares
-          </h2>
-
-          {/* Service Selector */}
-          <div className="flex flex-wrap gap-3 p-1.5 bg-surface dark:bg-dark-surface rounded-2xl border border-gray-100 dark:border-gray-800 self-start mb-2">
+        <div className="flex flex-col gap-5">
+          {/* Service Selector with Glassmorphism */}
+          <div className="glass flex flex-wrap gap-2 p-2 rounded-2xl border border-white/40 dark:border-gray-800/50 self-start mb-2 shadow-xl shadow-black/5">
             {SERVICES.map((s) => (
               <button
                 key={s.id}
@@ -219,7 +214,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
           </p>
 
           {/* Bullet points */}
-          <ul ref={bulletsRef} className="flex flex-col gap-3.5">
+          <ul ref={bulletsRef} className="flex flex-col gap-2.5">
             {content?.bullets.map((item, i) => (
               <li key={i} className="flex items-start gap-3">
                 <span className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center mt-0.5">
@@ -252,7 +247,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
           </div>
 
           {/* Trust indicators */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 pt-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
             <div className="flex -space-x-2.5">
               {content?.trustEmojis.map((emoji, i) => (
                 <div key={i} className="w-9 h-9 bg-white dark:bg-dark-surface rounded-full border-2 border-primary/20 dark:border-dark-bg flex items-center justify-center text-sm shadow-sm">
