@@ -189,7 +189,8 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
                 <span>{s.icon}</span>
                 <span className="hidden md:block">{s.label}</span>
                 {s.comingSoon && (
-                  <Badge variant="secondary" size="sm" className="absolute -top-4 -right-1">
+                  <Badge variant="secondary" size="sm" className="absolute -top-3 -right-1 px-2 py-0.5 rounded-lg shadow-sm font-800 tracking-tight animate-pulse bg-accent text-white border-none"
+                  >
                     Próximamente
                   </Badge>
                 )}

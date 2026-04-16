@@ -372,7 +372,7 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
           {!isCompleted ? (
             <Fragment>
               <div className="px-5 pt-5 pb-0 space-y-3">
-                <h2 className="text-xl text-gray-900 dark:text-white tracking-tight">Crea tu lista escolar</h2>
+                <h2 className="text-xl text-gray-900 dark:text-white tracking-tight">Generador de listas</h2>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Toca un artículo para agregarlo a tu lista, también puedes incluir una nota descriptiva.</p>
                 <SearchBar
                   value={searchQuery}

@@ -332,7 +332,7 @@ const ListScanner: React.FC<ListScannerProps> = ({ isOpen, onClose, onScanComple
                     }}
                     leftIcon={<Backpack className="w-4 h-4" />}
                   >
-                    <span className="leading-tight">Importar al Creador de listas</span>
+                    <span className="leading-tight">Enviar al generador de listas</span>
                   </Button>
                 )}
               </div>

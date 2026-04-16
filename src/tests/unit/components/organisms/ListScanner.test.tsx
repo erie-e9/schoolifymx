@@ -225,7 +225,7 @@ describe('ListScanner', () => {
     } as any);
 
     render(<ListScanner {...defaultProps} />);
-    const integrateBtn = screen.getByText(/Importar al Creador de listas/);
+    const integrateBtn = screen.getByText(/Enviar al generador de listas/);
     fireEvent.click(integrateBtn);
 
     expect(defaultProps.onScanComplete).toHaveBeenCalledWith(mockItems);

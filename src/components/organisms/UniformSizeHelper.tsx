@@ -209,25 +209,46 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
               className="absolute inset-y-1 bg-primary dark:bg-primary dark:bg-dark-surface rounded-xl shadow-md transition-all duration-300 ease-out z-0"
               style={{
                 width: 'calc(20% - 4px)',
-                left: activeTab === 'shirt' ? '4px' : activeTab === 'pants' ? '20%' : activeTab === 'skirt' ? '40%' : activeTab === 'jumper' ? '60%' : '80%'
+                left: activeTab === 'shirt'
+                  ? '4px'
+                  : activeTab === 'pants'
+                    ? '20.2%'
+                    : activeTab === 'skirt'
+                      ? '40.2%'
+                      : activeTab === 'jumper'
+                        ? '60.2%'
+                        : '80.2%'
               }}
             />
-            {['shirt', 'pants', 'skirt', 'jumper', 'shoes'].map((tab) => (
+            {[
+              { id: 'shirt', label: 'Parte superior', icon: Shirt },
+              { id: 'pants', label: 'Pantalón', icon: PantsIcon },
+              { id: 'skirt', label: 'Falda', icon: SkirtIcon },
+              { id: 'jumper', label: 'Jumper', icon: JumperIcon },
+              { id: 'shoes', label: 'Calzado', icon: ShoeIcon, blocked: true, badge: 'Próximamente' },
+            ].map((tab) => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab as any)}
-                className={`relative z-10 flex-1 flex items-center justify-center gap-2 text-[8px] font-heading font-900 tracking-widest transition-colors ${activeTab === tab ? 'text-text-main dark:text-text-main font-900' : 'text-text-main dark:text-white opacity-60 hover:opacity-100'}`}
+                key={tab.id}
+                disabled={tab.blocked}
+                onClick={() => !tab.blocked && setActiveTab(tab.id as any)}
+                className={`relative z-10 flex-1 flex items-center justify-center gap-2 text-[8px] font-heading font-900 tracking-widest transition-all duration-300 ${activeTab === tab.id ? 'text-text-main font-900' : 'text-text-main dark:text-white opacity-60 hover:opacity-100'} ${tab.blocked ? 'cursor-not-allowed opacity-50 grayscale-[0.5]' : ''}`}
               >
-                {tab === 'shirt' && <Shirt className="w-4 h-4" />}
-                {tab === 'shirt' && <span className="hidden md:block ml-2">Parte superior</span>}
-                {tab === 'pants' && <PantsIcon className="w-4 h-4" />}
-                {tab === 'pants' && <span className="hidden md:block ml-2">Pantalón</span>}
-                {tab === 'skirt' && <SkirtIcon className="w-4 h-4" />}
-                {tab === 'skirt' && <span className="hidden md:block ml-2">Falda</span>}
-                {tab === 'jumper' && <JumperIcon className="w-4 h-4" />}
-                {tab === 'jumper' && <span className="hidden md:block ml-2">Jumper</span>}
-                {tab === 'shoes' && <ShoeIcon className="w-4 h-4" />}
-                {tab === 'shoes' && <span className="hidden md:block ml-2">Calzado</span>}
+                {tab.id === 'shirt' && <Shirt className="w-4 h-4" />}
+                {tab.id === 'pants' && <PantsIcon className="w-4 h-4" />}
+                {tab.id === 'skirt' && <SkirtIcon className="w-4 h-4" />}
+                {tab.id === 'jumper' && <JumperIcon className="w-4 h-4" />}
+                {tab.id === 'shoes' && <ShoeIcon className="w-4 h-4" />}
+
+                <span className="hidden md:block ml-1">{tab.label}</span>
+
+                {tab.badge && (
+                  <Badge
+                    variant="secondary"
+                    size="sm" className="absolute -top-3 -right-1 px-2 py-0.5 rounded-lg shadow-sm font-800 tracking-tight animate-pulse bg-accent text-white border-none"
+                  >
+                    {tab.badge}
+                  </Badge>
+                )}
               </button>
             ))}
           </div>
@@ -237,7 +258,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
           <div className="flex flex-col md:flex-row min-h-0">
 
             {/* Left Column: Guides and Result */}
-            <div className="w-full md:w-[320px] lg:w-[380px] xl:w-[330px] bg-gray-50 dark:bg-dark-bg/30 p-8 border-l border-gray-100 dark:border-primary/5 relative shrink-0">
+            <div className="w-full md:w-[320px] lg:w-[380px] xl:w-[330px] bg-white dark:bg-dark-bg/30 p-8 border-l border-gray-100 dark:border-primary/5 relative shrink-0">
 
               {/* Guide Image Container */}
               <div className="flex flex items-center justify-center relative bg-white dark:bg-dark-surface rounded-[1rem] shadow-sm overflow-hidden group">

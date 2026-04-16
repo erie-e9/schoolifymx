@@ -86,7 +86,7 @@ describe('BackpackSim', () => {
 
   it('renders modal title', () => {
     render(<BackpackSim {...defaultProps} />);
-    expect(screen.getByText('Crea tu lista escolar')).toBeInTheDocument();
+    expect(screen.getByText('Generador de listas')).toBeInTheDocument();
   });
 
   it('handles category selection', () => {
