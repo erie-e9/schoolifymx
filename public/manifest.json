@@ -1,0 +1,44 @@
+{
+  "name": "SchoolifyMX — Útiles y Uniformes Escolares",
+  "short_name": "SchoolifyMX",
+  "description": "Plataforma inteligente de cotización de útiles y uniformes escolares en Durango, México.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#FFE600",
+  "orientation": "portrait-primary",
+  "lang": "es-MX",
+  "categories": ["education", "shopping", "business"],
+  "icons": [
+    {
+      "src": "./favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mapa Escolar",
+      "short_name": "Mapa",
+      "description": "Directorio geoespacial de escuelas en Durango",
+      "url": "./#/mapa",
+      "icons": [{ "src": "./favicon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Cotizar Lista",
+      "short_name": "Cotizar",
+      "description": "Sube tu lista y recibe cotización automática",
+      "url": "./#escaner",
+      "icons": [{ "src": "./favicon.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

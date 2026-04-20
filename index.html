@@ -28,6 +28,11 @@
   <meta property="twitter:image" content="https://schoolifymx.vercel.app/og-image.jpg" />
 
   <link rel="icon" href="favicon.png" type="image/png" />
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="SchoolifyMX" />
   <link rel="canonical" href="https://schoolify.mx/" />
 
   <!-- Preconnect to critical origins -->
@@ -89,6 +94,22 @@
         );
       }
     }(window.location))
+  </script>
+
+  <!-- PWA Service Worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker
+          .register('./sw.js', { scope: './' })
+          .then(function (reg) {
+            console.log('[SchoolifyMX] SW registered:', reg.scope);
+          })
+          .catch(function (err) {
+            console.warn('[SchoolifyMX] SW registration failed:', err);
+          });
+      });
+    }
   </script>
 </body>
 
