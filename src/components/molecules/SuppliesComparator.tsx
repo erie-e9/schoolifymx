@@ -9,8 +9,9 @@ const SUPPLIES_ROWS = [
   { label: 'Costo promedio + extras', bad: '~ $1,200', good: '~ $1,080' },
   { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
   { label: 'Entrega', bad: 'Tú lo transportas', good: 'Nosotros te lo llevamos' },
+  { label: 'Pago', bad: '1 único pago', good: 'Hasta 3 abonos' },
   { label: 'Sobrantes', bad: 'Con restos innecesarios', good: '✓ Sin sobrantes' },
-  { label: 'Garantía', bad: 'En ocasiones dudosa procedencia', good: 'Original y con garantía' },
+  { label: 'Garantía', bad: 'No incluye', good: 'Con garantía' },
 ];
 
 interface SuppliesComparatorProps {
@@ -30,9 +31,9 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="flex items-start justify-between gap-4 mb-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
         <div className="flex items-start gap-4">
-          <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center text-3xl transition-all duration-300 ${hovered || active ? 'bg-primary shadow-yellow scale-110' : 'bg-surface dark:bg-dark-bg'}`}>
+          <div className={`w-16 h-16 md:w-16 md:h-12 rounded-2xl flex items-center justify-center text-3xl transition-all duration-300 ${hovered || active ? 'bg-primary shadow-yellow scale-110' : 'bg-surface dark:bg-dark-bg'}`}>
             ✏️
           </div>
           <div className="flex flex-col gap-0.5 mt-0.5">
@@ -76,9 +77,9 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
             key={i}
             className={`grid grid-cols-3 border-t border-gray-100 dark:border-gray-800 ${i % 2 === 0 ? 'bg-white dark:bg-dark-surface' : 'bg-gray-50/50 dark:bg-dark-bg/20'}`}
           >
-            <div className="p-3 text-xs font-body font-500 text-text-muted dark:text-dark-muted">{row.label}</div>
-            <div className="p-3 text-center text-xs font-500 text-red-400 border-l border-gray-100 dark:border-gray-800">{row.bad}</div>
-            <div className="p-3 text-center text-xs font-bold text-secondary dark:text-primary border-l border-primary/30 bg-primary/5">{row.good}</div>
+            <div className="p-2.5 text-xs font-body font-500 text-text-muted dark:text-dark-muted">{row.label}</div>
+            <div className="p-2.5 text-center text-xs font-500 text-red-400 border-l border-gray-100 dark:border-gray-800">{row.bad}</div>
+            <div className="p-2.5 text-center text-xs font-bold text-secondary dark:text-primary border-l border-primary/30 bg-primary/5">{row.good}</div>
           </div>
         ))}
       </div>

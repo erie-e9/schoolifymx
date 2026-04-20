@@ -132,7 +132,7 @@ describe('Hero', () => {
 
   it('renders bullet points from content', () => {
     render(<Hero {...defaultProps} activeService="supplies" />);
-    expect(screen.getByText('Ahorra tiempo y dinero en cada ciclo escolar')).toBeInTheDocument();
+    expect(screen.getByText('Para alumnos y maestros')).toBeInTheDocument();
   });
 
   it('renders trust indicators with split text', () => {

@@ -191,7 +191,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
             onClick={() => WhatsAppService.sendGenericContact('Hola, necesito cotizar una prenda o accesorio que no se encuentra en el Asistente de Tallas.')}
             className="inline-flex items-center gap-2 text-[10px] text-text-main dark:text-white hover:scale-105 transition-transform font-heading font-800 tracking-wider shrink-0 bg-primary/20 dark:bg-primary/20 shadow-sm px-5 py-2.5 rounded-xl"
           >
-            ¿No está la prenda que buscas? Contáctanos
+            ¿Buscas bata, mandil o algo más? Contáctanos
           </button>
           <button
             onClick={handleClose}
