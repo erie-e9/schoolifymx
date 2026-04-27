@@ -42,6 +42,7 @@ export default {
       animation: {
         'float': 'float 4s ease-in-out infinite',
         'scroll': 'scroll 30s linear infinite',
+        'bounce-slow': 'bounce-slow 3s ease-in-out infinite',
       },
       keyframes: {
         float: {
@@ -51,6 +52,10 @@ export default {
         scroll: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
+        },
+        'bounce-slow': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
         },
       },
     },

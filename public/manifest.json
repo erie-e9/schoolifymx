@@ -8,7 +8,11 @@
   "theme_color": "#FFE600",
   "orientation": "portrait-primary",
   "lang": "es-MX",
-  "categories": ["education", "shopping", "business"],
+  "categories": [
+    "education",
+    "shopping",
+    "business"
+  ],
   "icons": [
     {
       "src": "./favicon.png",
@@ -25,18 +29,16 @@
   ],
   "shortcuts": [
     {
-      "name": "Mapa Escolar",
-      "short_name": "Mapa",
-      "description": "Directorio geoespacial de escuelas en Durango",
-      "url": "./#/mapa",
-      "icons": [{ "src": "./favicon.png", "sizes": "192x192" }]
-    },
-    {
       "name": "Cotizar Lista",
       "short_name": "Cotizar",
       "description": "Sube tu lista y recibe cotización automática",
       "url": "./#escaner",
-      "icons": [{ "src": "./favicon.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "./favicon.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ],
   "screenshots": [],

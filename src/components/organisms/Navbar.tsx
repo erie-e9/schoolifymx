@@ -20,12 +20,18 @@ const NAV_LINKS = [
 interface NavbarProps {
   activeService?: ServiceType;
   onOpenChallenges?: () => void;
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChallenges }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  activeService = 'supplies',
+  onOpenChallenges,
+  isDarkMode,
+  toggleDarkMode
+}) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { isDark, toggleDarkMode } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -91,7 +97,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChall
             onClick={toggleDarkMode}
             aria-label="Toggle dark mode"
           >
-            {isDark ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5 text-secondary" />}
+            {isDarkMode ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5 text-secondary" />}
           </Button>
 
           <Button
@@ -122,7 +128,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeService = 'supplies', onOpenChall
             onClick={toggleDarkMode}
             aria-label="Toggle dark mode"
           >
-            {isDark ? <Sun className="w-4 h-4 text-primary" /> : <Moon className="w-4 h-4" />}
+            {isDarkMode ? <Sun className="w-4 h-4 text-primary" /> : <Moon className="w-4 h-4" />}
           </Button>
 
           <Button

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 
 export const useTheme = () => {
   const [isDark, setIsDark] = useState<boolean>(() => {
@@ -8,8 +8,8 @@ export const useTheme = () => {
     return savedTheme === 'dark' || (!savedTheme && prefersDark);
   });
 
-  // Sync DOM class whenever isDark changes (including on mount)
-  useEffect(() => {
+  // Sync DOM class whenever isDark changes
+  useLayoutEffect(() => {
     if (isDark) {
       document.documentElement.classList.add('dark');
     } else {

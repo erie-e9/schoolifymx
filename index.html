@@ -72,6 +72,18 @@
   </script>
 
   <title>Schoolify.mx — Soluciones Escolares</title>
+  <script>
+    // Inline script to prevent white flash in dark mode
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
 </head>
 
 <body>

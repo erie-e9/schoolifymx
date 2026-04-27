@@ -83,9 +83,9 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     headline: 'Uniformes a la medida, sin complicaciones.',
     subheadline: 'Diseñamos y confeccionamos el uniforme escolar, deportivo o de escolta con los colores y especificaciones para estudiantes y maestros de preescolar, primaria y secundaria. Simplificando tu proceso de compra para todo el ciclo.',
     bullets: [
-      'Confección a la medida y reparaciones',
-      'Telas duraderas y selectas',
-      'Entrega directa en tu escuela o domicilio',
+      'Personalización total según manual de identidad',
+      'Plan de pagos flexibles (Apartado)',
+      'Garantía de ajuste sin costo adicional',
     ],
     image: 'https://www.unicef.org/honduras/sites/unicef.org.honduras/files/styles/hero_extended/public/WhatsApp%20Image%202023-06-08%20at%204.36.48%20PM_0.jpeg.webp?itok=VETTkvVL',
     whatsappMessage: '¡Hola Schoolify! 👋, me interesa el servicio de Uniformes Escolares.',

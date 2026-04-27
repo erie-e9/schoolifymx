@@ -17,12 +17,18 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({
   children,
   isDarkMode,
+  toggleTheme,
   onOpenChallenges,
   activeService,
 }) => {
   return (
     <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
-      <Navbar activeService={activeService} onOpenChallenges={onOpenChallenges} />
+      <Navbar
+        activeService={activeService}
+        onOpenChallenges={onOpenChallenges}
+        isDarkMode={isDarkMode}
+        toggleDarkMode={toggleTheme}
+      />
       <main id="main-content" role="main">{children}</main>
       <Suspense fallback={null}>
         <ScrollToTop />

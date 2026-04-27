@@ -36,6 +36,8 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const displayRef = useRef<HTMLDivElement>(null);
   const tagRef = useRef<HTMLSpanElement>(null);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const indicatorRef = useRef<HTMLDivElement>(null);
 
   // Initial animation
   useEffect(() => {
@@ -132,8 +134,10 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
 
     gsap.to(targets, {
       opacity: 0,
-      y: 10,
-      duration: 0.3,
+      y: 20,
+      scale: 0.98,
+      duration: 0.4,
+      stagger: 0.05,
       ease: 'power2.in',
       onComplete: () => {
         setDisplayedService(activeService);
@@ -144,10 +148,26 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
   useEffect(() => {
     const targets = [headlineRef.current, subRef.current, bulletsRef.current, displayRef.current, tagRef.current];
     gsap.fromTo(targets,
-      { opacity: 0, y: -10 },
-      { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out' }
+      { opacity: 0, y: -20, scale: 1.02 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.2)' }
     );
   }, [displayedService]);
+
+  // Sliding indicator logic
+  useEffect(() => {
+    const activeIndex = SERVICES.findIndex(s => s.id === activeService);
+    const activeButton = buttonRefs.current[activeIndex];
+    const indicator = indicatorRef.current;
+
+    if (activeButton && indicator) {
+      gsap.to(indicator, {
+        x: activeButton.offsetLeft,
+        width: activeButton.offsetWidth,
+        duration: 0.5,
+        ease: 'elastic.out(1, 0.8)'
+      });
+    }
+  }, [activeService]);
 
   const handleCtaClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -175,21 +195,27 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
         {/* LEFT — Content */}
         <div className="flex flex-col gap-5">
           {/* Service Selector with Glassmorphism */}
-          <div className="glass flex flex-wrap gap-2 p-2 rounded-2xl border border-white/40 dark:border-gray-800/50 self-start mb-2 shadow-xl shadow-black/5">
-            {SERVICES.map((s) => (
+          <div className="glass flex flex-wrap gap-2 p-1.5 rounded-2xl bg-white/40 dark:bg-white/0.3 self-start mb-4 shadow-2xl shadow-black/5 relative overflow-hidden">
+            {/* Sliding Indicator */}
+            <div
+              ref={indicatorRef}
+              className="absolute top-1.5 bottom-1.5 left-0 bg-primary rounded-xl shadow-lg shadow-primary/20 pointer-events-none z-0"
+            />
+            {SERVICES.map((s, idx) => (
               <button
                 key={s.id}
+                ref={el => buttonRefs.current[idx] = el}
                 onClick={() => setActiveService(s.id)}
-                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-xl font-heading font-700 text-sm transition-all duration-300 ${activeService === s.id
-                  ? 'bg-primary text-text-main shadow-yellow scale-105'
-                  : 'text-text-muted dark:text-dark-muted hover:bg-primary/40 dark:hover:bg-secondary/40'
+                className={`relative flex items-center gap-2 px-5 py-2.5 rounded-xl font-heading font-700 text-sm transition-colors duration-300 z-10 ${activeService === s.id
+                  ? 'text-text-main'
+                  : 'text-text-muted dark:text-dark-muted hover:text-text-main dark:hover:text-dark-text'
                   }`}
                 aria-label={s.label}
               >
-                <span>{s.icon}</span>
+                <span className="text-lg">{s.icon}</span>
                 <span className="hidden md:block">{s.label}</span>
                 {s.comingSoon && (
-                  <Badge variant="secondary" size="sm" className="absolute -top-3 -right-1 px-2 py-0.5 rounded-lg shadow-sm font-800 tracking-tight animate-pulse bg-accent text-white border-none"
+                  <Badge variant="secondary" size="sm" className="absolute -top-2 -right-1 px-1.5 py-0.5 rounded-md shadow-sm font-800 tracking-tight bg-accent text-white border-none text-[8px] uppercase"
                   >
                     Próximamente
                   </Badge>
@@ -270,13 +296,27 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
             <div className="absolute inset-x-0 inset-y-0 bg-accent/10 dark:bg-accent/5 rounded-[2.5rem] rotate-1 scale-100 blur-sm" />
 
             <div className="relative animate-float z-10">
-              {displayedService === 'uniforms' && <UniformsCard active />}
+              {displayedService === 'uniforms' && (
+                <>
+                  <div className="absolute -top-10 -right-10 text-4xl animate-bounce-slow opacity-20 pointer-events-none">🧵</div>
+                  <div className="absolute -bottom-10 -left-10 text-4xl animate-float opacity-20 pointer-events-none delay-700">🪡</div>
+                  <UniformsCard active />
+                </>
+              )}
               {displayedService === 'supplies' && (
                 <div className="flex flex-col gap-4">
+                  <div className="absolute -top-12 -left-8 text-4xl animate-float opacity-20 pointer-events-none">✏️</div>
+                  <div className="absolute top-20 -right-12 text-4xl animate-bounce-slow opacity-20 pointer-events-none delay-500">📏</div>
                   <SuppliesComparator active />
                 </div>
               )}
-              {displayedService === 'didactic' && <DidacticMaterialTimeline active />}
+              {displayedService === 'didactic' && (
+                <>
+                  <div className="absolute -top-8 -right-8 text-4xl animate-float opacity-20 pointer-events-none">📚</div>
+                  <div className="absolute -bottom-12 right-1/2 text-4xl animate-bounce-slow opacity-20 pointer-events-none delay-1000">🧩</div>
+                  <DidacticMaterialTimeline active />
+                </>
+              )}
             </div>
           </div>
         </div>
