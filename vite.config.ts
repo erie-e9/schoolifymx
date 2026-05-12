@@ -8,7 +8,7 @@ import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 import { viteImageToAVIFPlugin } from 'vite-image-to-avif-plugin'
 // https://vite.dev/config/
 export default defineConfig({
-  base: './',
+  base: '/',
   plugins: [
     react(),
     viteImageToAVIFPlugin({}),
@@ -75,7 +75,7 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: 'favicon.png',
+            src: '/favicon.png',
             sizes: '192x192',
             type: 'image/png'
           },
