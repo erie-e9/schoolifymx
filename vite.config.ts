@@ -65,6 +65,7 @@ export default defineConfig({
           }
         ]
       },
+      manifestFilename: 'manifest.json',
       manifest: {
         name: 'Schoolify.mx — Soluciones Escolares',
         short_name: 'Schoolify.mx',
