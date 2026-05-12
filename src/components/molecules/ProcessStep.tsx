@@ -19,7 +19,7 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`step-card card p-6 md:p-7 flex flex-col items-start gap-4 hover:-translate-y-2 border border-gray-100 dark:border-gray-800 bg-white dark:bg-dark-surface cursor-default group shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] ${className}`}>
+    <div className={`step-card card p-6 md:p-7 lg:p-5 xl:p-7 flex flex-col items-start gap-4 hover:-translate-y-2 border border-gray-100 dark:border-gray-800 bg-white dark:bg-dark-surface cursor-default group shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] ${className}`}>
       {/* Number + icon */}
       <div className="flex items-center justify-between w-full mb-2">
         <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl ${color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm`}>

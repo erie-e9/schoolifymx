@@ -137,7 +137,7 @@ const Process: React.FC<{ activeService: ServiceType }> = ({ activeService }) =>
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16" ref={titleRef}>
           <Badge variant="tag" size="lg" className="mb-4">Cómo funciona</Badge>
-          <h2 className="section-title mb-4 dark:text-dark-text text-3xl md:text-5xl lg:text-5xl">
+          <h2 className="section-title mb-4 dark:text-dark-text text-3xl md:text-4xl lg:text-5xl">
             Simple y rápido,{' '}
             <span className="text-secondary dark:text-primary">así es Schoolify</span>.
           </h2>

@@ -5,6 +5,7 @@ import Schoolify from '@assets/Schoolify.svg?react';
 import WhatsApp from '@assets/whatsapp.svg?react';
 import Youtube from '@assets/youtube.svg?react';
 import Tiktok from '@assets/tiktok.svg?react';
+import Threads from '@assets/threads.svg?react';
 
 const Footer: React.FC = () => {
   const waLink = getWhatsappLink(import.meta.env.VITE_WHATSAPP_MESSAGE || 'Hola, soy una institución educativa y me gustaría conocer más sobre Schoolify.mx');
@@ -36,6 +37,7 @@ const Footer: React.FC = () => {
     { icon: WhatsApp, href: waLink, label: 'WhatsApp' },
     { icon: Youtube, href: 'https://youtube.com/@schoolify.mx', label: 'YouTube' },
     { icon: Tiktok, href: 'https://tiktok.com/@schoolify.mx', label: 'TikTok' },
+    { icon: Threads, href: 'https://www.threads.com/@schoolify.mx', label: 'Threads' },
   ];
 
   return (

@@ -43,7 +43,7 @@ const Stats: React.FC<StatsProps> = ({ activeService }) => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16" ref={titleRef}>
           <Badge variant="tag" size='lg' className="mb-4">Impacto medible</Badge>
-          <h2 className="section-title mb-4 dark:text-dark-text text-3xl md:text-5xl">
+          <h2 className="section-title mb-4 dark:text-dark-text text-3xl md:text-4xl lg:text-5xl">
             Números que{' '}
             <span className="text-primary dark:text-primary" style={{ WebkitTextStroke: '0.5px #111827' }}>hablan</span>{' '}
             por sí solos.
