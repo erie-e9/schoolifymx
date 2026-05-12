@@ -36,16 +36,12 @@ describe('Navbar', () => {
   const defaultProps = {
     activeService: 'supplies' as const,
     onOpenChallenges: vi.fn(),
-  };
-
-  const mockUseTheme = {
-    isDark: false,
+    isDarkMode: false,
     toggleDarkMode: vi.fn(),
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(useTheme).mockReturnValue(mockUseTheme as any);
     window.scrollY = 0;
   });
 
@@ -75,7 +71,7 @@ describe('Navbar', () => {
     render(<Navbar {...defaultProps} />);
     const themeButtons = screen.getAllByLabelText('Toggle dark mode');
     fireEvent.click(themeButtons[0]); // Desktop button
-    expect(mockUseTheme.toggleDarkMode).toHaveBeenCalled();
+    expect(defaultProps.toggleDarkMode).toHaveBeenCalled();
   });
 
   it('calls WhatsAppService on contact click', () => {
@@ -109,8 +105,7 @@ describe('Navbar', () => {
   });
 
   it('shows correct theme icon', () => {
-    vi.mocked(useTheme).mockReturnValue({ isDark: true, toggleDarkMode: vi.fn() } as any);
-    render(<Navbar {...defaultProps} />);
+    render(<Navbar {...defaultProps} isDarkMode={true} />);
     // Sun icon should be present in dark mode
     expect(document.querySelector('.lucide-sun')).toBeInTheDocument();
   });

@@ -3,12 +3,21 @@ import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import path from 'path'
 import { createHtmlPlugin } from 'vite-plugin-html'
-
+import { VitePWA } from 'vite-plugin-pwa'
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
+import { viteImageToAVIFPlugin } from 'vite-image-to-avif-plugin'
 // https://vite.dev/config/
 export default defineConfig({
   base: './',
   plugins: [
     react(),
+    viteImageToAVIFPlugin({}),
+    ViteImageOptimizer({
+      png: { quality: 80 },
+      jpeg: { quality: 80 },
+      webp: { quality: 80 },
+      avif: { quality: 70 },
+    }),
     svgr({
       svgrOptions: {
         memo: true,
@@ -27,6 +36,58 @@ export default defineConfig({
         },
       },
     }),
+    VitePWA({
+      registerType: 'autoUpdate',
+      workbox: {
+        cleanupOutdatedCaches: true,
+        runtimeCaching: [
+          {
+            urlPattern: /\.(?:html|js|css)$/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'schoolify-content-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 48 * 60 * 60
+              }
+            }
+          },
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|webp|gif|ico|avif)$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'schoolify-images-cache',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 48 * 60 * 60
+              }
+            }
+          }
+        ]
+      },
+      manifest: {
+        name: 'Schoolify.mx — Soluciones Escolares',
+        short_name: 'Schoolify.mx',
+        description: 'Sitio oficial - Schoolify.mx',
+        theme_color: '#ffffff',
+        background_color: '#0F172A',
+        display: 'standalone',
+        start_url: '/',
+        icons: [
+          {
+            src: 'favicon.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'splash_screens/icon.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable'
+          }
+        ]
+      }
+    }),
   ],
   resolve: {
     alias: {
@@ -44,7 +105,16 @@ export default defineConfig({
   },
   build: {
     cssMinify: 'esbuild',
-    minify: 'esbuild',
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+      format: {
+        comments: false,
+      },
+    },
     target: 'esnext',
     cssCodeSplit: true,
     rollupOptions: {

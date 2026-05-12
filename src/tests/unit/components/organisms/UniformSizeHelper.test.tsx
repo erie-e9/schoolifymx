@@ -126,7 +126,7 @@ describe('UniformSizeHelper', () => {
   it('renders modal and switches tabs', () => {
     render(<UniformSizeHelper {...defaultProps} />);
     expect(screen.getByText(/Asistente de/)).toBeInTheDocument();
-    
+
     fireEvent.click(screen.getByText('Pantalón'));
     expect(mockHelpers.setActiveTab).toHaveBeenCalledWith('pants');
   });
@@ -205,7 +205,7 @@ describe('UniformSizeHelper', () => {
 
   it('calls onClose and backdrop click', () => {
     render(<UniformSizeHelper {...defaultProps} />);
-    
+
     // Close button
     fireEvent.click(screen.getByLabelText('Cerrar'));
     expect(defaultProps.onClose).toHaveBeenCalled();
@@ -219,7 +219,7 @@ describe('UniformSizeHelper', () => {
 
   it('calls contact button for custom prendas', () => {
     render(<UniformSizeHelper {...defaultProps} />);
-    const contactBtn = screen.getByText(/No está la prenda/);
+    const contactBtn = screen.getByText(/Buscas bata, mandil o algo más/);
     fireEvent.click(contactBtn);
     expect(WhatsAppService.sendGenericContact).toHaveBeenCalled();
   });
