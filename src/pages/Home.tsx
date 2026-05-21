@@ -14,7 +14,19 @@ const DailyChallenges = React.lazy(() => import('../components/organisms/DailyCh
 const Home: React.FC = () => {
   const { isDark, toggleDarkMode } = useTheme();
   const [isChallengesOpen, setIsChallengesOpen] = React.useState(false);
-  const [activeService, setActiveService] = React.useState<ServiceType>('uniforms');
+  const [activeService, setActiveService] = React.useState<ServiceType>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const modal = params.get('modal');
+      if (['supplies_estimator', 'smart_list_scanner', 'list_generator'].includes(modal || '')) {
+        return 'supplies';
+      }
+      if (modal === 'uniform') {
+        return 'uniforms';
+      }
+    }
+    return 'uniforms';
+  });
 
   return (
     <MainLayout

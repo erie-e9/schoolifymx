@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calculator, Backpack } from 'lucide-react';
 import SuppliesEstimator from '@components/organisms/SuppliesEstimator';
 import ListScanner from '@components/organisms/ListScanner';
@@ -24,6 +24,22 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isBackpackOpen, setIsBackpackOpen] = useState(false);
   const [scannedItems, setScannedItems] = useState<any[]>([]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const modal = params.get('modal');
+    if (modal === 'supplies_estimator') setIsEstimatorOpen(true);
+    if (modal === 'smart_list_scanner') setIsScannerOpen(true);
+    if (modal === 'list_generator') setIsBackpackOpen(true);
+  }, []);
+
+  const removeModalParam = () => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.has('modal')) {
+      url.searchParams.delete('modal');
+      window.history.replaceState({}, '', url.toString());
+    }
+  };
 
   return (
     <div
@@ -86,7 +102,10 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
 
       <SuppliesEstimator
         isOpen={isEstimatorOpen}
-        onClose={() => setIsEstimatorOpen(false)}
+        onClose={() => {
+          setIsEstimatorOpen(false);
+          removeModalParam();
+        }}
         onOpenScanner={() => {
           setIsEstimatorOpen(false);
           setIsScannerOpen(true);
@@ -94,7 +113,10 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
       />
       <ListScanner
         isOpen={isScannerOpen}
-        onClose={() => setIsScannerOpen(false)}
+        onClose={() => {
+          setIsScannerOpen(false);
+          removeModalParam();
+        }}
         onScanComplete={(items) => {
           setScannedItems(items);
           setIsBackpackOpen(true);
@@ -102,7 +124,10 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
       />
       <BackpackSim
         isOpen={isBackpackOpen}
-        onClose={() => setIsBackpackOpen(false)}
+        onClose={() => {
+          setIsBackpackOpen(false);
+          removeModalParam();
+        }}
         scannedItems={scannedItems}
       />
     </div>

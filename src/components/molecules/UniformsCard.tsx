@@ -29,6 +29,21 @@ const UniformsCard: React.FC<UniformsCardProps> = ({ active }) => {
     }
   }, [hovered, active]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('modal') === 'uniforms') {
+      setIsSizeHelperOpen(true);
+    }
+  }, []);
+
+  const removeModalParam = () => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.has('modal')) {
+      url.searchParams.delete('modal');
+      window.history.replaceState({}, '', url.toString());
+    }
+  };
+
   return (
     <div
       className={`card p-6 md:p-8 cursor-pointer transition-all duration-400 ${hovered || active
@@ -60,7 +75,13 @@ const UniformsCard: React.FC<UniformsCardProps> = ({ active }) => {
         </div>
       </div>
 
-      <UniformSizeHelper isOpen={isSizeHelperOpen} onClose={() => setIsSizeHelperOpen(false)} />
+      <UniformSizeHelper 
+        isOpen={isSizeHelperOpen} 
+        onClose={() => {
+          setIsSizeHelperOpen(false);
+          removeModalParam();
+        }} 
+      />
       <p className="text-text-muted dark:text-dark-muted leading-relaxed mb-4">
         Confeccionamos, reparamos y entregamos el uniforme escolar <span className="text-secondary dark:text-primary font-600">con los colores, tela y especificaciones</span> de cada escuela.
       </p>
