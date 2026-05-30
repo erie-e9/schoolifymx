@@ -142,8 +142,9 @@ const Process: React.FC<{ activeService: ServiceType }> = ({ activeService }) =>
             <span className="text-secondary dark:text-primary">así es Schoolify</span>.
           </h2>
           <p className="section-subtitle dark:text-dark-muted text-sm md:text-base">
-            Así es el paso a paso para obtener <span className="font-700 text-text-main dark:text-primary">
-              {activeService === 'uniforms' ? 'Uniformes Escolares' : activeService === 'supplies' ? 'Útiles Escolares' : 'Material Didáctico'}
+            {activeService === 'uniforms' || activeService === 'supplies' ? 'Así es el paso a paso para obtener' : 'Así es como funcionarán los'}
+            <span className="font-700 text-text-main dark:text-primary">
+              {activeService === 'uniforms' ? 'Uniformes Escolares' : activeService === 'supplies' ? 'Útiles Escolares' : ' nuevos servicios'}
             </span>
           </p>
         </div>

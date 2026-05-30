@@ -465,7 +465,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                 <input
                   type="text"
                   maxLength={180}
-                  placeholder={`Incluir nota adicional (Opcional)`}
+                  placeholder={`Incluir nota (Nombre de la escuela o del alumno, detalles etc)`}
                   value={garmentNote}
                   onChange={(e) => setGarmentNote(e.target.value)}
                   className="w-full bg-transparent border-b border-gray-200 dark:border-primary/20 px-2 py-2 text-[11px] font-body text-text-main dark:text-dark-text outline-none focus:border-primary transition-colors placeholder:dark:text-dark-muted"

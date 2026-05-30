@@ -22,7 +22,7 @@ interface HeroProps {
 const SERVICES: { id: ServiceType; label: string; icon: string; comingSoon?: boolean }[] = [
   { id: 'uniforms', label: SERVICES_CONTENT['uniforms'].tag, icon: '👕' },
   { id: 'supplies', label: SERVICES_CONTENT['supplies'].tag, icon: '✏️' },
-  { id: 'didactic', label: SERVICES_CONTENT['didactic'].tag, icon: '📚', comingSoon: true },
+  { id: 'didactic', label: SERVICES_CONTENT['didactic'].tag, icon: '❤️', comingSoon: true },
 ];
 
 const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
@@ -214,12 +214,12 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
               >
                 <span className="text-lg">{s.icon}</span>
                 <span className="hidden md:block">{s.label}</span>
-                {s.comingSoon && (
+                {/* {s.comingSoon && (
                   <Badge variant="secondary" size="sm" className="absolute -top-2 -right-1 px-1.5 py-0.5 rounded-md shadow-sm font-800 tracking-tight bg-accent text-white border-none text-[8px] uppercase"
                   >
                     Próximamente
                   </Badge>
-                )}
+                )} */}
               </button>
             ))}
           </div>

@@ -113,7 +113,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
               <div className="absolute top-0 left-0 w-32 h-32 bg-primary/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-2xl" />
 
               <div className="mb-6">
-                {currentItem?.code && <span className="tag mb-4">Código {currentItem.code}</span>}
+                {currentItem?.code && <span className="tag mb-4">Código: {currentItem.code}</span>}
                 <h2
                   ref={titleRef}
                   className="font-heading font-900 text-4xl md:text-3xl text-text-main dark:text-dark-text leading-[1.1]"
@@ -130,9 +130,23 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
                 {currentItem?.description}
               </p>
 
+              {/* Garment type chips */}
+              {currentItem?.type && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {currentItem.type.split(',').map((t, i) => (
+                    <span
+                      key={i}
+                      className="tag text-xs"
+                    >
+                      {t.trim().toLowerCase()}
+                    </span>
+                  ))}
+                </div>
+              )}
+
               <div className="flex flex-wrap gap-2 mt-4">
                 <div className="mb-6">
-                  {currentItem?.tags && currentItem?.tags.length >= 1 && currentItem?.tags.map((itemTag) => <span className="tag mb-4">{itemTag}</span>)}
+                  {currentItem?.tags && currentItem?.tags.length >= 1 && currentItem?.tags.map((itemTag) => <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-heading font-700 tracking-wide bg-primary/15 text-secondary dark:text-primary border border-primary/30 dark:border-primary/20 mb-2 mr-2">{itemTag}</span>)}
                 </div>
               </div>
 
@@ -237,8 +251,8 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
               />
               {/* Minimal top-left code badge — doesn't block image content */}
               {currentItem.code && (
-                <span className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white/90 text-xs font-mono px-2.5 py-1 rounded-full">
-                  {currentItem.code}
+                <span className="absolute bottom-2 left-3 bg-black/60 backdrop-blur-sm text-white/90 text-xs font-mono px-2.5 py-1 rounded-full">
+                  Código: {currentItem.code}
                 </span>
               )}
             </div>

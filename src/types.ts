@@ -104,40 +104,40 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
         code: 'CUJM006',
         image: 'https://res.cloudinary.com/dqqh49kon/image/upload/q_auto/f_auto/v1780102777/CUJM006_awysk8.avif',
         title: 'Jumper de gala con moños artesanales',
-        description: 'Pieza de gala confeccionada en tela verde y amarillo institucional. Cada moño — desde el del cabello hasta los del jumper — se elaboró a mano en distintos tamaños para lograr una presentación impecable en eventos escolares y actos cívicos.',
+        description: 'Pieza de gala confeccionada en tela verde y amarillo institucional. Cada moño — desde el del cabello hasta los del jumper — elaborado a mano en distintos tamaños para lograr una presentación impecable en eventos escolares y actos cívicos.',
         type: 'Jumper, moños',
-        tags: ['Primaria Patria y Libertad', 'Colegio Alemán Von Glümer', 'Primaria Bosques del Valle']
+        tags: ['Primaria: Patria y Libertad', 'Colegio Alemán Von Glümer', 'Primaria: Bosques del Valle']
       },
       {
         code: 'CUJM004',
         image: 'https://res.cloudinary.com/dmm5i6xbi/image/upload/v1773889449/ChatGPT_Image_2_oct_2025_10_35_19_p.m_u5ss7h.avif',
-        title: 'Jumper personalizado a petición del cliente',
-        description: 'Un padre de familia compartió la tela con el estampado elegido para el uniforme de gala de su hija. Con esa tela como punto de partida, nosotros diseñamos el patrón, tomamos medidas y confeccionamos el jumper, la blusa y los moños coordinados.',
+        title: 'Jumper personalizado por petición',
+        description: 'Estampado elegido para el uniforme de gala. Con esta tela como punto de partida, se diseña el patrón, toma de medidas y confección el jumper, la blusa y los moños coordinados.',
         type: 'Jumper, blusa, moños',
       },
       {
         code: 'CU001-H',
         image: 'https://res.cloudinary.com/dqqh49kon/image/upload/q_auto/f_auto/v1780102703/CU001-H_u7qypy.avif',
         title: 'Uniforme completo para niño — diseño especial',
-        description: 'Uniforme masculino de preescolar con inspiración oriental: camisa de cuello mao, chaleco cruzado y pantalón confeccionados en telas combinadas. Cada pieza respeta el manual de identidad de la institución y las medidas exactas indicadas por la familia.',
+        description: 'Uniforme masculino de preescolar con inspiración oriental: camisa de cuello, chaleco cruzado y pantalón confeccionados en telas combinadas. Cada pieza respeta el manual de identidad de la institución y las medidas exactas indicadas por la familia.',
         type: 'Chaleco, camisa, pantalón',
-        tags: ['Preescolar San José de Bacis']
+        tags: ['Jardín de niños: San José de Bacis']
       },
       {
         code: 'CU001-M',
         image: 'https://res.cloudinary.com/dqqh49kon/image/upload/q_auto/f_auto/v1780102717/CU001-M_ha3fdf.avif',
         title: 'Uniforme completo para niña — diseño especial',
-        description: 'Versión femenina del uniforme de diseño especial para preescolar. Falda, chaleco y camisa elaborados con texturas distintas para dar profundidad visual. El corte oriental y las costuras artesanales reflejan la identidad única de la institución.',
+        description: 'Versión femenina del uniforme con inspiración oriental de diseño especial para jardín de niños. Falda, chaleco y camisa elaborados con texturas distintas para dar profundidad visual. El corte oriental y las costuras artesanales reflejan la identidad única de la institución.',
         type: 'Chaleco, camisa, falda',
-        tags: ['Preescolar San José de Bacis']
+        tags: ['Jardín de niños: San José de Bacis']
       },
       {
         code: 'CUJM001',
         image: 'https://res.cloudinary.com/dqqh49kon/image/upload/q_auto/f_auto/v1780102777/CUJM001_jvb7mr.avif',
         title: 'Uniforme de gala en azules institucionales',
-        description: 'Jumper en degradado azul marino y cielo, acompañado de blusa coordinada y moños elaborados en distintos formatos. Un conjunto que honra los colores del Jardín de Niños con acabados cuidados en cada ceremonia escolar.',
+        description: 'Jumper en degradado azul marino y cielo, acompañado de moños elaborados en distintos formatos. Un conjunto que honra los colores del jardín de niños con acabados cuidados en cada ceremonia escolar.',
         type: 'Jumper, blusa, moños',
-        tags: ['Jardín de niños: Profra Trinidad Galvan Rivas', 'Escuela Fernando Montes de Oca']
+        tags: ['Preescolar: Profa. Trinidad Galvan Rivas', 'Primaria: Fernando Montes de Oca']
       },
       {
         code: 'CUJM002',
@@ -145,7 +145,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
         title: 'Blusa, falda y moños en tonos escarlata',
         description: 'Conjunto de gala en tela roja con contrastes blancos. Incluye falda plisada, blusa de cuello con acabados y moños artesanales alineados a la paleta oficial de la escuela. Cada pieza cosida para garantizar simetría y durabilidad lavado tras lavado.',
         type: 'Jumper, blusa, moños',
-        tags: ['Primaria Emancipación Proletaria']
+        tags: ['Primaria: Emancipación Proletaria']
       },
       {
         code: 'M001',
@@ -153,7 +153,6 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
         title: 'Mandil escolar con detalles institucionales',
         description: 'Mandil infantil en tela resistente y fácil de lavar. Cuenta con bolsillos funcionales y aplicaciones en los colores del plantel. Pensado para proteger el uniforme durante clases de arte, cocina o talleres, sin sacrificar estilo ni comodidad.',
         type: 'Mandil',
-        tags: ['Primaria Emancipación Proletaria']
       },
       {
         code: 'CUJM003',
@@ -161,15 +160,14 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
         title: 'Jumper de gala negro con detalles rojo profundo',
         description: 'Conjunto de gala en tela negra mate con remates en rojo escarlata que aportan carácter y elegancia. Los moños en distintos tamaños se confeccionaron para complementar el jumper y resaltar en ceremonias, actos cívicos y festivales escolares.',
         type: 'Jumper, blusa, moños',
-        tags: ['Primaria Héroes de México', 'Enrique W. Sánchez', 'Jardín de niños: Francisco I. Madero']
+        tags: ['Primaria: Héroes de México', 'Primaria: Enrique W. Sánchez', 'Preescolar: Francisco I. Madero']
       },
       {
         code: 'CUJM004',
         image: 'https://res.cloudinary.com/dqqh49kon/image/upload/q_auto/f_auto/v1780102731/CUJM004_rknsap.avif',
         title: 'Variante de gala — jumper negro y rojo bicolor',
-        description: 'Segunda interpretación del conjunto negro y rojo, con diferente distribución de pliegues y acabados en el ruedo. Evidencia cómo, a partir de los mismos colores institucionales, es posible crear variantes únicas adaptadas al gusto de cada familia.',
+        description: 'Cnjunto rojo y negro, con diferente distribución de pliegues y acabados en el ruedo. Prendas únicas adaptadas al gusto de cada familia.',
         type: 'Jumper, blusa, moños',
-        tags: ['Primaria Héroes de México']
       },
     ],
     faqs: [
@@ -236,18 +234,25 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     ],
   },
   didactic: {
-    tag: 'Material Didáctico',
-    headline: 'Material didáctico listo para el aprendizaje.',
+    tag: 'Próximamente',
+    headline: 'Trabajando en nuevas ideas para ayudarte',
     subheadline: 'Acompañamiento durante todo el ciclo escolar. Personalización, temáticas, decoración y más dentro del aula y para eventos.',
     bullets: [
-      'Forrado y etiquetado profesional incluido',
-      'Materiales específicos por grado y escuela',
-      'Organización total para el ciclo escolar',
+      // 'Forrado y etiquetado profesional incluido',
+      // 'Materiales específicos por grado y escuela',
+      // 'Organización total para el ciclo escolar',
+      'Confección venta y renta de elementos textiles por temporadas o específicos que cubran necesidades en las instituciones.',
+      'Renta y venta de equipo electronicos para uso/eventos internos.',
+      'Venta de calzado escolar y deportivo.',
+      'Servicios de personalización en útiles escolares por alumno (etiquetado y forrado).',
+      'Venta y preventa de artículos de mercería.',
+      'Servicio de personalización textil: Bordado, serigrafía y estampado.',
+      'Productos complementarios para estudiantes y escuelas.',
     ],
     image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=1200',
-    whatsappMessage: '¡Hola Schoolify! 👋, me interesa el servicio de Material Didáctico.',
+    whatsappMessage: '¡Hola Schoolify! 👋, me interesa saber sobre sus próximos servicios.',
     trustEmojis: ['📚', '🧩', '🧪', '🌍', '♟️'],
-    trustText: 'Próximamente: Material personalizado para cada grado',
+    trustText: 'Nuevos servicios para mejorar tu experiencia escolar',
     stats: [
       { value: 98, suffix: '%', prefix: '', label: 'Recomendación', description: 'Docentes aman nuestro material', emoji: '👩‍🏫' },
       { value: 5, suffix: ' días', prefix: '<', label: 'Preparación', description: 'Para eventos especiales', emoji: '⚡' },
