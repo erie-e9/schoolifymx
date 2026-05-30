@@ -35,7 +35,7 @@ describe('UniformsCard', () => {
 
   it('renders description', () => {
     render(<UniformsCard />);
-    expect(screen.getByText(/Confeccionamos, reparamos y entregamos/)).toBeInTheDocument();
+    expect(screen.getByText(/Confeccionamos, reparamos, personalizamos y entregamos/)).toBeInTheDocument();
   });
 
   it('renders main icon', () => {

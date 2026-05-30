@@ -50,10 +50,10 @@ const Footer: React.FC = () => {
               <Schoolify className="h-9 w-auto md:h-11 group-hover:scale-105 transition-transform duration-300" />
             </a>
             <p className="text-text-muted dark:text-dark-muted text-sm leading-relaxed max-w-sm mb-2 opacity-90">
-              Transformamos la experiencia escolar con soluciones y logísticas inteligentes 📦✨.
+              Uniformes escolares | Útiles escolares | En todo Durango 📦✨
             </p>
             <p className="text-text-muted dark:text-dark-muted text-sm leading-relaxed max-w-sm mb-4 opacity-90">
-              Ahorra tiempo, dinero y evita filas en la adquisición de uniformes, útiles escolares y más, sin estrés.
+              Síguenos en redes sociales
             </p>
 
             <div className="flex gap-3">
@@ -130,7 +130,7 @@ const Footer: React.FC = () => {
           <div className="flex items-center gap-2 text-text-muted dark:text-dark-muted text-xs md:text-sm font-body">
             <span>Hecho con</span>
             <Heart className="w-3.5 h-3.5 text-red-400 fill-red-400 animate-pulse" />
-            <span>especialmente para las familias de México</span>
+            <span>para las familias de México</span>
           </div>
         </div>
       </div>

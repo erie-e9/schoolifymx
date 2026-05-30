@@ -25,19 +25,63 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
   const [isBackpackOpen, setIsBackpackOpen] = useState(false);
   const [scannedItems, setScannedItems] = useState<any[]>([]);
 
+  // Sync state with URL params & handle popstate (back button)
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const modal = params.get('modal');
-    if (modal === 'supplies_estimator') setIsEstimatorOpen(true);
-    if (modal === 'smart_list_scanner') setIsScannerOpen(true);
-    if (modal === 'list_generator') setIsBackpackOpen(true);
+    const checkUrlAndSync = () => {
+      const params = new URLSearchParams(window.location.search);
+      const modal = params.get('modal');
+      
+      setIsEstimatorOpen(modal === 'supplies_estimator');
+      setIsScannerOpen(modal === 'smart_list_scanner');
+      setIsBackpackOpen(modal === 'list_generator');
+    };
+
+    checkUrlAndSync();
+
+    window.addEventListener('popstate', checkUrlAndSync);
+    return () => window.removeEventListener('popstate', checkUrlAndSync);
   }, []);
 
-  const removeModalParam = () => {
+  const openModal = (modalName: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator') => {
     const url = new URL(window.location.href);
-    if (url.searchParams.has('modal')) {
-      url.searchParams.delete('modal');
-      window.history.replaceState({}, '', url.toString());
+    url.searchParams.set('modal', modalName);
+    window.history.pushState({ isModal: true, modalName }, '', url.toString());
+    
+    if (modalName === 'supplies_estimator') setIsEstimatorOpen(true);
+    if (modalName === 'smart_list_scanner') setIsScannerOpen(true);
+    if (modalName === 'list_generator') setIsBackpackOpen(true);
+  };
+
+  const closeModal = (modalName: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator', setter: (val: boolean) => void) => {
+    setter(false);
+    
+    if (window.history.state?.isModal && window.history.state?.modalName === modalName) {
+      window.history.back();
+    } else {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('modal') === modalName) {
+        url.searchParams.delete('modal');
+        window.history.replaceState(null, '', url.toString());
+      }
+    }
+  };
+
+  const switchModal = (fromModal: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator', toModal: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator') => {
+    if (fromModal === 'supplies_estimator') setIsEstimatorOpen(false);
+    if (fromModal === 'smart_list_scanner') setIsScannerOpen(false);
+    if (fromModal === 'list_generator') setIsBackpackOpen(false);
+
+    if (toModal === 'supplies_estimator') setIsEstimatorOpen(true);
+    if (toModal === 'smart_list_scanner') setIsScannerOpen(true);
+    if (toModal === 'list_generator') setIsBackpackOpen(true);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('modal', toModal);
+    
+    if (window.history.state?.isModal && window.history.state?.modalName === fromModal) {
+      window.history.replaceState({ isModal: true, modalName: toModal }, '', url.toString());
+    } else {
+      window.history.pushState({ isModal: true, modalName: toModal }, '', url.toString());
     }
   };
 
@@ -62,13 +106,13 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
 
         <div className="flex flex-col md:flex-row items-center gap-2">
           <button
-            onClick={() => setIsBackpackOpen(true)}
+            onClick={() => openModal('list_generator')}
             className="p-2 bg-primary/20 border border-primary rounded-xl hover:bg-primary transition-all active:scale-95"
           >
             <Backpack className="w-5 h-5 text-gray-900 dark:text-white/90 animate-shake-icon" aria-label="Abrir el creador de listas escolares" />
           </button>
           <button
-            onClick={() => setIsEstimatorOpen(true)}
+            onClick={() => openModal('supplies_estimator')}
             className="p-2 bg-primary/20 border border-primary rounded-xl hover:bg-primary transition-all active:scale-95"
             aria-label="Abrir calculadora de ahorro instantáneo"
           >
@@ -102,32 +146,20 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
 
       <SuppliesEstimator
         isOpen={isEstimatorOpen}
-        onClose={() => {
-          setIsEstimatorOpen(false);
-          removeModalParam();
-        }}
-        onOpenScanner={() => {
-          setIsEstimatorOpen(false);
-          setIsScannerOpen(true);
-        }}
+        onClose={() => closeModal('supplies_estimator', setIsEstimatorOpen)}
+        onOpenScanner={() => switchModal('supplies_estimator', 'smart_list_scanner')}
       />
       <ListScanner
         isOpen={isScannerOpen}
-        onClose={() => {
-          setIsScannerOpen(false);
-          removeModalParam();
-        }}
+        onClose={() => closeModal('smart_list_scanner', setIsScannerOpen)}
         onScanComplete={(items) => {
           setScannedItems(items);
-          setIsBackpackOpen(true);
+          switchModal('smart_list_scanner', 'list_generator');
         }}
       />
       <BackpackSim
         isOpen={isBackpackOpen}
-        onClose={() => {
-          setIsBackpackOpen(false);
-          removeModalParam();
-        }}
+        onClose={() => closeModal('list_generator', setIsBackpackOpen)}
         scannedItems={scannedItems}
       />
     </div>

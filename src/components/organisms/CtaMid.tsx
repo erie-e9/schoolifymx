@@ -26,7 +26,11 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
 
   const handleCtaClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    WhatsAppService.sendGenericContact(content?.whatsappMessage);
+    const codeText = currentItem?.code ? ` (Cód. ${currentItem.code})` : '';
+    const itemMessage = currentItem?.title && currentItem?.code
+      ? `Hola, me interesa el artículo *${currentItem.title}*${codeText}. ¿Me pueden dar más información?`
+      : content?.whatsappMessage;
+    WhatsAppService.sendGenericContact(itemMessage);
   }
 
   const nextSlide = () => {
@@ -45,6 +49,16 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
     }, 12000);
     return () => clearInterval(timer);
   }, [currentIndex, carouselItems.length, isImageModalOpen]);
+
+  // Close modal on ESC key
+  useEffect(() => {
+    if (!isImageModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsImageModalOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isImageModalOpen]);
 
   // Reset index when service changes
   useEffect(() => {
@@ -99,7 +113,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
               <div className="absolute top-0 left-0 w-32 h-32 bg-primary/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-2xl" />
 
               <div className="mb-6">
-                {currentItem?.type && <span className="tag mb-4">{currentItem.type}</span>}
+                {currentItem?.code && <span className="tag mb-4">Código {currentItem.code}</span>}
                 <h2
                   ref={titleRef}
                   className="font-heading font-900 text-4xl md:text-3xl text-text-main dark:text-dark-text leading-[1.1]"
@@ -117,13 +131,19 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
               </p>
 
               <div className="flex flex-wrap gap-2 mt-4">
+                <div className="mb-6">
+                  {currentItem?.tags && currentItem?.tags.length >= 1 && currentItem?.tags.map((itemTag) => <span className="tag mb-4">{itemTag}</span>)}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2 mt-4">
                 <Button
                   variant="primary"
                   size="md"
                   onClick={handleCtaClick}
                   leftIcon={<WhatsApp className="w-5 h-5 text-black" />}
                 >
-                  Escríbenos ahora
+                  {activeService === 'uniforms' ? 'Pídelo ahora' : 'Escríbenos ahora'}
                 </Button>
               </div>
             </div>
@@ -204,20 +224,29 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
             <X className="w-6 h-6" />
           </button>
 
-          <div className="relative w-full h-full max-w-7xl flex flex-col items-center justify-center animate-scale-in">
-            <div className="absolute inset-0 overflow-hidden">
+          <div className="relative w-full max-w-5xl mx-auto flex flex-col items-center justify-center gap-4 px-4 animate-scale-in">
+            {/* Image — clean, no overlays */}
+            <div className="relative w-full" style={{ maxHeight: '70vh' }}>
               <img
                 src={currentItem.image}
-                alt={currentItem.title || "Evidencia del trabajo de Schoolify.mx"}
+                alt={currentItem.title || 'Evidencia del trabajo de Schoolify.mx'}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-contain rounded-xl"
+                className="w-full h-full object-contain rounded-2xl"
+                style={{ maxHeight: '70vh' }}
               />
+              {/* Minimal top-left code badge — doesn't block image content */}
+              {currentItem.code && (
+                <span className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white/90 text-xs font-mono px-2.5 py-1 rounded-full">
+                  {currentItem.code}
+                </span>
+              )}
             </div>
-            <div className="absolute bottom-0 inset-x-0 p-8 md:p-12 bg-gradient-to-t from-black via-black/50 to-transparent rounded-b-xl text-white text-center flex flex-col items-center justify-end">
-              <h4 className="font-heading font-900 text-2xl md:text-3xl mb-4 text-shadow-sm">{currentItem.title}</h4>
+            {/* Info panel BELOW the image */}
+            <div className="w-full backdrop-blur-md rounded-2xl px-6 py-4 text-white text-center">
+              <h4 className="font-heading font-900 text-lg md:text-2xl mb-1">{currentItem.title}</h4>
               {currentItem.description && (
-                <p className="text-white/90 max-w-3xl mx-auto font-body text-base md:text-sm leading-relaxed text-shadow-sm">
+                <p className="text-white/80 font-body text-sm md:text-base leading-relaxed mt-1">
                   {currentItem.description}
                 </p>
               )}

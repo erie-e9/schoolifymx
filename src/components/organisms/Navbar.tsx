@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Menu, X, Sun, Moon, Building2, Trophy } from 'lucide-react';
 import Schoolify from '@assets/Schoolify.svg?react';
-import SchoolifyLogo from '@assets/logo.svg?react';
 import WhatsApp from '@assets/whatsapp.svg?react';
 import BrandCarousel from '@components/molecules/BrandCarousel';
 import { WhatsAppService } from '@services/WhatsAppService';
@@ -55,9 +54,6 @@ const Navbar: React.FC<NavbarProps> = ({
       <BrandCarousel activeService={activeService} />
       <nav className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2.5 group" aria-label="Schoolify">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-yellow group-hover:scale-110 transition-transform">
-            <SchoolifyLogo className="w-9 h-9" />
-          </div>
           <span className="font-heading font-900 text-xl text-text-main dark:text-dark-text">
             <Schoolify className="h-8 w-auto md:h-10 group-hover:scale-105 transition-transform duration-300" />
           </span>

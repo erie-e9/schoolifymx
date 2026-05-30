@@ -6,7 +6,8 @@ import UniformSizeHelper from '@components/organisms/UniformSizeHelper';
 const UNIFORM_DETAILS = [
   { icon: '📐', text: 'Confección a medida' },
   { icon: '🪡', text: 'Reparaciones y ajustes' },
-  { icon: '🎽', text: 'Vestuario escolar y eventos' },
+  { icon: '🪄', text: 'Personalización de prendas, logos y nombres' },
+  { icon: '💃🏻', text: 'Vestuario escolar y eventos' },
 ];
 
 interface UniformsCardProps {
@@ -30,17 +31,35 @@ const UniformsCard: React.FC<UniformsCardProps> = ({ active }) => {
   }, [hovered, active]);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('modal') === 'uniforms') {
-      setIsSizeHelperOpen(true);
-    }
+    const checkUrlAndSync = () => {
+      const params = new URLSearchParams(window.location.search);
+      const isParamOpen = params.get('modal') === 'uniforms';
+      setIsSizeHelperOpen(isParamOpen);
+    };
+
+    checkUrlAndSync();
+
+    window.addEventListener('popstate', checkUrlAndSync);
+    return () => window.removeEventListener('popstate', checkUrlAndSync);
   }, []);
 
-  const removeModalParam = () => {
+  const openModal = () => {
     const url = new URL(window.location.href);
-    if (url.searchParams.has('modal')) {
-      url.searchParams.delete('modal');
-      window.history.replaceState({}, '', url.toString());
+    url.searchParams.set('modal', 'uniforms');
+    window.history.pushState({ isModal: true, modalName: 'uniforms' }, '', url.toString());
+    setIsSizeHelperOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsSizeHelperOpen(false);
+    if (window.history.state?.isModal && window.history.state?.modalName === 'uniforms') {
+      window.history.back();
+    } else {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('modal') === 'uniforms') {
+        url.searchParams.delete('modal');
+        window.history.replaceState(null, '', url.toString());
+      }
     }
   };
 
@@ -63,7 +82,7 @@ const UniformsCard: React.FC<UniformsCardProps> = ({ active }) => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                setIsSizeHelperOpen(true);
+                openModal();
               }}
               className="flex items-center justify-center bg-primary/20 border-primary text-text-main dark:text-dark-text hover:bg-primary p-2 rounded-xl transition-all duration-300 border hover:shadow-yellow hover:-translate-y-0.5 group/btn"
               aria-label="Abrir asistente de tallas"
@@ -75,15 +94,12 @@ const UniformsCard: React.FC<UniformsCardProps> = ({ active }) => {
         </div>
       </div>
 
-      <UniformSizeHelper 
-        isOpen={isSizeHelperOpen} 
-        onClose={() => {
-          setIsSizeHelperOpen(false);
-          removeModalParam();
-        }} 
+      <UniformSizeHelper
+        isOpen={isSizeHelperOpen}
+        onClose={closeModal}
       />
       <p className="text-text-muted dark:text-dark-muted leading-relaxed mb-4">
-        Confeccionamos, reparamos y entregamos el uniforme escolar <span className="text-secondary dark:text-primary font-600">con los colores, tela y especificaciones</span> de cada escuela.
+        Confeccionamos, reparamos, personalizamos y entregamos el uniforme escolar <span className="text-secondary dark:text-primary font-600">con los colores, tela y especificaciones</span> de cada escuela.
       </p>
 
       <div ref={detailsRef} className="overflow-hidden">
