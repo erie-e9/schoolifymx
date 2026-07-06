@@ -50,15 +50,17 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
     return () => clearInterval(timer);
   }, [currentIndex, carouselItems.length, isImageModalOpen]);
 
-  // Close modal on ESC key
+  // Close modal on ESC key and navigate with arrows
   useEffect(() => {
     if (!isImageModalOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setIsImageModalOpen(false);
+      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === 'ArrowRight') nextSlide();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isImageModalOpen]);
+  }, [isImageModalOpen, carouselItems.length]);
 
   // Reset index when service changes
   useEffect(() => {
@@ -146,7 +148,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
 
               <div className="flex flex-wrap gap-2 mt-4">
                 <div className="mb-6">
-                  {currentItem?.tags && currentItem?.tags.length >= 1 && currentItem?.tags.map((itemTag) => <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-heading font-700 tracking-wide bg-primary/15 text-secondary dark:text-primary border border-primary/30 dark:border-primary/20 mb-2 mr-2">{itemTag}</span>)}
+                  {currentItem?.tags && currentItem?.tags.length >= 1 && currentItem?.tags.map((itemTag, i) => <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-heading font-700 tracking-wide bg-primary/15 text-secondary dark:text-primary border border-primary/30 dark:border-primary/20 mb-2 mr-2">{itemTag}</span>)}
                 </div>
               </div>
 
@@ -238,16 +240,39 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
             <X className="w-6 h-6" />
           </button>
 
-          <div className="relative w-full max-w-5xl mx-auto flex flex-col items-center justify-center gap-4 px-4 animate-scale-in">
+          {/* Left Arrow Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              prevSlide();
+            }}
+            aria-label="Previous image"
+            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-50 p-3 md:p-3.5 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white active:scale-90"
+          >
+            <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
+          </button>
+
+          {/* Right Arrow Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              nextSlide();
+            }}
+            aria-label="Next image"
+            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 p-3 md:p-3.5 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white active:scale-90"
+          >
+            <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
+          </button>
+
+          <div className="relative w-full max-w-5xl mx-auto flex flex-col items-center justify-center gap-4 px-12 md:px-4 animate-scale-in">
             {/* Image — clean, no overlays */}
-            <div className="relative w-full" style={{ maxHeight: '70vh' }}>
+            <div className="relative w-full flex justify-center" style={{ maxHeight: '70vh' }}>
               <img
                 src={currentItem.image}
                 alt={currentItem.title || 'Evidencia del trabajo de Schoolify.mx'}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-contain rounded-2xl"
-                style={{ maxHeight: '70vh' }}
+                className="w-auto h-full max-h-[70vh] object-contain rounded-2xl"
               />
               {/* Minimal top-left code badge — doesn't block image content */}
               {currentItem.code && (
@@ -257,7 +282,7 @@ const CtaMid: React.FC<CtaMidProps> = ({ activeService }) => {
               )}
             </div>
             {/* Info panel BELOW the image */}
-            <div className="w-full backdrop-blur-md rounded-2xl px-6 py-4 text-white text-center">
+            <div className="w-full max-w-3xl backdrop-blur-md rounded-2xl px-6 py-4 text-white text-center">
               <h4 className="font-heading font-900 text-lg md:text-2xl mb-1">{currentItem.title}</h4>
               {currentItem.description && (
                 <p className="text-white/80 font-body text-sm md:text-base leading-relaxed mt-1">

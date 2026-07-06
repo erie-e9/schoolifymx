@@ -1,16 +1,17 @@
 import React from 'react';
-import Scribe from '@assets/scribe.svg?react';
-import Crayola from '@assets/crayola1.svg?react';
-import Pritt from '@assets/pritt.svg?react';
-import Maped from '@assets/maped.svg?react';
+import Scribe from '@assets/scribe2.svg?react';
+import Crayola from '@assets/crayola2.svg?react';
+import Pritt from '@assets/pritt2.svg?react';
+import Maped from '@assets/maped2.svg?react';
 import Pelikan from '@assets/pelikan.svg?react';
 import M3 from '@assets/3m.svg?react';
-import Berol from '@assets/berol.svg?react';
+import Berol from '@assets/berol2.svg?react';
 import Bic from '@assets/bic.svg?react';
 import Barrilito from '@assets/barrilito2.svg?react';
-import Papermate from '@assets/papermate1.svg?react';
+import Papermate from '@assets/papermate2.svg?react';
 import Casio from '@assets/casio.svg?react';
-import Parisina from '@assets/parisina.svg?react';
+import Kores from '@assets/kores.svg?react';
+import Parisina from '@assets/parisina2.svg?react';
 import Modatelas from '@assets/modatelas.svg?react';
 import Nike from '@assets/nike.svg?react';
 import Adidas from '@assets/adidas.svg?react';
@@ -29,6 +30,9 @@ const STATIONERY_BRANDS = [
   { name: 'Barrilito', logo: Barrilito, link: 'https://www.barrilito.com.mx' },
   { name: 'Papermate', logo: Papermate, link: 'https://www.papermate.mx' }, //isImg: true 
   { name: 'Crayola', logo: Crayola, link: 'https://www.crayola.com' },
+];
+const UNRECOGNIZED_BRANDS = [
+  { name: 'Kores', logo: Kores, link: 'https://www.crayola.com' },
 ];
 
 const UNIFORM_BRANDS = [
@@ -58,7 +62,7 @@ interface BrandCarouselProps {
 
 const BrandCarousel: React.FC<BrandCarouselProps> = ({ activeService = 'supplies' }) => {
   const isUniforms = activeService === 'uniforms';
-  const ACTIVE_BRANDS = isUniforms ? [...UNIFORM_BRANDS, ...SHOE_BRANDS] : STATIONERY_BRANDS;
+  const ACTIVE_BRANDS = isUniforms ? [...UNIFORM_BRANDS, ...SHOE_BRANDS] : [...STATIONERY_BRANDS, ...UNRECOGNIZED_BRANDS];
 
   return (
     <div className="w-full bg-text-main dark:bg-black h-[30px] flex items-center overflow-hidden relative z-[101]">

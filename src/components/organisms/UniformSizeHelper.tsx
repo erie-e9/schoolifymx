@@ -239,7 +239,7 @@ const UniformSizeHelper: React.FC<UniformSizeHelperProps> = ({ isOpen, onClose }
                 {tab.id === 'jumper' && <JumperIcon className="w-4 h-4" />}
                 {tab.id === 'shoes' && <ShoeIcon className="w-4 h-4" />}
 
-                <span className="hidden md:block ml-1">{tab.label}</span>
+                <span className="hidden md:block ml-1 font-medium text-[9px]">{tab.label}</span>
 
                 {tab.badge && (
                   <Badge

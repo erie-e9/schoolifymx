@@ -23,7 +23,7 @@ const Tooltip: React.FC<TooltipProps> = ({ content }) => {
         aria-label="Más información"
       />
       <div
-        className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max max-w-[150px] whitespace-normal bg-gray-900 text-white text-[10px] font-body p-2 rounded transition-all shadow-xl pointer-events-none z-[110] ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+        className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max max-w-[150px] whitespace-normal bg-gray-900 dark:bg-primary text-white dark:text-gray-900 text-[10px] font-body font-medium p-2 rounded transition-all shadow-xl pointer-events-none z-[110] ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
         role="tooltip"
       >
         {content}

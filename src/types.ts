@@ -106,7 +106,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
         title: 'Jumper de gala con moños artesanales',
         description: 'Pieza de gala confeccionada en tela verde y amarillo institucional. Cada moño — desde el del cabello hasta los del jumper — elaborado a mano en distintos tamaños para lograr una presentación impecable en eventos escolares y actos cívicos.',
         type: 'Jumper, moños',
-        tags: ['Primaria: Patria y Libertad', 'Colegio Alemán Von Glümer', 'Primaria: Bosques del Valle']
+        tags: ['Primaria: Patria y Libertad', 'Colegio: Alemán Von Glümer', 'Primaria: Jaime Torres Bodet', 'Primaria: Dr. Carlos Santamaria', 'Primaria: México Independiente', 'Primaria: General Guadalupe Victoria']
       },
       {
         code: 'CUJM004',
@@ -160,7 +160,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
         title: 'Jumper de gala negro con detalles rojo profundo',
         description: 'Conjunto de gala en tela negra mate con remates en rojo escarlata que aportan carácter y elegancia. Los moños en distintos tamaños se confeccionaron para complementar el jumper y resaltar en ceremonias, actos cívicos y festivales escolares.',
         type: 'Jumper, blusa, moños',
-        tags: ['Primaria: Héroes de México', 'Primaria: Enrique W. Sánchez', 'Preescolar: Francisco I. Madero']
+        tags: ['Primaria: Héroes de México', 'Primaria: Enrique W. Sánchez', 'Preescolar: Francisco I. Madero', "Primaria: 5 de Febrero"]
       },
       {
         code: 'CUJM004',

@@ -30,7 +30,7 @@ const MeasurementField: React.FC<MeasurementFieldProps> = ({
           {label}
           {tooltipContent && <Tooltip content={tooltipContent} />}
         </label>
-        <div className="flex items-center">
+        <div className="flex items-center gap-1">
           <input
             type="number"
             step={step}
@@ -38,6 +38,7 @@ const MeasurementField: React.FC<MeasurementFieldProps> = ({
             onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
             className="w-12 bg-transparent text-right outline-none font-heading font-900 text-sm text-text-main dark:text-dark-text border-b border-dashed border-gray-300 dark:border-gray-600 focus:border-primary m-0 p-0 appearance-none"
           />
+          <span className="text-[10px] md:text-xs font-heading font-800 text-text-muted dark:text-dark-muted ml-0.5 uppercase tracking-wide">cm</span>
         </div>
       </div>
       <input

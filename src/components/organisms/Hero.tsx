@@ -227,7 +227,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
           {/* Headline */}
           <h1
             ref={headlineRef}
-            className="font-heading font-800 text-3xl md:text-4xl lg:text-[2.5rem] xl:text-5xl text-text-main dark:text-dark-text leading-[1.1] tracking-tight"
+            className="font-heading font-800 text-2xl md:text-4xl lg:text-[2.5rem] xl:text-[2.5rem] text-text-main dark:text-dark-text leading-[1.1] tracking-tight"
           >
             {content?.headline}
           </h1>

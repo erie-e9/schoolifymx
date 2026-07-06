@@ -54,17 +54,17 @@ describe('UniformsCard', () => {
     render(<UniformsCard />);
     expect(screen.getByText('📐')).toBeInTheDocument();
     expect(screen.getByText('🪡')).toBeInTheDocument();
-    expect(screen.getByText('🎽')).toBeInTheDocument();
+    expect(screen.getByText('💃🏻')).toBeInTheDocument();
   });
 
   it('renders size helper button', () => {
     render(<UniformsCard />);
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /tallas/i })).toBeInTheDocument();
   });
 
   it('opens size helper when button is clicked', async () => {
     render(<UniformsCard />);
-    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByRole('button', { name: /tallas/i }));
     await waitFor(() => {
       expect(screen.getByTestId('size-helper')).toBeInTheDocument();
     });
@@ -88,7 +88,8 @@ describe('UniformsCard', () => {
   });
 
   it('has Ruler icon in button', () => {
-    const { container } = render(<UniformsCard />);
-    expect(container.querySelectorAll('svg')).toHaveLength(1);
+    render(<UniformsCard />);
+    const rulerBtn = screen.getByRole('button', { name: /tallas/i });
+    expect(rulerBtn.querySelector('svg')).toBeInTheDocument();
   });
 });

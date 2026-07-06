@@ -41,8 +41,8 @@ describe('SuppliesComparator', () => {
   it('opens and closes estimator modal', () => {
     render(<SuppliesComparator />);
 
-    const buttons = screen.getAllByRole('button');
-    fireEvent.click(buttons[1]);
+    const estimatorBtn = screen.getByRole('button', { name: /calculadora/i });
+    fireEvent.click(estimatorBtn);
 
     expect(SuppliesEstimator).toHaveBeenLastCalledWith(expect.objectContaining({ isOpen: true }), undefined);
 
@@ -53,8 +53,8 @@ describe('SuppliesComparator', () => {
   it('opens scanner from estimator', () => {
     render(<SuppliesComparator />);
 
-    const buttons = screen.getAllByRole('button');
-    fireEvent.click(buttons[1]);
+    const estimatorBtn = screen.getByRole('button', { name: /calculadora/i });
+    fireEvent.click(estimatorBtn);
 
     const estimatorProps = vi.mocked(SuppliesEstimator).mock.calls[vi.mocked(SuppliesEstimator).mock.calls.length - 1][0] as any;
     act(() => { estimatorProps.onOpenScanner(); });
@@ -79,8 +79,8 @@ describe('SuppliesComparator', () => {
   it('opens backpack directly', () => {
     render(<SuppliesComparator />);
 
-    const buttons = screen.getAllByRole('button');
-    fireEvent.click(buttons[0]);
+    const backpackBtn = screen.getByRole('button', { name: /creador/i });
+    fireEvent.click(backpackBtn);
 
     expect(BackpackSim).toHaveBeenLastCalledWith(expect.objectContaining({ isOpen: true }), undefined);
   });

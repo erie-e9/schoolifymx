@@ -18,7 +18,7 @@ const Home: React.FC = () => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const modal = params.get('modal');
-      if (['supplies_estimator', 'smart_list_scanner', 'list_generator'].includes(modal || '')) {
+      if (['supplies_estimator', 'smart_list_scanner', 'list_generator', 'supplies_packs'].includes(modal || '')) {
         return 'supplies';
       }
       if (modal === 'uniform') {

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, Backpack } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { Calculator, Backpack, X, ExpandIcon } from 'lucide-react';
 import SuppliesEstimator from '@components/organisms/SuppliesEstimator';
 import ListScanner from '@components/organisms/ListScanner';
 import BackpackSim from '@components/organisms/BackpackSim';
+import BrandComparatorModal from '@components/organisms/BrandComparatorModal';
+import Schoolify from '@assets/Schoolify.svg?react';
 
 const SUPPLIES_ROWS = [
   { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },
@@ -10,7 +13,7 @@ const SUPPLIES_ROWS = [
   { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
   { label: 'Entrega', bad: 'Tú lo transportas', good: 'Nosotros te lo llevamos' },
   { label: 'Pago', bad: '1 único pago', good: 'Hasta 3 abonos' },
-  { label: 'Sobrantes', bad: 'Con restos innecesarios', good: '✓ Sin sobrantes' },
+  { label: 'Útiles con sobrantes', bad: 'Con restos innecesarios', good: '✓ Sin sobrantes' },
   { label: 'Garantía', bad: 'No incluye', good: 'Con garantía' },
 ];
 
@@ -23,17 +26,29 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
   const [isEstimatorOpen, setIsEstimatorOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isBackpackOpen, setIsBackpackOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [scannedItems, setScannedItems] = useState<any[]>([]);
+  const [isBrandModalOpen, setIsBrandModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isExpanded) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsExpanded(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isExpanded]);
 
   // Sync state with URL params & handle popstate (back button)
   useEffect(() => {
     const checkUrlAndSync = () => {
       const params = new URLSearchParams(window.location.search);
       const modal = params.get('modal');
-      
+
       setIsEstimatorOpen(modal === 'supplies_estimator');
       setIsScannerOpen(modal === 'smart_list_scanner');
       setIsBackpackOpen(modal === 'list_generator');
+      setIsBrandModalOpen(modal === 'supplies_packs');
     };
 
     checkUrlAndSync();
@@ -42,19 +57,21 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
     return () => window.removeEventListener('popstate', checkUrlAndSync);
   }, []);
 
-  const openModal = (modalName: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator') => {
+  const openModal = (modalName: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator' | 'supplies_benefits' | 'supplies_packs') => {
     const url = new URL(window.location.href);
     url.searchParams.set('modal', modalName);
     window.history.pushState({ isModal: true, modalName }, '', url.toString());
-    
+
     if (modalName === 'supplies_estimator') setIsEstimatorOpen(true);
     if (modalName === 'smart_list_scanner') setIsScannerOpen(true);
     if (modalName === 'list_generator') setIsBackpackOpen(true);
+    if (modalName === 'supplies_benefits') setIsExpanded(true);
+    if (modalName === 'supplies_packs') setIsBrandModalOpen(true);
   };
 
-  const closeModal = (modalName: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator', setter: (val: boolean) => void) => {
+  const closeModal = (modalName: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator' | 'supplies_benefits' | 'supplies_packs', setter: (val: boolean) => void) => {
     setter(false);
-    
+
     if (window.history.state?.isModal && window.history.state?.modalName === modalName) {
       window.history.back();
     } else {
@@ -66,18 +83,22 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
     }
   };
 
-  const switchModal = (fromModal: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator', toModal: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator') => {
+  const switchModal = (fromModal: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator' | 'supplies_benefits' | 'supplies_packs', toModal: 'supplies_estimator' | 'smart_list_scanner' | 'list_generator' | 'supplies_benefits' | 'supplies_packs') => {
     if (fromModal === 'supplies_estimator') setIsEstimatorOpen(false);
     if (fromModal === 'smart_list_scanner') setIsScannerOpen(false);
     if (fromModal === 'list_generator') setIsBackpackOpen(false);
+    if (fromModal === 'supplies_benefits') setIsExpanded(false);
+    if (fromModal === 'supplies_packs') setIsBrandModalOpen(false);
 
     if (toModal === 'supplies_estimator') setIsEstimatorOpen(true);
     if (toModal === 'smart_list_scanner') setIsScannerOpen(true);
     if (toModal === 'list_generator') setIsBackpackOpen(true);
+    if (toModal === 'supplies_benefits') setIsExpanded(true);
+    if (toModal === 'supplies_packs') setIsBrandModalOpen(true);
 
     const url = new URL(window.location.href);
     url.searchParams.set('modal', toModal);
-    
+
     if (window.history.state?.isModal && window.history.state?.modalName === fromModal) {
       window.history.replaceState({ isModal: true, modalName: toModal }, '', url.toString());
     } else {
@@ -106,17 +127,34 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
 
         <div className="flex flex-col md:flex-row items-center gap-2">
           <button
-            onClick={() => openModal('list_generator')}
+            onClick={(e) => {
+              e.stopPropagation();
+              openModal('list_generator');
+            }}
             className="p-2 bg-primary/20 border border-primary rounded-xl hover:bg-primary transition-all active:scale-95"
+            aria-label="Abrir el creador de listas escolares"
           >
-            <Backpack className="w-5 h-5 text-gray-900 dark:text-white/90 animate-shake-icon" aria-label="Abrir el creador de listas escolares" />
+            <Backpack className="w-5 h-5 text-gray-900 dark:text-white/90 animate-shake-icon" />
           </button>
           <button
-            onClick={() => openModal('supplies_estimator')}
+            onClick={(e) => {
+              e.stopPropagation();
+              openModal('supplies_estimator');
+            }}
             className="p-2 bg-primary/20 border border-primary rounded-xl hover:bg-primary transition-all active:scale-95"
             aria-label="Abrir calculadora de ahorro instantáneo"
           >
             <Calculator className="w-5 h-5 text-gray-900 dark:text-white/90 animate-shake-icon" />
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              openModal('supplies_benefits')
+            }}
+            aria-label="Expandir beneficios de útiles"
+            className="p-2 bg-primary/20 border border-primary rounded-xl hover:bg-primary transition-all active:scale-95"
+          >
+            <ExpandIcon className="w-5 h-5 text-gray-900 dark:text-white/90 animate-shake-icon" />
           </button>
         </div>
       </div>
@@ -161,6 +199,78 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
         isOpen={isBackpackOpen}
         onClose={() => closeModal('list_generator', setIsBackpackOpen)}
         scannedItems={scannedItems}
+      />
+      {/* Expanded Modal */}
+      {isExpanded && createPortal(
+        <div
+          className="fixed inset-0 z-[1001] flex items-center justify-center backdrop-blur-md p-4 animate-fade-in cursor-default"
+          onClick={() => setIsExpanded(false)}
+        >
+          <div
+            className="relative h-full max-w-5xl mx-auto max-h-[100vh] md:max-h-[100vh] flex flex-col bg-white dark:bg-dark-surface rounded-3xl shadow-2xl p-6 md:p-10 overflow-y-auto animate-scale-in border border-gray-100 dark:border-gray-800"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setIsExpanded(false)}
+              aria-label="Cerrar vista expandida"
+              className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Grid Layout */}
+            <div className="grid md:grid-cols-1 gap-8 md:gap-12 mt-4 items-center">
+              {/* Large comparison table */}
+              <div>
+                <div className="flex items-start gap-4">
+                  <div className={`w-16 h-16 md:w-40 md:h-12 rounded-2xl flex items-start justify-center text-3xl transition-all duration-300`}>
+                    <Schoolify className="h-9 w-auto md:h-11 group-hover:scale-105 transition-transform duration-300" />
+                  </div>
+                  <span className="text-[10px] md:text-[1.15rem] font-heading font-600 text-accent dark:text-primary tracking-wider">
+                    Servicio para estudiantes y profesores de educación inicial, preescolar, primaria y secundaría
+                    <span className="text-[10px] md:text-[7px] font-heading font-600 text-accent dark:text-primary tracking-wider fixed">
+                      {' [1]'}
+                    </span>.
+                  </span>
+                </div>
+                <div className="mb-4">
+                  <p className="md:text-[1rem] text-text-muted dark:text-dark-muted leading-relaxed">
+                    Uniformes (confección, ajustes y reparación), útiles escolares y más.
+                  </p>
+                  <p className="md:text-[1rem] text-text-muted dark:text-dark-muted leading-relaxed mb-4">
+                    Para los que tienen apoyo, que les rinda más <span className="text-secondary dark:text-primary font-600">y para los que no, que les cueste menos</span>.
+                  </p>
+                </div>
+
+
+                <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm">
+                  <div className="grid grid-cols-3 bg-gray-50 dark:bg-dark-bg/50">
+                    <div className="p-3 text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-wide"></div>
+                    <div className="p-3 text-center text-[10px] md:text-[1.15rem] font-700 text-red-400 uppercase tracking-wide border-l border-gray-100 dark:border-gray-800">Por tu cuenta</div>
+                    <div className="p-3 text-center text-[10px] md:text-[1.15rem] font-700 text-secondary dark:text-primary uppercase tracking-wide border-l border-primary/30 bg-primary/10">Con Schoolify</div>
+                  </div>
+
+                  {SUPPLIES_ROWS.map((row, i) => (
+                    <div
+                      key={i}
+                      className={`grid grid-cols-3 border-t border-gray-100 dark:border-gray-800 ${i % 2 === 0 ? 'bg-white dark:bg-dark-surface' : 'bg-gray-50/50 dark:bg-dark-bg/20'}`}
+                    >
+                      <div className="p-3 text-[12px] md:text-[1.1rem] font-body font-500 text-text-muted dark:text-dark-muted">{row.label}</div>
+                      <div className="p-3 text-center text-[12px] md:text-[1.1rem] font-500 text-red-400 border-l border-gray-100 dark:border-gray-800">{row.bad}</div>
+                      <div className="p-3 text-center text-[12px] md:text-[1.1rem] font-bold text-secondary dark:text-primary border-l border-primary/30 bg-primary/5">{row.good}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}<BrandComparatorModal
+        isOpen={isBrandModalOpen}
+        onClose={() => closeModal('supplies_packs', setIsBrandModalOpen)}
+
       />
     </div>
   );
