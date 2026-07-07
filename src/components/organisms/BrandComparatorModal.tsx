@@ -20,9 +20,14 @@ import sharpieSvg from '@assets/sharpie2.svg?url';
 import nextepSvg from '@assets/nextep2.svg?url';
 import pascuaSvg from '@assets/pascua2.svg?url';
 import AmazonSvg from '@assets/amazon2.svg?url';
-import EstrellaSvg from '@assets/estrella2.svg?url';
-import Baco2Svg from '@assets/baco2.svg?url';
+import estrellaSvg from '@assets/estrella2.svg?url';
+import baco2Svg from '@assets/baco2.svg?url';
 import politec2Svg from '@assets/politec2.svg?url';
+import pinguinoSvg from '@assets/pinguino.svg?url';
+import delta2Svg from '@assets/delta2.svg?url';
+import mirado2Svg from '@assets/mirado2.svg?url';
+import monky2Svg from '@assets/monky.svg?url';
+import playdoh2Svg from '@assets/playdoh2.svg?url';
 
 interface BrandLogo {
   src: string;
@@ -40,9 +45,11 @@ const BRAND_ROWS: BrandRow[] = [
   {
     product: 'Tijeras',
     esencial: [
-      { src: Baco2Svg, alt: 'Baco' },
+      { src: baco2Svg, alt: 'Baco' },
       { src: pascuaSvg, alt: 'Pascua' },
       { src: scoolSvg, alt: 'Scool' },
+      { src: nextepSvg, alt: 'Nextep' },
+      { src: delta2Svg, alt: 'Delta' },
     ],
     selecto: [
       { src: barrilito2Svg, alt: 'Barrilito' },
@@ -56,9 +63,10 @@ const BRAND_ROWS: BrandRow[] = [
       { src: koresSvg, alt: 'Kores' },
       { src: scoolSvg, alt: 'Scool' },
       { src: AmazonSvg, alt: 'Amazon' },
+      { src: nextepSvg, alt: 'Nextep' },
     ],
     selecto: [
-      // { src: miradoSvg, alt: 'Mirado' },
+      { src: mirado2Svg, alt: 'Mirado' },
       { src: dixonSvg, alt: 'Dixon' },
       { src: mapedSvg, alt: 'Maped' },
       { src: pelikanSvg, alt: 'Pelikan' },
@@ -103,12 +111,13 @@ const BRAND_ROWS: BrandRow[] = [
     product: 'Lápiz adhesivo',
     esencial: [
       { src: pascuaSvg, alt: 'Pascua' },
-      { src: Baco2Svg, alt: 'Baco' },
+      { src: baco2Svg, alt: 'Baco' },
       { src: elmersSvg, alt: "Elmer's" },
       { src: koresSvg, alt: 'Kores' },
+      { src: nextepSvg, alt: 'Nextep' },
     ],
     selecto: [
-      { src: EstrellaSvg, alt: 'Estrella' },
+      { src: estrellaSvg, alt: 'Estrella' },
       { src: dixonSvg, alt: 'Dixon' },
       { src: prittSvg, alt: 'Pritt' },
     ],
@@ -129,8 +138,8 @@ const BRAND_ROWS: BrandRow[] = [
   {
     product: 'Marcador permanente',
     esencial: [
-      // { src: scribeSvg, alt: 'Scribe' },
       { src: pascuaSvg, alt: 'Pascua' },
+      { src: nextepSvg, alt: 'Nextep' },
     ],
     selecto: [
       { src: bicSvg, alt: 'Bic' },
@@ -144,7 +153,7 @@ const BRAND_ROWS: BrandRow[] = [
     esencial: [
       { src: scoolSvg, alt: 'Scool' },
       { src: pascuaSvg, alt: 'Pascua' },
-      // { src: koresSvg, alt: 'Kores' },
+      { src: nextepSvg, alt: 'Nextep' },
       // { src: koresSvg, alt: 'Mae' },
     ],
     selecto: [
@@ -169,7 +178,7 @@ const BRAND_ROWS: BrandRow[] = [
     esencial: [
       { src: scoolSvg, alt: 'PintArt' },
       // { src: scoolSvg, alt: 'Vinci' },
-      // { src: Baco2Svg, alt: 'Baco' },
+      // { src: baco2Svg, alt: 'Baco' },
     ],
     selecto: [
       { src: politec2Svg, alt: 'Politec' },
@@ -179,11 +188,20 @@ const BRAND_ROWS: BrandRow[] = [
     product: 'Plastilina moldeable',
     esencial: [
       { src: pascuaSvg, alt: 'Pascua' },
-      { src: Baco2Svg, alt: 'Baco' },
+      { src: baco2Svg, alt: 'Baco' },
     ],
     selecto: [
       { src: pelikanSvg, alt: 'Pelikan' },
-      // { src: playDohSvg, alt: 'Play Doh' },
+      { src: playdoh2Svg, alt: 'Play Doh' },
+    ],
+  },
+  {
+    product: 'Papel crepe',
+    esencial: [
+      { src: pascuaSvg, alt: 'Pascua' },
+    ],
+    selecto: [
+      { src: pinguinoSvg, alt: 'Pingüino' },
     ],
   },
   {
@@ -193,16 +211,15 @@ const BRAND_ROWS: BrandRow[] = [
       { src: nextepSvg, alt: 'Nextep' },
     ],
     selecto: [
-      { src: EstrellaSvg, alt: 'Estrella' },
+      { src: estrellaSvg, alt: 'Estrella' },
       { src: scribeSvg, alt: 'Scribe' },
-      // { src: nextepSvg, alt: 'Monky' },
+      { src: monky2Svg, alt: 'Monky' },
     ],
   },
   {
     product: 'Lápices de colores',
     esencial: [
       { src: scoolSvg, alt: 'Scool' },
-      // { src: berolSvg, alt: 'Berol' },
     ],
     selecto: [
       { src: koresSvg, alt: 'Kores' },
@@ -296,7 +313,7 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
       {/* Modal — full height on mobile, capped on desktop */}
       <div
         ref={modalRef}
-        className="relative w-full h-full md:h-auto md:max-h-[83vh] max-h-[90vh] max-w-5xl flex flex-col bg-white dark:bg-dark-surface md:rounded-[2rem] shadow-2xl border-0 md:border border-primary/20 dark:border-primary/10 opacity-0 overflow-hidden"
+        className="relative w-full h-full md:h-auto md:max-h-[83vh] max-h-[90vh] max-w-4xl flex flex-col bg-white dark:bg-dark-surface md:rounded-[2rem] shadow-2xl border-0 md:border border-primary/20 dark:border-primary/10 opacity-0 overflow-hidden"
 
       >
         {/* Sticky Header */}
@@ -310,7 +327,10 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
                 Marcas por tipo de <span className="text-secondary dark:text-primary">surtido que elijas</span>.
               </h2>
               <p className="text-[11px] mt-1 text-text-muted dark:text-dark-muted font-body leading-relaxed">
-                *Las marcas pueden variar según disponibilidad. La lista de marcas permanece sujeta a cambios sin previo aviso, esto puede ligeramente afectar el monto final en cada lista escolar.
+                *La diferencia entre un paquete esencial y uno selecto esta basada principalemnte en la calidad, costo y características del producto.
+              </p>
+              <p className="text-[11px] text-text-muted dark:text-dark-muted font-body leading-relaxed">
+                *La lista de marcas permanece sujeta a cambios sin previo aviso, esto puede ligeramente afectar el monto final en cada lista escolar.
               </p>
             </div>
           </div>
@@ -335,7 +355,7 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
           <table className="w-full border-collapse">
             <thead className="sticky top-0 z-10">
               <tr className="bg-gray-50 dark:bg-dark-bg/60">
-                <th className="p-3 text-left text-[11px] font-heading font-700 text-gray-400 uppercase tracking-widest w-[25%]">
+                <th className="p-3 text-center text-[11px] font-heading font-700 text-gray-400 uppercase tracking-widest w-[25%]">
                   Producto
                 </th>
                 <th className="p-3 text-center text-[11px] font-heading font-700 text-amber-500 uppercase tracking-widest border-l border-gray-100 dark:border-gray-800 w-[37.5%]">
