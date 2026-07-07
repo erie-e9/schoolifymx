@@ -1,35 +1,37 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
 import { X, Tag, Plus } from 'lucide-react';
-import azorSvg from '@assets/azor2.svg?url';
-import barrilito2Svg from '@assets/barrilito2.svg?url';
-import berolSvg from '@assets/berol2.svg?url';
-import bicSvg from '@assets/bic2.svg?url';
-import crayolaSvg from '@assets/crayola2.svg?url';
-import dixonSvg from '@assets/dixon2.svg?url';
-import elmersSvg from '@assets/elmers2.svg?url';
-import koresSvg from '@assets/kores2.svg?url';
-import mapedSvg from '@assets/maped2.svg?url';
-import papermateSvg from '@assets/papermate2.svg?url';
-import pelikanSvg from '@assets/pelikan2.svg?url';
-import prittSvg from '@assets/pritt2.svg?url';
-import scoolSvg from '@assets/scool2.svg?url';
-import scribeSvg from '@assets/scribe2.svg?url';
-import sharpieSvg from '@assets/sharpie2.svg?url';
-import nextepSvg from '@assets/nextep2.svg?url';
-import pascuaSvg from '@assets/pascua2.svg?url';
-import AmazonSvg from '@assets/amazon2.svg?url';
-import estrellaSvg from '@assets/estrella2.svg?url';
-import baco2Svg from '@assets/baco2.svg?url';
-import politec2Svg from '@assets/politec2.svg?url';
-import pinguinoSvg from '@assets/pinguino.svg?url';
-import delta2Svg from '@assets/delta2.svg?url';
-import mirado2Svg from '@assets/mirado2.svg?url';
-import monky2Svg from '@assets/monky.svg?url';
-import playdoh2Svg from '@assets/playdoh2.svg?url';
+import BrandDetailModal from '@components/organisms/BrandDetailModal';
+import azorSvg from '@assets/azor2.svg?react';
+import barrilito2Svg from '@assets/barrilito2.svg?react';
+import berolSvg from '@assets/berol2.svg?react';
+import bicSvg from '@assets/bic2.svg?react';
+import crayolaSvg from '@assets/crayola2.svg?react';
+import dixonSvg from '@assets/dixon2.svg?react';
+import elmersSvg from '@assets/elmers2.svg?react';
+import koresSvg from '@assets/kores2.svg?react';
+import mapedSvg from '@assets/maped2.svg?react';
+import papermateSvg from '@assets/papermate2.svg?react';
+import pelikanSvg from '@assets/pelikan2.svg?react';
+import prittSvg from '@assets/pritt2.svg?react';
+import scoolSvg from '@assets/scool2.svg?react';
+import scribeSvg from '@assets/scribe2.svg?react';
+import sharpieSvg from '@assets/sharpie2.svg?react';
+import nextepSvg from '@assets/nextep2.svg?react';
+import pascuaSvg from '@assets/pascua2.svg?react';
+import amazonSvg from '@assets/amazon2.svg?react';
+import estrellaSvg from '@assets/estrella2.svg?react';
+import baco2Svg from '@assets/baco2.svg?react';
+import politec2Svg from '@assets/politec2.svg?react';
+import pinguinoSvg from '@assets/pinguino.svg?react';
+import delta2Svg from '@assets/delta2.svg?react';
+import mirado2Svg from '@assets/mirado2.svg?react';
+import monky2Svg from '@assets/monky.svg?react';
+import playdoh2Svg from '@assets/playdoh2.svg?react';
+import casioSvg from '@assets/casio.svg?react';
 
-interface BrandLogo {
+export interface BrandLogo {
   src: string;
   alt: string;
 }
@@ -41,15 +43,15 @@ interface BrandRow {
 }
 const itemsToShow = 3;
 
-const BRAND_ROWS: BrandRow[] = [
+const BRAND_ROWS = [
   {
     product: 'Tijeras',
     esencial: [
-      { src: baco2Svg, alt: 'Baco' },
-      { src: pascuaSvg, alt: 'Pascua' },
-      { src: scoolSvg, alt: 'Scool' },
       { src: nextepSvg, alt: 'Nextep' },
       { src: delta2Svg, alt: 'Delta' },
+      { src: pascuaSvg, alt: 'Pascua' },
+      { src: scoolSvg, alt: 'Scool' },
+      { src: baco2Svg, alt: 'Baco' },
     ],
     selecto: [
       { src: barrilito2Svg, alt: 'Barrilito' },
@@ -60,9 +62,9 @@ const BRAND_ROWS: BrandRow[] = [
   {
     product: 'Lápiz escritura',
     esencial: [
+      { src: amazonSvg, alt: 'Amazon' },
       { src: koresSvg, alt: 'Kores' },
       { src: scoolSvg, alt: 'Scool' },
-      { src: AmazonSvg, alt: 'Amazon' },
       { src: nextepSvg, alt: 'Nextep' },
     ],
     selecto: [
@@ -75,6 +77,7 @@ const BRAND_ROWS: BrandRow[] = [
   {
     product: 'Bolígrafo',
     esencial: [
+      { src: nextepSvg, alt: 'Nextep' },
       // { src: pinpointSvg, alt: 'Pin Point' },
       { src: bicSvg, alt: 'Bic' },
     ],
@@ -88,6 +91,7 @@ const BRAND_ROWS: BrandRow[] = [
     product: 'Plumones base agua',
     esencial: [
       { src: berolSvg, alt: 'Berol' },
+      { src: nextepSvg, alt: 'Nextep' },
       { src: koresSvg, alt: 'Kores' },
     ],
     selecto: [
@@ -238,6 +242,49 @@ const BRAND_ROWS: BrandRow[] = [
       { src: mapedSvg, alt: 'Maped' },
     ],
   },
+  {
+    product: 'Cinta masking',
+    esencial: [
+      { src: nextepSvg, alt: 'Nextep' },
+    ],
+    selecto: [
+
+    ],
+  },
+  {
+    product: 'Cinta transparente',
+    esencial: [
+      { src: nextepSvg, alt: 'Nextep' },
+    ],
+    selecto: [
+
+    ],
+  },
+  {
+    product: 'Calculadora',
+    esencial: [
+      { src: nextepSvg, alt: 'Nextep' },
+    ],
+    selecto: [
+      { src: casioSvg, alt: 'Casio' },
+    ],
+  },
+  {
+    product: 'Hule contact',
+    esencial: [
+    ],
+    selecto: [
+      { src: barrilito2Svg, alt: 'Barrilito' },
+    ],
+  },
+  {
+    product: 'Engrapadora',
+    esencial: [
+      { src: nextepSvg, alt: 'Nextep' },
+    ],
+    selecto: [
+    ],
+  },
 ];
 
 interface BrandComparatorModalProps {
@@ -253,12 +300,9 @@ const BrandLogos: React.FC<{ logos: BrandLogo[]; colorClass: string }> = ({ logo
         className={`flex items-center justify-center rounded-lg px-2 py-1 bg-dark-bg/90 dark:bg-dark-bg border ${colorClass} shadow-sm`}
         title={logo.alt}
       >
-        <img
-          src={logo.src}
-          alt={logo.alt}
-          className="h-5 w-auto max-w-[60px] object-contain"
-          loading="lazy"
-        />
+        {React.createElement(logo.src as React.ElementType, {
+          className: "h-5 w-auto max-w-[60px] object-contain"
+        })}
       </div>
     ))}
   </div>
@@ -267,6 +311,7 @@ const BrandLogos: React.FC<{ logos: BrandLogo[]; colorClass: string }> = ({ logo
 const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
+  const [detailRow, setDetailRow] = useState<BrandRow | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -313,7 +358,7 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
       {/* Modal — full height on mobile, capped on desktop */}
       <div
         ref={modalRef}
-        className="relative w-full h-full md:h-auto md:max-h-[83vh] max-h-[90vh] max-w-4xl flex flex-col bg-white dark:bg-dark-surface md:rounded-[2rem] shadow-2xl border-0 md:border border-primary/20 dark:border-primary/10 opacity-0 overflow-hidden"
+        className="relative w-full h-full md:h-auto md:max-h-[83vh] max-h-[90vh] max-w-3xl flex flex-col bg-white dark:bg-dark-surface md:rounded-[2rem] shadow-2xl border-0 md:border border-primary/20 dark:border-primary/10 opacity-0 overflow-hidden"
 
       >
         {/* Sticky Header */}
@@ -327,25 +372,15 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
                 Marcas por tipo de <span className="text-secondary dark:text-primary">surtido que elijas</span>.
               </h2>
               <p className="text-[11px] mt-1 text-text-muted dark:text-dark-muted font-body leading-relaxed">
-                *La diferencia entre un paquete esencial y uno selecto esta basada principalemnte en la calidad, costo y características del producto.
-              </p>
-              <p className="text-[11px] text-text-muted dark:text-dark-muted font-body leading-relaxed">
-                *La lista de marcas permanece sujeta a cambios sin previo aviso, esto puede ligeramente afectar el monto final en cada lista escolar.
+                La diferencia entre un paquete Esencial y uno Selecto esta basada principalemnte en la calidad, costo y características del producto.
               </p>
             </div>
           </div>
 
           {/* Legend */}
           <div className="flex items-center gap-4 mt-3">
-            <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-              <span className="text-[10px] font-heading font-700 text-text-muted dark:text-dark-muted uppercase tracking-wider">Paquete Esencial</span>
-              <span className="text-[8px] font-heading font-700 text-text-muted dark:text-dark-muted uppercase tracking-wider">(economía)</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-secondary dark:bg-primary" />
-              <span className="text-[10px] font-heading font-700 text-text-muted dark:text-dark-muted uppercase tracking-wider">Paquete Selecto</span>
-              <span className="text-[8px] font-heading font-700 text-text-muted dark:text-dark-muted uppercase tracking-wider">(calidad)</span>
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-heading font-700 text-text-muted dark:text-dark-muted tracking-wider">*La lista de marcas permanece sujeta a cambios sin previo aviso, esto puede ligeramente afectar el monto final en cada lista escolar.</span>
             </div>
           </div>
         </div>
@@ -389,7 +424,7 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
                         <BrandLogos logos={row.esencial} colorClass="border-amber-100 dark:border-amber-900/30" />
                         <div className="flex justify-center w-full">
                           <button
-                            // onClick={() => setIsBrandModalOpen(true)}
+                            onClick={() => setDetailRow(row)}
                             className="flex items-center gap-2 text-[10px] font-heading font-700 text-secondary dark:text-primary hover:underline underline-offset-2 transition-all group"
                             aria-label="Ver más marcas"
                           >
@@ -410,7 +445,7 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
                         <BrandLogos logos={row.selecto} colorClass="border-primary/20" />
                         <div className="flex justify-center w-full">
                           <button
-                            // onClick={() => setIsBrandModalOpen(true)}
+                            onClick={() => setDetailRow(row)}
                             className="flex items-center gap-2 text-[10px] font-heading font-700 text-secondary dark:text-primary hover:underline underline-offset-2 transition-all group"
                             aria-label="Ver más marcas"
                           >
@@ -438,6 +473,11 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
           <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
         </button >
       </div >
+      <BrandDetailModal
+        isOpen={detailRow !== null}
+        onClose={() => setDetailRow(null)}
+        row={detailRow}
+      />
     </div >,
     document.body
   );

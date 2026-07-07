@@ -221,12 +221,11 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     ],
     faqs: [
       { q: '¿Cómo funciona el servicio?', a: 'Es muy fácil: nos contactas por WhatsApp, nos compartes la lista escolar en imagen o PDF. Nosotros te responderemos con la cotización completa.' },
-      { q: '¿Garantizan las marcas exactas solicitadas?', a: 'Sí, respetamos estrictamente las marcas solicitadas por los maestros. Si alguna no tiene stock, te consultamos antes de ofrecer un sustituto de calidad igual o superior.' },
       { q: '¿Cuentan con garantía si llega algún artículo en mal estado o faltante?', a: 'Entregamos el paquete escolar y lo revisamos frente a ti o el maestro, si algo falta o está en mal estado lo reponemos.' },
       { q: '¿Qué pasa si un artículo está agotado?', a: 'Te entregamos el resto de la lista y te avisamos en cuanto el artículo faltante llegue, entregándolo en alguna de las sucursales o envío sin costo (según el caso).' },
       { q: '¿Tienen opciones de pago flexibles?', a: 'Contamos con un Plan de Apartado para que vayas pagando tu lista poco a poco antes del inicio de clases.' },
       { q: 'En caso de requerirlo ¿Hay devolución del anticipo?', a: '¡Sí!, después de dar tu primer abono tienes 5 días hábiles para solicitar tu dinero, seguro y sin contratiempos.' },
-      { q: '¿Emiten factura fiscal?', a: 'Aún estamos en este proceso, pronto emitiremos facturas electrónicas de inmediato. Solo solicita tu comprobante al momento de realizar tu pedido vía WhatsApp.' },
+      { q: '¿Emiten factura?', a: 'Sí, solicita tu factura en caso de necesitarla. De lo contrario ofrecemos nota comprobante' },
       { q: '¿Cuánto tiempo tarda la entrega?', a: 'Cualquiera de los servicios se realiza con tiempo de anticipación y se entregan en 7 días antes de la fecha designada por la escuela.' },
       { q: '¿Dónde realizan las entregas?', a: 'Nos estamos abriendo paso en el norte de México, esperando algún día alcanzar toda el Área Metropolitana. Directamente en instituciones participantes o en un punto estratégico.' },
       { q: '¿Pueden entregar los útiles ya etiquetados?', a: '¡Próximamente! Pronto ofreceremos el servicio de etiquetado personalizado para que cada lápiz, cuaderno y color lleve el nombre del estudiante.' },
