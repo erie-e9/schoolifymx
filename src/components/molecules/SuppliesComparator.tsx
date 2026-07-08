@@ -11,7 +11,7 @@ const SUPPLIES_ROWS = [
   { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },
   { label: 'Costo promedio + extras', bad: '~ $1,200', good: '~ $1,080' },
   { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
-  { label: 'Entrega', bad: 'Tú lo transportas', good: 'Nosotros te lo llevamos' },
+  { label: 'Entrega', bad: 'Tú lo transportas', good: 'En tu escuela' },
   { label: 'Pago', bad: '1 único pago', good: 'Hasta 3 abonos' },
   { label: 'Sobrantes', bad: 'Con restos innecesarios', good: '✓ Sin sobrantes' },
   { label: 'Garantía', bad: 'No incluye', good: 'Con garantía' },
