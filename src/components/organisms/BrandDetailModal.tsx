@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
 import { X } from 'lucide-react';
-import type { BrandLogo } from '@components/organisms/BrandComparatorModal'; // Reuse the interface
+import type { BrandLogo } from '@components/organisms/BrandComparatorModal';
 
 interface BrandDetailModalProps {
   isOpen: boolean;
@@ -22,7 +22,11 @@ const BrandLogos: React.FC<{ logos: BrandLogo[]; colorClass: string }> = ({ logo
         className={`flex items-center justify-center rounded-lg px-2 py-1 bg-dark-bg/90 dark:bg-dark-bg border ${colorClass} shadow-sm`}
         title={logo.alt}
       >
-        <img src={logo.src} alt={logo.alt} className="h-5 w-auto max-w-[60px] object-contain" loading="lazy" />
+        {
+          React.createElement(logo.src as React.ElementType, {
+            className: "h-5 w-auto object-contain"
+          })
+        }
       </div>
     ))}
   </div>

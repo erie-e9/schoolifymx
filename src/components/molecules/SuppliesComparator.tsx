@@ -13,7 +13,7 @@ const SUPPLIES_ROWS = [
   { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
   { label: 'Entrega', bad: 'Tú lo transportas', good: 'Nosotros te lo llevamos' },
   { label: 'Pago', bad: '1 único pago', good: 'Hasta 3 abonos' },
-  { label: 'Útiles con sobrantes', bad: 'Con restos innecesarios', good: '✓ Sin sobrantes' },
+  { label: 'Sobrantes', bad: 'Con restos innecesarios', good: '✓ Sin sobrantes' },
   { label: 'Garantía', bad: 'No incluye', good: 'Con garantía' },
 ];
 

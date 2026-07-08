@@ -26,7 +26,7 @@ import pascuaSvg from '@assets/pascua.svg?react';
 import amazonSvg from '@assets/amazon2.svg?react';
 import estrellaSvg from '@assets/estrella2.svg?react';
 import bacoSvg from '@assets/baco2.svg?react';
-import politecSvg from '@assets/politec.svg?react';
+import politecSvg from '@assets/politec2.svg?react';
 import pinguinoSvg from '@assets/pinguino.svg?react';
 import delta2Svg from '@assets/delta2.svg?react';
 import miradoSvg from '@assets/mirado.svg?react';
@@ -97,11 +97,11 @@ const BrandCarousel: React.FC<BrandCarouselProps> = ({ activeService = 'supplies
 
   // Dynamically calculate speed based on number of items to keep speed consistent,
   // or allow controlling it directly by scaling duration proportional to list size.
-  const durationSec = ACTIVE_BRANDS.length * 3.5; // ~3.5 seconds per original brand item for a complete loop
+  const durationSec = ACTIVE_BRANDS.length * 4.5; // ~3.5 seconds per original brand item for a complete loop
 
   return (
     <div className="w-full bg-text-main dark:bg-black h-[30px] flex items-center overflow-hidden relative z-[101]">
-      <div 
+      <div
         className="flex w-max animate-scroll-left hover:pause-scroll"
         style={{ animationDuration: `${durationSec}s` }}
       >
