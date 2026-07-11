@@ -39,12 +39,12 @@ const StatCard: React.FC<StatCardProps> = React.memo(({ stat, active, className 
         <div className="text-3xl md:text-4xl mb-3 group-hover:rotate-12 transition-transform duration-300">
           {stat.emoji}
         </div>
-        <div className="font-heading font-800 text-4xl md:text-5xl xl:text-6xl text-text-main dark:text-dark-text mb-2 flex items-baseline gap-1">
-          <span className="text-secondary dark:text-primary text-2xl md:text-3xl xl:text-4xl">{stat.prefix}</span>
+        <div className="font-heading font-800 text-4xl md:text-4xl xl:text-5xl text-text-main dark:text-dark-text mb-2 flex items-baseline gap-1">
+          <span className="text-secondary dark:text-primary text-2xl md:text-2xl xl:text-3xl">{stat.prefix}</span>
           <span>{formatNumbers(count)}</span>
           <span className="text-accent dark:text-primary text-xl md:text-2xl xl:text-3xl">{stat.suffix}</span>
         </div>
-        <p className="font-heading font-700 text-base md:text-lg text-text-main dark:text-dark-text mb-1 leading-tight">{stat.label}</p>
+        <p className="font-heading font-700 text-base md:text-[16.5px] text-text-main dark:text-dark-text mb-1 leading-tight">{stat.label}</p>
         <p className="text-text-muted dark:text-dark-muted text-xs md:text-sm leading-snug max-w-[180px] mx-auto opacity-80">{stat.description}</p>
       </div>
     </div>

@@ -190,17 +190,18 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
       'Para alumnos y maestros',
       'Pregunta por nuestro plan de pagos',
       'Entrega directa y confiable en tu escuela o domicilio',
-      'Sin artículos viejos o maltratados',
+      'Sin artículos viejos, maltratados ni secos',
     ],
     image: 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&q=80&w=1200',
     whatsappMessage: '¡Hola Schoolify! 👋, me interesa el servicio de Útiles Escolares.',
     trustEmojis: ['✏️', '📓', '🎨', '🎒', '📏'],
-    trustText: 'Surtimos más de 500 listas escolares cada año',
+    trustText: 'Surtimos cientos listas escolares cada año',
     stats: [
-      { value: 10, suffix: '%', prefix: 'hasta ', label: 'Ahorro real', description: 'Comparado con papelerías y tiendas locales', emoji: '📉' },
-      { value: 5, suffix: ' horas', prefix: '~', label: 'Tiempo ahorrado', description: 'Por cada lista surtida', emoji: '⏰' },
-      { value: 50, suffix: '+', prefix: '', label: 'Marcas', description: 'Reconocidas en el mercado escolar', emoji: '📐' },
-      { value: 0, suffix: ' estrés', prefix: '', label: 'Sin filas', description: 'Todo llega a tiempo', emoji: '😌' },
+      { value: 10, suffix: '%', prefix: 'hasta ', label: 'Ahorro real', description: 'Sin incluir gastos extras', emoji: '📉' },
+      { value: 5, suffix: ' horas', prefix: '~', label: 'Ahorro de tiempo', description: 'Entrega en tu escuela', emoji: '⏰' },
+      { value: 30, suffix: '+', prefix: '', label: 'Marcas', description: 'Constantemente aumentando', emoji: '📐' },
+      { value: 0, suffix: ' estrés', prefix: '', label: 'Sin filas', description: 'Todo llega a tiempo y en tu escuela', emoji: '😌' },
+      { value: 3, suffix: ' abonos', prefix: '', label: '0% intereses', description: 'Para que no sientas pesado el gasto', emoji: '💰' },
     ],
     ctaCarousel: [
       {
@@ -221,6 +222,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     ],
     faqs: [
       { q: '¿Cómo funciona el servicio?', a: 'Es muy fácil: nos contactas por WhatsApp, nos compartes la lista escolar en imagen o PDF. Nosotros te responderemos con la cotización completa.' },
+      { q: '¿Por qué el costo de mi lista es diferente al de otro niño con la misma lista escolar?', a: 'Tienes la opción de elegir entre los paquetes actuales (Esencial o Selecto), sin embargo para un solo paquete manejamos diferentes marcas las cuales van variando su disponibilidad con el paso del tiempo, lo que puede alterar el precio final. Visita la sección "Marcas por tipo de surtido" para conocer las marcas que procuramos.' },
       { q: '¿Cuentan con garantía si llega algún artículo en mal estado o faltante?', a: 'Entregamos el paquete escolar y lo revisamos frente a ti o el maestro, si algo falta o está en mal estado lo reponemos.' },
       { q: '¿Qué pasa si un artículo está agotado?', a: 'Te entregamos el resto de la lista y te avisamos en cuanto el artículo faltante llegue, entregándolo en alguna de las sucursales o envío sin costo (según el caso).' },
       { q: '¿Tienen opciones de pago flexibles?', a: 'Contamos con un Plan de Apartado para que vayas pagando tu lista poco a poco antes del inicio de clases.' },

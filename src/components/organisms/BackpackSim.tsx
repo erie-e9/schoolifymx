@@ -17,6 +17,7 @@ import {
   Palette,
   Ruler,
   Scissors,
+  Trash2,
 } from 'lucide-react';
 import WhatsApp from '@assets/whatsapp.svg?react';
 import { WhatsAppService } from '@services/WhatsAppService';
@@ -192,13 +193,15 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
     updateNote,
     importScanned,
     totalItemCount,
-    selectedCount
+    selectedCount,
+    clearAll
   } = useBackpack(isOpen, scannedItems);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
   const catScrollRef = useRef<HTMLDivElement>(null);
   const [isScannerOpen, setIsScannerOpen] = React.useState(false);
+  const [showClearConfirm, setShowClearConfirm] = React.useState(false);
 
   const filteredItems = React.useMemo(() => {
     return ITEMS.filter(item => {
@@ -286,16 +289,28 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
         <div className="hidden md:flex flex-col w-72 lg:w-80 bg-gray-50 dark:bg-dark-bg border-r border-gray-200 dark:border-white/10 rounded-l-[2rem]">
           {/* Header */}
           <div className="p-6 pb-4 border-b border-gray-200 dark:border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-yellow animate-float flex-shrink-0">
-                <Backpack className="w-5 h-5 text-gray-900" />
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-yellow animate-float flex-shrink-0">
+                  <Backpack className="w-5 h-5 text-gray-900" />
+                </div>
+                <div>
+                  <h3 className="font-heading font-700 text-sm text-gray-900 dark:text-white leading-tight">Tu Lista</h3>
+                  <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
+                    {selectedCount === 0 ? 'Sin artículos aún' : `${selectedCount} ${selectedCount === 1 ? 'tipo' : 'tipos'}, ${totalItemCount} piezas`}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-heading font-700 text-sm text-gray-900 dark:text-white leading-tight">Tu Lista</h3>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
-                  {selectedCount === 0 ? 'Sin artículos aún' : `${selectedCount} ${selectedCount === 1 ? 'tipo' : 'tipos'}, ${totalItemCount} piezas`}
-                </p>
-              </div>
+              {selectedCount > 0 && (
+                <button
+                  onClick={() => setShowClearConfirm(true)}
+                  className="p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors active:scale-95 flex-shrink-0"
+                  title="Borrar lista"
+                  aria-label="Borrar todos los artículos de la lista"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
 
@@ -492,6 +507,37 @@ const BackpackSim: React.FC<BackpackSimProps> = ({ isOpen, onClose, scannedItems
           setIsScannerOpen(false);
         }}
       />
+
+      {/* Clear List Confirmation Modal */}
+      {showClearConfirm && (
+        <div className="fixed inset-0 z-[1100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white dark:bg-dark-surface rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-gray-100 dark:border-white/10 animate-in fade-in zoom-in-95 duration-200">
+            <h4 className="text-lg font-heading font-700 text-gray-900 dark:text-white">¿Vaciar lista de útiles?</h4>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+              Esta acción eliminará de forma permanente todos los artículos agregados a tu lista actual.
+            </p>
+            <div className="flex gap-3 mt-6">
+              <Button
+                variant="tertiary"
+                className="flex-1 py-2 text-xs"
+                onClick={() => setShowClearConfirm(false)}
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant="tertiary"
+                className="flex-1 py-2 text-xs bg-red-600 hover:bg-red-700 text-white hover:border-red-700 dark:bg-red-600 dark:hover:bg-red-700"
+                onClick={() => {
+                  clearAll();
+                  setShowClearConfirm(false);
+                }}
+              >
+                Sí, vaciar
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>,
     document.body
   );

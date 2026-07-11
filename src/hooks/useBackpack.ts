@@ -4,7 +4,14 @@ import type { ScannedItem, SelectedItem, ScannedSectionItem } from '@types';
 const EMPTY_SCANNED_ITEMS: ScannedItem[] = [];
 
 export const useBackpack = (isOpen: boolean, scannedItems: ScannedItem[] = EMPTY_SCANNED_ITEMS) => {
-  const [selectedItems, setSelectedItems] = useState<Record<string, SelectedItem>>({});
+  const [selectedItems, setSelectedItems] = useState<Record<string, SelectedItem>>(() => {
+    try {
+      const stored = localStorage.getItem('schoolify-backpack-items');
+      return stored ? JSON.parse(stored) : {};
+    } catch {
+      return {};
+    }
+  });
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isCompleted, setIsCompleted] = useState(false);
@@ -12,12 +19,19 @@ export const useBackpack = (isOpen: boolean, scannedItems: ScannedItem[] = EMPTY
   const [scannedSection, setScannedSection] = useState<ScannedSectionItem[]>([]);
 
   useEffect(() => {
+    try {
+      localStorage.setItem('schoolify-backpack-items', JSON.stringify(selectedItems));
+    } catch (e) {
+      console.error('Error saving backpack items to localStorage', e);
+    }
+  }, [selectedItems]);
+
+  useEffect(() => {
     if (isOpen) {
       if (scannedItems.length > 0) {
         setScannedSection(scannedItems);
       }
     } else {
-      setSelectedItems({});
       setIsCompleted(false);
       setSearchQuery('');
       setActiveCategory('all');
@@ -75,6 +89,10 @@ export const useBackpack = (isOpen: boolean, scannedItems: ScannedItem[] = EMPTY
 
   const selectedCount = Object.keys(selectedItems).length;
 
+  const clearAll = () => {
+    setSelectedItems({});
+  };
+
   return {
     selectedItems,
     setSelectedItems,
@@ -92,6 +110,7 @@ export const useBackpack = (isOpen: boolean, scannedItems: ScannedItem[] = EMPTY
     updateNote,
     importScanned,
     totalItemCount,
-    selectedCount
+    selectedCount,
+    clearAll
   };
 };

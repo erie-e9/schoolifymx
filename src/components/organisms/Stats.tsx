@@ -49,11 +49,10 @@ const Stats: React.FC<StatsProps> = ({ activeService }) => {
             por sí solos.
           </h2>
           <p className="section-subtitle dark:text-dark-muted text-sm md:text-base px-2">
-            {activeService === 'uniforms' ? 'Más de 10 años convirtiendo telas en nuevas prendas hechas a la medida y reparando ya existentes.' : activeService === 'supplies' ? 'Más de 7 años surtiendo listas escolares que se ajustan a tu presupuesto.' : 'Preparando el mejor material para el éxito académico de tus hijos.'}
+            {activeService === 'uniforms' ? 'Más de 10 años convirtiendo telas en nuevas prendas hechas a la medida y reparando ya existentes.' : activeService === 'supplies' ? 'Pensando en ahorrar tiempo, dinero y esfuerzo, mejorando la experiencia al conseguir la lista escolar.' : 'Preparando el mejor material para el éxito académico de tus hijos.'}
           </p>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 justify-center max-w-6xl mx-auto`}>
           {stats?.map((stat, i) => (
             <StatCard
               key={`${activeService}-${i}`}

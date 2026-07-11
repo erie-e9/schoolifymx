@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
-import { X, Tag, Plus } from 'lucide-react';
+import { X, Tag, Plus, Search } from 'lucide-react';
 import BrandDetailModal from '@components/organisms/BrandDetailModal';
 import azorSvg from '@assets/azor2.svg?react';
 import barrilito2Svg from '@assets/barrilito2.svg?react';
@@ -42,6 +42,50 @@ interface BrandRow {
   selecto: BrandLogo[];
 }
 const itemsToShow = 3;
+
+// Map products to their applicable grades/levels (preescolar, primaria, secundaria)
+const PRODUCT_GRADES: Record<string, string[]> = {
+  'Tijeras': ['preescolar', 'primaria', 'secundaria'],
+  'Lápiz escritura': ['preescolar', 'primaria', 'secundaria'],
+  'Bolígrafo': ['primaria', 'secundaria'],
+  'Plumones base agua': ['preescolar', 'primaria', 'secundaria'],
+  'Borrador': ['preescolar', 'primaria', 'secundaria'],
+  'Plumines': ['primaria', 'secundaria'],
+  'Lápiz adhesivo': ['preescolar', 'primaria', 'secundaria'],
+  'Pegamento liquido': ['preescolar', 'primaria', 'secundaria'],
+  'Marcador permanente': ['primaria', 'secundaria'],
+  'Corrector liquido': ['primaria', 'secundaria'],
+  'Juego de geometría': ['primaria', 'secundaria'],
+  'Pintura acrílica': ['preescolar', 'primaria'],
+  'Plastilina moldeable': ['preescolar'],
+  'Papel crepe': ['preescolar', 'primaria'],
+  'Cuaderno 100h': ['primaria', 'secundaria'],
+  'Lápices de colores': ['preescolar', 'primaria', 'secundaria'],
+  'Sacapuntas': ['preescolar', 'primaria', 'secundaria'],
+  'Cinta masking': ['preescolar', 'primaria', 'secundaria'],
+  'Cinta transparente': ['preescolar', 'primaria', 'secundaria'],
+  'Calculadora científica': ['secundaria'],
+  'Calculadora básica': ['primaria'],
+  'Engrapadora': ['secundaria'],
+  'Grapas': ['secundaria'],
+  'Marca textos': ['primaria', 'secundaria'],
+  'Diurex': ['preescolar', 'primaria', 'secundaria'],
+  'Silicon líquido': ['preescolar', 'primaria', 'secundaria'],
+  'Plastilina': ['preescolar'],
+  'Hoja de color (carta)': ['preescolar', 'primaria', 'secundaria'],
+  'Hoja blanca (carta)': ['preescolar', 'primaria', 'secundaria'],
+  'Hoja bond (lisa y cuadriculada)': ['primaria', 'secundaria'],
+  'Papel lustre': ['preescolar', 'primaria'],
+  'Carpeta (3 aros)': ['primaria', 'secundaria'],
+  'Perforadora': ['secundaria'],
+  'Carpeta (carta)': ['primaria', 'secundaria'],
+  'Pintarrón': ['preescolar', 'primaria'],
+  'Diccionario español': ['primaria', 'secundaria'],
+  'Diccionario español-inglés': ['primaria', 'secundaria'],
+  'Cinta canela': ['primaria', 'secundaria'],
+  'Hule grueso': ['preescolar', 'primaria', 'secundaria'],
+  'Hule contact': ['preescolar', 'primaria', 'secundaria']
+};
 
 const BRAND_ROWS = [
   {
@@ -109,6 +153,13 @@ const BRAND_ROWS = [
     selecto: [
       { src: pelikanSvg, alt: 'Pelikan' },
       // { src: pelikanSvg, alt: 'Mae' },
+    ],
+  },
+  {
+    product: 'Plumines',
+    esencial: [
+    ],
+    selecto: [
     ],
   },
   {
@@ -261,7 +312,7 @@ const BRAND_ROWS = [
     ],
   },
   {
-    product: 'Calculadora',
+    product: 'Calculadora científica',
     esencial: [
       { src: nextepSvg, alt: 'Nextep' },
     ],
@@ -270,11 +321,12 @@ const BRAND_ROWS = [
     ],
   },
   {
-    product: 'Hule contact',
+    product: 'Calculadora básica',
     esencial: [
+      { src: nextepSvg, alt: 'Nextep' },
     ],
     selecto: [
-      { src: barrilito2Svg, alt: 'Barrilito' },
+      { src: casioSvg, alt: 'Casio' },
     ],
   },
   {
@@ -283,6 +335,138 @@ const BRAND_ROWS = [
       { src: nextepSvg, alt: 'Nextep' },
     ],
     selecto: [
+    ],
+  },
+  //--
+  {
+    product: 'Grapas',
+    esencial: [
+      { src: nextepSvg, alt: 'Nextep' },
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Marca textos',
+    esencial: [
+
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Diurex',
+    esencial: [
+
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Silicon líquido',
+    esencial: [
+      { src: pascuaSvg, alt: 'Pascua' },
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Plastilina',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Hoja de color (carta)',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Hoja blanca (carta)',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Hoja bond (lisa y cuadriculada)',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Papel lustre',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Carpeta (3 aros)',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Perforadora',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Carpeta (carta)',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Pintarrón',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Diccionario español',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Diccionario español-inglés',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Cinta canela',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Hule grueso',
+    esencial: [
+    ],
+    selecto: [
+    ],
+  },
+  {
+    product: 'Hule contact',
+    esencial: [
+    ],
+    selecto: [
+      { src: barrilito2Svg, alt: 'Barrilito' },
     ],
   },
 ];
@@ -312,6 +496,8 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
   const [detailRow, setDetailRow] = useState<BrandRow | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedGrade, setSelectedGrade] = useState<'todos' | 'preescolar' | 'primaria' | 'secundaria'>('todos');
 
   useEffect(() => {
     if (isOpen) {
@@ -343,6 +529,17 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
       .to(backdropRef.current, { opacity: 0, duration: 0.2 }, '-=0.1');
   };
 
+  const filteredRows = React.useMemo(() => {
+    return BRAND_ROWS.filter(row => {
+      const matchesSearch = row.product.toLowerCase().includes(searchQuery.toLowerCase());
+      if (!matchesSearch) return false;
+
+      if (selectedGrade === 'todos') return true;
+      const grades = PRODUCT_GRADES[row.product] || [];
+      return grades.includes(selectedGrade);
+    });
+  }, [searchQuery, selectedGrade]);
+
   if (!isOpen) return null;
 
   return createPortal(
@@ -358,11 +555,22 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
       {/* Modal — full height on mobile, capped on desktop */}
       <div
         ref={modalRef}
-        className="relative w-full h-full md:h-auto md:max-h-[83vh] max-h-[90vh] max-w-3xl flex flex-col bg-white dark:bg-dark-surface md:rounded-[2rem] shadow-2xl border-0 md:border border-primary/20 dark:border-primary/10 opacity-0 overflow-hidden"
-
-      >
+        className="relative w-full h-full md:h-auto md:max-h-[85vh] max-h-[95vh] max-w-3xl flex flex-col bg-white dark:bg-dark-surface md:rounded-[2rem] shadow-2xl border-0 md:border border-primary/20 dark:border-primary/10 opacity-0 overflow-hidden"><button
+          onClick={handleClose}
+          aria-label="Cerrar modal"
+          className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
+        >
+          <X className="w-5 h-5" />
+        </button>
         {/* Sticky Header */}
-        <div className="shrink-0 p-6 pb-4 border-b border-gray-100 dark:border-primary/5 bg-white/80 dark:bg-dark-surface/80 backdrop-blur-md sticky top-0 z-20">
+        <div className="shrink-0 p-6 pb-4 border-b border-gray-100 dark:border-primary/5 bg-white/80 dark:bg-dark-surface/80 backdrop-blur-md sticky top-0 z-20 space-y-4">
+          <button
+            onClick={handleClose}
+            aria-label="Cerrar"
+            className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
+          >
+            <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+          </button>
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-yellow animate-float flex-shrink-0">
               <Tag className="w-5 h-5 text-gray-900" />
@@ -377,10 +585,43 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
             </div>
           </div>
 
+          {/* Search and Grade Filter Switches */}
+          <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
+            {/* Search Input */}
+            <div className="relative flex-1">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                <Search className="w-4 h-4" />
+              </span>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Buscar producto..."
+                className="w-full pl-9 pr-4 py-2 text-[10px] bg-gray-50 dark:bg-dark-bg/60 border border-gray-200 dark:border-primary/10 rounded-xl text-text-main dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/40 placeholder-gray-400 dark:placeholder-gray-300"
+              />
+            </div>
+
+            {/* Level selector switch/tabs */}
+            <div className="flex bg-gray-50 dark:bg-dark-bg/60 p-1 rounded-xl border border-gray-200 dark:border-primary/10 select-none">
+              {(['todos', 'preescolar', 'primaria', 'secundaria'] as const).map((grade) => (
+                <button
+                  key={grade}
+                  onClick={() => setSelectedGrade(grade)}
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-heading font-700 capitlize tracking-wider transition-all whitespace-nowrap ${selectedGrade === grade
+                    ? 'bg-primary text-gray-900 shadow-sm'
+                    : 'text-text-muted dark:text-dark-muted hover:text-text-main dark:hover:text-dark-text'
+                    }`}
+                >
+                  {grade === 'todos' ? 'Todos' : grade}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Legend */}
-          <div className="flex items-center gap-4 mt-3">
+          <div className="flex items-center gap-4 pt-1">
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-heading font-700 text-text-muted dark:text-dark-muted tracking-wider">*La lista de marcas permanece sujeta a cambios sin previo aviso, esto puede ligeramente afectar el monto final en cada lista escolar.</span>
+              <span className="text-[11px] font-heading font-700 text-text-muted dark:text-dark-muted tracking-wider">*La lista de marcas permanece sujeta a cambios sin previo aviso, esto puede ligeramente afectar el monto final en cada lista escolar. ¿Tienes marcas favoritas o alguna que prefieras evitar? Avísanos.</span>
             </div>
           </div>
         </div>
@@ -404,68 +645,75 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
               </tr>
             </thead>
             <tbody>
-              {BRAND_ROWS.map((row, i) => (
-                <tr
-                  key={i}
-                  className={`border-t border-gray-100 dark:border-dark-muted/40 transition-colors hover:bg-gray-50/60 dark:hover:bg-dark-bg/30 ${i % 2 === 0
-                    ? 'bg-white dark:bg-dark-surface'
-                    : 'bg-gray-50/40 dark:bg-dark-bg/20'
-                    }`}
-                >
-                  {/* Product */}
-                  <td className="pl-4 text-xs font-body font-600 text-text-muted dark:text-dark-muted align-middle">
-                    {row.product}
-                  </td>
-
-                  {/* Esencial */}
-                  <td className="p-1.5 border-l border-gray-100 dark:border-dark-muted/40 align-middle justify-center md:flex-row">
-                    {row.esencial.length >= 1 ? (
-                      <>
-                        <BrandLogos logos={row.esencial} colorClass="border-amber-100 dark:border-amber-900/30" />
-                        <div className="flex justify-center w-full">
-                          <button
-                            onClick={() => setDetailRow(row)}
-                            className="flex items-center gap-2 text-[10px] font-heading font-700 text-secondary dark:text-primary hover:underline underline-offset-2 transition-all group"
-                            aria-label="Ver más marcas"
-                          >
-                            {row.esencial.length > itemsToShow ? <div className="flex items-center gap-1"><Plus className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />{`${row.esencial.length - itemsToShow} marca${(row.esencial.length - itemsToShow) > 1 ? 's' : ''} más`}</div> : null}
-                          </button>
-                        </div>
-                      </>) : (<>
-                        <p className="text-[11px] font-body font-bold text-text-muted dark:text-dark-muted align-middle text-center">
-                          No aplica
-                        </p>
-                      </>)}
-                  </td>
-
-                  {/* Selecto */}
-                  < td className="p-1.5 border-l border-primary/20 bg-primary/5 align-middle" >
-                    {row.selecto.length >= 1 ? (
-                      <>
-                        <BrandLogos logos={row.selecto} colorClass="border-primary/20" />
-                        <div className="flex justify-center w-full">
-                          <button
-                            onClick={() => setDetailRow(row)}
-                            className="flex items-center gap-2 text-[10px] font-heading font-700 text-secondary dark:text-primary hover:underline underline-offset-2 transition-all group"
-                            aria-label="Ver más marcas"
-                          >
-                            {row.selecto.length > itemsToShow ? <div className="flex items-center"><Plus className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />{`${row.selecto.length - itemsToShow} marca${(row.selecto.length - itemsToShow) > 1 ? 's' : ''} más`}</div> : null}
-                          </button>
-                        </div>
-                      </>) : (<>
-                        <p className="text-[11px] font-body font-bold text-text-muted dark:text-dark-muted align-middle text-center">
-                          No aplica
-                        </p>
-                      </>)}
+              {filteredRows.length === 0 ? (
+                <tr>
+                  <td colSpan={3} className="p-8 text-center text-sm font-body text-text-muted dark:text-dark-muted">
+                    No se encontraron productos coincidentes.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredRows.map((row, i) => (
+                  <tr
+                    key={i}
+                    className={`border-t border-gray-100 dark:border-dark-muted/40 transition-colors hover:bg-gray-50/60 dark:hover:bg-dark-bg/30 ${i % 2 === 0
+                      ? 'bg-white dark:bg-dark-surface'
+                      : 'bg-gray-50/40 dark:bg-dark-bg/20'
+                      }`}
+                  >
+                    {/* Product */}
+                    <td className="pl-4 text-xs font-body font-600 text-text-muted dark:text-dark-muted align-middle">
+                      {row.product}
+                    </td>
+
+                    {/* Esencial */}
+                    <td className="p-1.5 border-l border-gray-100 dark:border-dark-muted/40 align-middle justify-center md:flex-row">
+                      {row.esencial.length >= 1 ? (
+                        <>
+                          <BrandLogos logos={row.esencial} colorClass="border-amber-100 dark:border-amber-900/30" />
+                          <div className="flex justify-center w-full">
+                            <button
+                              onClick={() => setDetailRow(row)}
+                              className="flex items-center gap-2 text-[10px] font-heading font-700 text-secondary dark:text-primary hover:underline underline-offset-2 transition-all group"
+                              aria-label="Ver más marcas"
+                            >
+                              {row.esencial.length > itemsToShow ? <div className="flex items-center gap-1"><Plus className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />{`${row.esencial.length - itemsToShow} marca${(row.esencial.length - itemsToShow) > 1 ? 's' : ''} más`}</div> : null}
+                            </button>
+                          </div>
+                        </>) : (<>
+                          <p className="text-[11px] font-body font-bold text-text-muted dark:text-dark-muted align-middle text-center">
+                            No aplica
+                          </p>
+                        </>)}
+                    </td>
+
+                    {/* Selecto */}
+                    <td className="p-1.5 border-l border-primary/20 bg-primary/5 align-middle" >
+                      {row.selecto.length >= 1 ? (
+                        <>
+                          <BrandLogos logos={row.selecto} colorClass="border-primary/20" />
+                          <div className="flex justify-center w-full">
+                            <button
+                              onClick={() => setDetailRow(row)}
+                              className="flex items-center gap-2 text-[10px] font-heading font-700 text-secondary dark:text-primary hover:underline underline-offset-2 transition-all group"
+                              aria-label="Ver más marcas"
+                            >
+                              {row.selecto.length > itemsToShow ? <div className="flex items-center"><Plus className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />{`${row.selecto.length - itemsToShow} marca${(row.selecto.length - itemsToShow) > 1 ? 's' : ''} más`}</div> : null}
+                            </button>
+                          </div>
+                        </>) : (<>
+                          <p className="text-[11px] font-body font-bold text-text-muted dark:text-dark-muted align-middle text-center">
+                            No aplica
+                          </p>
+                        </>)}
+                    </td>
+                  </tr>
+                )))}
             </tbody>
           </table>
         </div>
 
         {/* Close button */}
-        < button
+        <button
           onClick={handleClose}
           aria-label="Cerrar"
           className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"

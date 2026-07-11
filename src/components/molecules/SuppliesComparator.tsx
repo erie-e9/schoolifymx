@@ -10,7 +10,7 @@ import Schoolify from '@assets/Schoolify.svg?react';
 const SUPPLIES_ROWS = [
   { label: 'Tiempo invertido', bad: '4–6 horas', good: '0 horas' },
   { label: 'Costo promedio + extras', bad: '~ $1,200', good: '~ $1,080' },
-  { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Cero' },
+  { label: 'Nivel de estrés', bad: '😤 Alto', good: '😌 Muy bajo' },
   { label: 'Entrega', bad: 'Tú lo transportas', good: 'En tu escuela' },
   { label: 'Pago', bad: '1 único pago', good: 'Hasta 3 abonos' },
   { label: 'Sobrantes', bad: 'Con restos innecesarios', good: '✓ Sin sobrantes' },

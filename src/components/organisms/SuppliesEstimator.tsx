@@ -170,9 +170,15 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                   <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary/5 rounded-full blur-3xl pointer-events-none" />
                   <div className="text-center space-y-2 relative z-10">
                     <p className="text-[10px] font-heading font-900 text-secondary dark:text-primary uppercase tracking-[0.25em]">Estimación Inmediata</p>
-                    <div className="flex items-baseline justify-center gap-2">
-                      <span className="text-5xl md:text-6xl font-heading font-900 text-text-main dark:text-dark-text tracking-tighter transition-all">
-                        ~ ${formatNumbers(range.min)}
+                    <div className="flex flex-col items-center justify-center gap-1">
+                      {/* Competitor price with strikethrough */}
+                      <div className="flex items-baseline justify-center gap-2">
+                        <span className="text-5xl md:text-6xl font-heading font-900 text-text-main dark:text-dark-text tracking-tighter transition-all">
+                          ~ ${formatNumbers(range.min)}
+                        </span>
+                      </div>
+                      <span className="text-xs font-heading font-700 text-red-500 tracking-wider">
+                        Con otros: ~ ${formatNumbers(Math.round(range.min / 0.90))}
                       </span>
                     </div>
                   </div>
@@ -192,12 +198,13 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                     <div className="bg-white dark:bg-dark-surface p-4 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800/60">
                       <div className="flex items-center gap-1 text-green-500 mb-1">
                         <TrendingDown className="w-4 h-4" />
-                        <span className="text-[9px] font-heading font-900 uppercase tracking-widest">Ahorro</span>
+                        <span className="text-[9px] font-heading font-900 uppercase tracking-widest">Ahorro aproximado</span>
                       </div>
                       <div className="flex items-baseline gap-1">
-                        <span className="text-2xl font-heading font-900 text-text-main dark:text-dark-text">5-10</span>
-                        <span className="text-xs font-body text-text-muted dark:text-dark-muted font-600">%</span>
+                        <span className="text-2xl font-heading font-900 text-green-500">~ ${formatNumbers(Math.round(range.min / 0.90) - range.min)}</span>
+                        <span className="text-[13px] font-heading font-700 text-text-muted dark:text-dark-text uppercase ml-1">(~ 5-10%)</span>
                       </div>
+                      <span className="text-[11px] font-heading font-700 text-text-muted dark:text-dark-muted ml-1">Sin considerar extras</span>
                     </div>
                   </div>
                   <div className="space-y-4 pt-4 relative z-10">

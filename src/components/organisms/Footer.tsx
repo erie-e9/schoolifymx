@@ -34,7 +34,6 @@ const Footer: React.FC = () => {
   const social = [
     { icon: Facebook, href: 'https://facebook.com/schoolify.mx', label: 'Facebook' },
     { icon: Instagram, href: 'https://instagram.com/schoolify.mx', label: 'Instagram' },
-    { icon: WhatsApp, href: waLink, label: 'WhatsApp' },
     { icon: Youtube, href: 'https://youtube.com/@schoolify.mx', label: 'YouTube' },
     { icon: Tiktok, href: 'https://tiktok.com/@schoolify.mx', label: 'TikTok' },
     { icon: Threads, href: 'https://www.threads.com/@schoolify.mx', label: 'Threads' },

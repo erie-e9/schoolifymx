@@ -10,7 +10,6 @@ import DidacticMaterialTimeline from '@components/molecules/DidacticMaterial';
 import WhatsApp from '@assets/whatsapp.svg?react';
 import { WhatsAppService } from '@services/WhatsAppService';
 import Button from '@components/atoms/Button';
-import Badge from '@components/atoms/Badge';
 
 gsap.registerPlugin(ScrollTrigger);
 

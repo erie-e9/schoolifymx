@@ -166,7 +166,7 @@ const Navbar: React.FC<NavbarProps> = ({
               Escríbenos ahora
             </Button>
             <p className="text-center text-text-muted dark:text-dark-muted font-body text-sm px-4">
-              Atención inmediata de Lunes a Sábado de 9:00 AM a 7:00 PM
+              Atención inmediata de Lunes a Sábado de 9:00 AM a 9:00 PM
             </p>
           </div>
         </div>
