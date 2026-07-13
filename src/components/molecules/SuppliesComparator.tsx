@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Calculator, Backpack, X, ExpandIcon } from 'lucide-react';
+import { Calculator, Backpack, X, ExpandIcon, Tags } from 'lucide-react';
 import SuppliesEstimator from '@components/organisms/SuppliesEstimator';
 import ListScanner from '@components/organisms/ListScanner';
 import BackpackSim from '@components/organisms/BackpackSim';
@@ -26,18 +26,18 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
   const [isEstimatorOpen, setIsEstimatorOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isBackpackOpen, setIsBackpackOpen] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isSuppliesBenefits, setIsSuppliesBenefitsOpen] = useState(false);
   const [scannedItems, setScannedItems] = useState<any[]>([]);
   const [isBrandModalOpen, setIsBrandModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!isExpanded) return;
+    if (!isSuppliesBenefits) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsExpanded(false);
+      if (e.key === 'Escape') closeModal('supplies_benefits', setIsSuppliesBenefitsOpen);
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isExpanded]);
+  }, [isSuppliesBenefits]);
 
   // Sync state with URL params & handle popstate (back button)
   useEffect(() => {
@@ -48,6 +48,7 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
       setIsEstimatorOpen(modal === 'supplies_estimator');
       setIsScannerOpen(modal === 'smart_list_scanner');
       setIsBackpackOpen(modal === 'list_generator');
+      setIsSuppliesBenefitsOpen(modal === 'supplies_benefits');
       setIsBrandModalOpen(modal === 'supplies_packs');
     };
 
@@ -65,7 +66,7 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
     if (modalName === 'supplies_estimator') setIsEstimatorOpen(true);
     if (modalName === 'smart_list_scanner') setIsScannerOpen(true);
     if (modalName === 'list_generator') setIsBackpackOpen(true);
-    if (modalName === 'supplies_benefits') setIsExpanded(true);
+    if (modalName === 'supplies_benefits') setIsSuppliesBenefitsOpen(true);
     if (modalName === 'supplies_packs') setIsBrandModalOpen(true);
   };
 
@@ -87,13 +88,13 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
     if (fromModal === 'supplies_estimator') setIsEstimatorOpen(false);
     if (fromModal === 'smart_list_scanner') setIsScannerOpen(false);
     if (fromModal === 'list_generator') setIsBackpackOpen(false);
-    if (fromModal === 'supplies_benefits') setIsExpanded(false);
+    if (fromModal === 'supplies_benefits') setIsSuppliesBenefitsOpen(false);
     if (fromModal === 'supplies_packs') setIsBrandModalOpen(false);
 
     if (toModal === 'supplies_estimator') setIsEstimatorOpen(true);
     if (toModal === 'smart_list_scanner') setIsScannerOpen(true);
     if (toModal === 'list_generator') setIsBackpackOpen(true);
-    if (toModal === 'supplies_benefits') setIsExpanded(true);
+    if (toModal === 'supplies_benefits') setIsSuppliesBenefitsOpen(true);
     if (toModal === 'supplies_packs') setIsBrandModalOpen(true);
 
     const url = new URL(window.location.href);
@@ -145,6 +146,16 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
             aria-label="Abrir calculadora de ahorro instantáneo"
           >
             <Calculator className="w-5 h-5 text-gray-900 dark:text-white/90 animate-shake-icon" />
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              openModal('supplies_packs');
+            }}
+            className="p-2 bg-primary/20 border border-primary rounded-xl hover:bg-primary transition-all active:scale-95"
+            aria-label="Ver marcas por tipo de surtido"
+          >
+            <Tags className="w-5 h-5 text-gray-900 dark:text-white/90 animate-shake-icon" />
           </button>
           <button
             onClick={(e) => {
@@ -201,10 +212,10 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
         scannedItems={scannedItems}
       />
       {/* Expanded Modal */}
-      {isExpanded && createPortal(
+      {isSuppliesBenefits && createPortal(
         <div
           className="fixed inset-0 z-[1001] flex items-center justify-center backdrop-blur-md p-4 animate-fade-in cursor-default"
-          onClick={() => setIsExpanded(false)}
+          onClick={() => closeModal('supplies_benefits', setIsSuppliesBenefitsOpen)}
         >
           <div
             className="relative h-full max-w-5xl mx-auto max-h-[100vh] md:max-h-[100vh] flex flex-col bg-white dark:bg-dark-surface rounded-3xl shadow-2xl p-6 md:p-10 overflow-y-auto animate-scale-in border border-gray-100 dark:border-gray-800"
@@ -212,7 +223,7 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
           >
             {/* Close button */}
             <button
-              onClick={() => setIsExpanded(false)}
+              onClick={() => closeModal('supplies_benefits', setIsSuppliesBenefitsOpen)}
               aria-label="Cerrar vista expandida"
               className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
             >
@@ -234,13 +245,24 @@ const SuppliesComparator: React.FC<SuppliesComparatorProps> = ({ active }) => {
                     </span>.
                   </span>
                 </div>
-                <div className="mb-4">
-                  <p className="md:text-[1rem] text-text-muted dark:text-dark-muted leading-relaxed">
-                    Uniformes (confección, ajustes y reparación), útiles escolares y más.
-                  </p>
-                  <p className="md:text-[1rem] text-text-muted dark:text-dark-muted leading-relaxed mb-4">
-                    Para los que tienen apoyo, que les rinda más <span className="text-secondary dark:text-primary font-600">y para los que no, que les cueste menos</span>.
-                  </p>
+                <div className="flex mb-4 justify-between">
+                  <div>
+                    <p className="md:text-[1rem] text-text-muted dark:text-dark-muted leading-relaxed">
+                      Uniformes (confección, ajustes y reparación), útiles escolares y más.
+                    </p>
+                    <p className="md:text-[1rem] text-text-muted dark:text-dark-muted leading-relaxed mb-4">
+                      Para los que tienen apoyo, que les rinda más <span className="text-secondary dark:text-primary font-600">y para los que no, que les cueste menos</span>.
+                    </p>
+                  </div>
+                  {/* Brand comparator trigger */}
+                  <button
+                    onClick={() => { setIsSuppliesBenefitsOpen(false); setIsBrandModalOpen(true); }}
+                    className="flex items-center gap-2 text-[0.7rem] font-heading font-700 text-secondary dark:text-primary hover:underline underline-offset-2 transition-all group"
+                    aria-label="Ver marcas por tipo de surtido"
+                  >
+                    <Tags className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
+                    Ver marcas por tipo de surtido
+                  </button>
                 </div>
 
 

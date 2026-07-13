@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap } from 'gsap';
-import { X, Tag, Plus, Search } from 'lucide-react';
+import { X, Tag, Plus, Search, SlidersHorizontal } from 'lucide-react';
 import BrandDetailModal from '@components/organisms/BrandDetailModal';
 import azorSvg from '@assets/azor2.svg?react';
 import barrilito2Svg from '@assets/barrilito2.svg?react';
@@ -30,6 +30,7 @@ import mirado2Svg from '@assets/mirado2.svg?react';
 import monky2Svg from '@assets/monky.svg?react';
 import playdoh2Svg from '@assets/playdoh2.svg?react';
 import casioSvg from '@assets/casio.svg?react';
+import tukSvg from '@assets/tuk.svg?react';
 
 export interface BrandLogo {
   src: string;
@@ -50,10 +51,10 @@ const PRODUCT_GRADES: Record<string, string[]> = {
   'Bolígrafo': ['primaria', 'secundaria'],
   'Plumones base agua': ['preescolar', 'primaria', 'secundaria'],
   'Borrador': ['preescolar', 'primaria', 'secundaria'],
-  'Plumines': ['primaria', 'secundaria'],
   'Lápiz adhesivo': ['preescolar', 'primaria', 'secundaria'],
   'Pegamento liquido': ['preescolar', 'primaria', 'secundaria'],
   'Marcador permanente': ['primaria', 'secundaria'],
+  'Plumines': ['primaria', 'secundaria'],
   'Corrector liquido': ['primaria', 'secundaria'],
   'Juego de geometría': ['primaria', 'secundaria'],
   'Pintura acrílica': ['preescolar', 'primaria'],
@@ -156,13 +157,6 @@ const BRAND_ROWS = [
     ],
   },
   {
-    product: 'Plumines',
-    esencial: [
-    ],
-    selecto: [
-    ],
-  },
-  {
     product: 'Lápiz adhesivo',
     esencial: [
       { src: pascuaSvg, alt: 'Pascua' },
@@ -201,6 +195,13 @@ const BRAND_ROWS = [
       { src: azorSvg, alt: 'Azor' },
       { src: pelikanSvg, alt: 'Pelikan' },
       { src: sharpieSvg, alt: 'Sharpie' },
+    ],
+  },
+  {
+    product: 'Plumines',
+    esencial: [
+    ],
+    selecto: [
     ],
   },
   {
@@ -299,7 +300,7 @@ const BRAND_ROWS = [
       { src: nextepSvg, alt: 'Nextep' },
     ],
     selecto: [
-
+      { src: tukSvg, alt: 'Tuk' },
     ],
   },
   {
@@ -308,7 +309,7 @@ const BRAND_ROWS = [
       { src: nextepSvg, alt: 'Nextep' },
     ],
     selecto: [
-
+      { src: tukSvg, alt: 'Tuk' },
     ],
   },
   {
@@ -498,6 +499,9 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
   const [detailRow, setDetailRow] = useState<BrandRow | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGrade, setSelectedGrade] = useState<'todos' | 'preescolar' | 'primaria' | 'secundaria'>('todos');
+  const [showFilters, setShowFilters] = useState(false);
+
+  const hasActiveFilters = searchQuery.trim() !== '' || selectedGrade !== 'todos';
 
   useEffect(() => {
     if (isOpen) {
@@ -524,6 +528,9 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
   }, [isOpen]);
 
   const handleClose = () => {
+    setSearchQuery('');
+    setShowFilters(false);
+    setSelectedGrade('todos');
     const tl = gsap.timeline({ onComplete: onClose });
     tl.to(modalRef.current, { y: 30, opacity: 0, scale: 0.95, duration: 0.3, ease: 'power2.in' })
       .to(backdropRef.current, { opacity: 0, duration: 0.2 }, '-=0.1');
@@ -555,15 +562,12 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
       {/* Modal — full height on mobile, capped on desktop */}
       <div
         ref={modalRef}
-        className="relative w-full h-full md:h-auto md:max-h-[85vh] max-h-[95vh] max-w-3xl flex flex-col bg-white dark:bg-dark-surface md:rounded-[2rem] shadow-2xl border-0 md:border border-primary/20 dark:border-primary/10 opacity-0 overflow-hidden"><button
-          onClick={handleClose}
-          aria-label="Cerrar modal"
-          className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-all active:scale-90"
-        >
-          <X className="w-5 h-5" />
-        </button>
+        className="relative w-full h-full md:h-auto md:max-h-[85vh] max-h-[95vh] max-w-3xl flex flex-col bg-white dark:bg-dark-surface md:rounded-[2rem] shadow-2xl border-0 md:border border-primary/20 dark:border-primary/10 opacity-0 overflow-hidden"
+      >
         {/* Sticky Header */}
-        <div className="shrink-0 p-6 pb-4 border-b border-gray-100 dark:border-primary/5 bg-white/80 dark:bg-dark-surface/80 backdrop-blur-md sticky top-0 z-20 space-y-4">
+        <div className="shrink-0 p-6 pb-4 border-b border-gray-100 dark:border-primary/5 bg-white/80 dark:bg-dark-surface/80 backdrop-blur-md sticky top-0 z-20 space-y-3">
+
+          {/* Close button */}
           <button
             onClick={handleClose}
             aria-label="Cerrar"
@@ -571,52 +575,74 @@ const BrandComparatorModal: React.FC<BrandComparatorModalProps> = ({ isOpen, onC
           >
             <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
           </button>
-          <div className="flex items-start gap-3">
+
+          {/* Title row + filter toggle */}
+          <div className="flex items-start gap-3 pr-10">
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-yellow animate-float flex-shrink-0">
               <Tag className="w-5 h-5 text-gray-900" />
             </div>
             <div className="flex-1 min-w-0">
-              <h2 className="text-2xl md:text-3xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight leading-tight">
-                Marcas por tipo de <span className="text-secondary dark:text-primary">surtido que elijas</span>.
-              </h2>
-              <p className="text-[11px] mt-1 text-text-muted dark:text-dark-muted font-body leading-relaxed">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-2xl md:text-3xl font-heading font-900 text-text-main dark:text-dark-text tracking-tight leading-tight">
+                  Marcas por tipo de <span className="text-secondary dark:text-primary">surtido que elijas</span>.
+                </h2>
+                {/* Filter toggle button */}
+                <button
+                  onClick={() => setShowFilters(f => !f)}
+                  aria-label={showFilters ? 'Ocultar filtros' : 'Mostrar filtros'}
+                  className={`relative flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-heading font-700 tracking-wider transition-all border ${showFilters
+                    ? 'bg-primary border-primary/60 text-gray-900'
+                    : 'bg-gray-50 dark:bg-dark-bg/60 border-gray-200 dark:border-primary/10 text-text-muted dark:text-dark-muted hover:border-primary/40'
+                    }`}
+                >
+                  <SlidersHorizontal className="w-3 h-3" />
+                  <span>Filtrar</span>
+                  {hasActiveFilters && !showFilters && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full border border-white dark:border-dark-surface" />
+                  )}
+                </button>
+              </div>
+              <p className="text-[11px] mt-0.5 text-text-muted dark:text-dark-muted font-body leading-relaxed">
                 La diferencia entre un paquete Esencial y uno Selecto esta basada principalemnte en la calidad, costo y características del producto.
               </p>
             </div>
           </div>
 
-          {/* Search and Grade Filter Switches */}
-          <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
-            {/* Search Input */}
-            <div className="relative flex-1">
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                <Search className="w-4 h-4" />
-              </span>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar producto..."
-                className="w-full pl-9 pr-4 py-2 text-[10px] bg-gray-50 dark:bg-dark-bg/60 border border-gray-200 dark:border-primary/10 rounded-xl text-text-main dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/40 placeholder-gray-400 dark:placeholder-gray-300"
-              />
-            </div>
+          {/* Search and Grade Filter panel — toggled */}
+          {showFilters && (
+            <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
+              {/* Search Input */}
+              <div className="relative flex-1">
+                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <Search className="w-4 h-4" />
+                </span>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Buscar producto..."
+                  autoFocus
+                  className="w-full pl-9 pr-4 py-2 text-[10px] bg-gray-50 dark:bg-dark-bg/60 border border-gray-200 dark:border-primary/10 rounded-xl text-text-main dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/40 placeholder-gray-400 dark:placeholder-gray-300"
+                />
+              </div>
 
-            {/* Level selector switch/tabs */}
-            <div className="flex bg-gray-50 dark:bg-dark-bg/60 p-1 rounded-xl border border-gray-200 dark:border-primary/10 select-none">
-              {(['todos', 'preescolar', 'primaria', 'secundaria'] as const).map((grade) => (
-                <button
-                  key={grade}
-                  onClick={() => setSelectedGrade(grade)}
-                  className={`px-3 py-1.5 rounded-lg text-[10px] font-heading font-700 capitlize tracking-wider transition-all whitespace-nowrap ${selectedGrade === grade
-                    ? 'bg-primary text-gray-900 shadow-sm'
-                    : 'text-text-muted dark:text-dark-muted hover:text-text-main dark:hover:text-dark-text'
-                    }`}
-                >
-                  {grade === 'todos' ? 'Todos' : grade}
-                </button>
-              ))}
+              {/* Level selector switch/tabs */}
+              <div className="flex bg-gray-50 dark:bg-dark-bg/60 p-1 rounded-xl border border-gray-200 dark:border-primary/10 select-none">
+                {(['todos', 'preescolar', 'primaria', 'secundaria'] as const).map((grade) => (
+                  <button
+                    key={grade}
+                    onClick={() => setSelectedGrade(grade)}
+                    className={`px-3 py-1.5 rounded-lg text-[10px] font-heading font-700 capitalize tracking-wider transition-all whitespace-nowrap ${selectedGrade === grade
+                      ? 'bg-primary text-gray-900 shadow-sm'
+                      : 'text-text-muted dark:text-dark-muted hover:text-text-main dark:hover:text-dark-text'
+                      }`}
+                  >
+                    {grade === 'todos' ? 'Todos' : grade}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Legend */}
           <div className="flex items-center gap-4 pt-1">

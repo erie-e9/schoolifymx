@@ -106,7 +106,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
                         <Badge variant="primary" className="w-7 h-7 rounded-full px-0 justify-center">1</Badge>
-                        <h4 className="font-heading font-800 text-text-main dark:text-dark-text text-base">¿Cuál es el nivel escolar?</h4>
+                        <h4 className="font-heading font-800 text-text-main dark:text-dark-text text-base">Elige el nivel escolar</h4>
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                         {GRADES.map((g) => (
@@ -155,7 +155,7 @@ const SuppliesEstimator: React.FC<SuppliesEstimatorProps> = ({ isOpen, onClose, 
                       {/* Brand comparator trigger */}
                       <button
                         onClick={() => setIsBrandModalOpen(true)}
-                        className="flex items-center gap-2 text-[10px] font-heading font-700 text-secondary dark:text-primary hover:underline underline-offset-2 transition-all group"
+                        className="flex items-center gap-2 text-[0.7rem] font-heading font-700 text-secondary dark:text-primary hover:underline underline-offset-2 transition-all group"
                         aria-label="Ver marcas por tipo de surtido"
                       >
                         <Tags className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />

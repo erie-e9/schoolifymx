@@ -195,7 +195,7 @@ export const SERVICES_CONTENT: Record<ServiceType, ServiceContent> = {
     image: 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?auto=format&fit=crop&q=80&w=1200',
     whatsappMessage: '¡Hola Schoolify! 👋, me interesa el servicio de Útiles Escolares.',
     trustEmojis: ['✏️', '📓', '🎨', '🎒', '📏'],
-    trustText: 'Surtimos cientos listas escolares cada año',
+    trustText: 'Surtimos cientos de listas escolares cada año',
     stats: [
       { value: 10, suffix: '%', prefix: 'hasta ', label: 'Ahorro real', description: 'Sin incluir gastos extras', emoji: '📉' },
       { value: 5, suffix: ' horas', prefix: '~', label: 'Ahorro de tiempo', description: 'Entrega en tu escuela', emoji: '⏰' },

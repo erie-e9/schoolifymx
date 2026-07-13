@@ -10,6 +10,10 @@ import DidacticMaterialTimeline from '@components/molecules/DidacticMaterial';
 import WhatsApp from '@assets/whatsapp.svg?react';
 import { WhatsAppService } from '@services/WhatsAppService';
 import Button from '@components/atoms/Button';
+import { Instagram, Facebook } from 'lucide-react';
+import Youtube from '@assets/youtube.svg?react';
+import Tiktok from '@assets/tiktok.svg?react';
+import Threads from '@assets/threads.svg?react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -181,6 +185,14 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
     }
   };
 
+  const social = [
+    { icon: Facebook, href: 'https://facebook.com/schoolify.mx', label: 'Facebook' },
+    { icon: Instagram, href: 'https://instagram.com/schoolify.mx', label: 'Instagram' },
+    { icon: Youtube, href: 'https://youtube.com/@schoolify.mx', label: 'YouTube' },
+    { icon: Tiktok, href: 'https://tiktok.com/@schoolify.mx', label: 'TikTok' },
+    { icon: Threads, href: 'https://www.threads.com/@schoolify.mx', label: 'Threads' },
+  ];
+
   return (
     <section
       ref={heroRef}
@@ -190,10 +202,23 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
       {/* Background decorative blobs */}
       <div className="hero-blob-1 absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary/10 dark:bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="hero-blob-2 absolute bottom-0 left-0 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-primary/5 dark:bg-primary/3 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
-      <div className="max-w-7xl mx-auto px-6 md:py-9 py-4 grid lg:grid-cols-2 gap-12 lg:gap-8 xl:gap-14 items-center relative z-10">
+      <div className="max-w-7xl mx-auto px-6 md:pb-5 py-2 grid lg:grid-cols-2 gap-12 lg:gap-8 xl:gap-14 items-center relative z-10">
         {/* LEFT — Content */}
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-4">
           {/* Service Selector with Glassmorphism */}
+          <div className="flex gap-3">
+            {social.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target='_blank'
+                className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-dark-surface flex items-center justify-center text-text-muted dark:text-dark-muted hover:bg-primary hover:text-text-main dark:hover:text-primary transition-all duration-300"
+                aria-label={s.label}
+              >
+                <s.icon className="w-5 h-5 dark:text-dark-muted dark:hover:text-primary" />
+              </a>
+            ))}
+          </div>
           <div className="glass flex flex-wrap gap-2 p-1.5 rounded-2xl bg-white/40 dark:bg-white/0.3 self-start mb-4 shadow-2xl shadow-black/5 relative overflow-hidden">
             {/* Sliding Indicator */}
             <div
@@ -288,7 +313,7 @@ const Hero: React.FC<HeroProps> = ({ activeService, setActiveService }) => {
         </div>
 
         {/* RIGHT — Dynamic Display */}
-        <div className="hero-parallax-display relative flex items-center justify-center order-1 lg:order-2 scale-90 sm:scale-100">
+        <div className="hero-parallax-display relative md:pt-2 pt-2 flex items-center justify-center order-1 lg:order-2 scale-90 sm:scale-100">
           <div ref={displayRef} className="relative w-full max-w-[500px] lg:max-w-none">
             {/* Decorative background for the component */}
             <div className="absolute inset-x-0 inset-y-0 bg-primary/10 dark:bg-primary/5 rounded-[2.5rem] -rotate-2 scale-105 blur-md" />

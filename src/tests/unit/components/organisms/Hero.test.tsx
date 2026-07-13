@@ -137,7 +137,7 @@ describe('Hero', () => {
 
   it('renders trust indicators with split text', () => {
     render(<Hero {...defaultProps} />);
-    // Trust text is "Surtimos cientos listas escolares cada año"
+    // Trust text is "Surtimos cientos de listas escolares cada año"
     // Use a matcher that looks for the paragraph containing the full text
     expect(screen.getByText((_content, element) => {
       const text = element?.textContent || '';
