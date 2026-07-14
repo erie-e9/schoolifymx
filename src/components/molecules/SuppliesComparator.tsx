@@ -15,6 +15,7 @@ const SUPPLIES_ROWS = [
   { label: 'Pago', bad: '1 único pago', good: 'Hasta 3 abonos' },
   { label: 'Sobrantes', bad: 'Con restos innecesarios', good: '✓ Sin sobrantes' },
   { label: 'Garantía', bad: 'No incluye', good: 'Con garantía' },
+  { label: 'Tipo de surtido', bad: 'No controlado', good: 'Esencial ó Selecto' },
 ];
 
 interface SuppliesComparatorProps {
